@@ -28,10 +28,10 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex gap-4 justify-center"
           >
-            <button className="bg-primary hover:bg-primary-light px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+            <button className="bg-primary hover:bg-primary-darkest hover:text-primary-lightest px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
               Adoptez un animal
             </button>
-            <button className="bg-white text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+            <button className="bg-white text-primary hover:bg-primary-darkest hover:text-primary-lightest px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
               Faire un don
             </button>
           </motion.div>

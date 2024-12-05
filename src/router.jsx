@@ -23,10 +23,6 @@ export const router = createBrowserRouter([
         element: <Support />,
       },
       {
-        path: "/contact",
-        element: <Contact />,
-      },
-      {
         path: "/conditions",
         element: <Conditions />,
       },
@@ -37,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },

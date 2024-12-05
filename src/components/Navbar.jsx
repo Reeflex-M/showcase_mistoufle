@@ -20,7 +20,7 @@ const NavItems = () => {
             to={item.path}
             className={({ isActive }) =>
               `${
-                isActive ? "text-primary font-semibold" : "text-neutral-700"
+                isActive ? "text-primary-dark font-semibold" : "text-gray-700"
               } hover:text-primary transition-colors duration-200`
             }
           >
@@ -39,7 +39,7 @@ function Navbar() {
     <motion.header className="bg-white shadow-lg fixed w-full top-0 z-50">
       <nav className="max-w-screen-2xl container flex justify-between items-center py-4 px-4">
         <motion.div whileHover={{ scale: 1.05 }}>
-          <Link to="/" className="font-heading text-3xl text-primary">
+          <Link to="/" className="font-heading text-3xl text-primary-dark">
             Les Mistoufles
           </Link>
         </motion.div>
@@ -71,7 +71,7 @@ function Navbar() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="hidden md:block bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-dark transition-all duration-200"
+          className="hidden md:block bg-primary-dark text-primary-lightest px-6 py-2 rounded-full hover:bg-primary transition-all duration-200"
         >
           Faire un don
         </motion.button>
