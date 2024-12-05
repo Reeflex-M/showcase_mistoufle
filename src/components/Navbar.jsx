@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 const navItems = [
   { path: "/", label: "Accueil" },
   { path: "/support", label: "Soutenez les Mistoufles" },
-  { path: "/contact", label: "Contact" },
   { path: "/conditions", label: "Les conditions d'adoption" },
   { path: "/adoptions", label: "Les animaux à l'adoption" },
   { path: "/about", label: "Qui sommes-nous ?" },
+  { path: "/contact", label: "Contact" },
 ];
 
 const NavItems = () => {
@@ -20,8 +20,8 @@ const NavItems = () => {
             to={item.path}
             className={({ isActive }) =>
               `${
-                isActive ? "text-primary-dark font-semibold" : "text-gray-700"
-              } hover:text-primary transition-colors duration-200`
+                isActive ? "text-primary font-semibold" : "text-secondary"
+              } hover:text-primary-dark transition-colors duration-200`
             }
           >
             {item.label}
@@ -36,11 +36,11 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.header className="bg-white shadow-lg fixed w-full top-0 z-50">
+    <motion.header className="bg-primary-lightest shadow-lg fixed w-full top-0 z-50">
       <nav className="max-w-screen-2xl container flex justify-between items-center py-4 px-4">
         <motion.div whileHover={{ scale: 1.05 }}>
-          <Link to="/" className="font-heading text-3xl text-primary-dark">
-            Les Mistoufles
+          <Link to="/">
+            <img src="/logo.png" alt="Les Mistoufles" className="h-12" />
           </Link>
         </motion.div>
 
@@ -71,7 +71,7 @@ function Navbar() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="hidden md:block bg-primary-dark text-primary-lightest px-6 py-2 rounded-full hover:bg-primary transition-all duration-200"
+          className="hidden md:block bg-primary text-primary-grey px-6 py-2 rounded-full hover:bg-primary-light transition-all duration-200"
         >
           Faire un don
         </motion.button>
@@ -83,7 +83,7 @@ function Navbar() {
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
-              className="fixed inset-0 bg-white z-50 md:hidden"
+              className="fixed inset-0 bg-primary-grey z-50 md:hidden"
             >
               <div className="p-4">
                 <button
@@ -109,7 +109,7 @@ function Navbar() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-primary text-white px-6 py-3 rounded-full mt-8"
+                    className="w-full bg-primary text-primary-grey px-6 py-3 rounded-full mt-8 hover:bg-primary-light transition-all duration-200"
                   >
                     Faire un don
                   </motion.button>
