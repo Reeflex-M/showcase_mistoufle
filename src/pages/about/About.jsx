@@ -8,9 +8,9 @@ const questions = [
     question: "D'où viennent les animaux des Mistoufles ?",
     answer: (
       <div className="space-y-6">
-        <div className="bg-primary-light/50 p-4 rounded-lg">
-          <p className="font-medium text-primary">
-            L'association accueille principalement les animaux sortants de
+        <div className="bg-primary-light p-4 rounded-lg">
+          <p className="font-medium text-primary-dark">
+            L&apos;association accueille principalement les animaux sortants de
             fourrière des territoires suivants :
           </p>
           <ul className="mt-3 space-y-2 ml-4">
@@ -18,7 +18,7 @@ const questions = [
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
                 Morlaix Communauté{" "}
-                <span className="text-secondary/60">
+                <span className="text-primary-dark/60">
                   (via la fourrière SACPA Chenil service de Plérin)
                 </span>
               </span>
@@ -27,7 +27,7 @@ const questions = [
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
                 Communauté de Communes du Pays Léonard{" "}
-                <span className="text-secondary/60">
+                <span className="text-primary-dark/60">
                   (via la fourrière de Taulé, Chenil St Roch)
                 </span>
               </span>
@@ -35,8 +35,8 @@ const questions = [
             <li className="flex items-center space-x-2">
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
-                Côtes d'Armor, Morbihan et Ille-et-Vilaine{" "}
-                <span className="text-secondary/60">
+                Côtes d&apos;Armor, Morbihan et Ille-et-Vilaine{" "}
+                <span className="text-primary-dark/60">
                   (selon disponibilités)
                 </span>
               </span>
@@ -44,24 +44,24 @@ const questions = [
           </ul>
         </div>
 
-        <div className="bg-primary-light/50 p-4 rounded-lg">
-          <p className="font-medium text-primary mb-3">
+        <div className="bg-primary-light p-4 rounded-lg">
+          <p className="font-medium text-primary-dark mb-3">
             Autres prises en charge :
           </p>
-          <p className="text-secondary/70 leading-relaxed">
-            L'association accueille également des animaux par des prises en
+          <p className="text-primary-dark/70 leading-relaxed">
+            L&apos;association accueille également des animaux par des prises en
             charge directes pour divers motifs :
           </p>
           <ul className="mt-2 grid grid-cols-2 gap-2">
-            <li className="text-secondary/70">• Hospitalisation</li>
-            <li className="text-secondary/70">
+            <li className="text-primary-dark/70">• Hospitalisation</li>
+            <li className="text-primary-dark/70">
               • Départ en maison de retraite
             </li>
-            <li className="text-secondary/70">• Abandon</li>
-            <li className="text-secondary/70">• Imprévus de la vie</li>
+            <li className="text-primary-dark/70">• Abandon</li>
+            <li className="text-primary-dark/70">• Imprévus de la vie</li>
           </ul>
-          <p className="mt-4 text-secondary/70 leading-relaxed">
-            Un travail est assuré avec les services sociaux et d'autres
+          <p className="mt-4 text-primary-dark/70 leading-relaxed">
+            Un travail est assuré avec les services sociaux et d&apos;autres
             structures en ce sens.
           </p>
         </div>
@@ -73,39 +73,39 @@ const questions = [
     question: "Notre objectif : trouver des solutions pour nos protégés",
     answer: (
       <div className="space-y-6">
-        <div className="bg-primary-light/50 p-4 rounded-lg border-l-4 border-primary">
+        <div className="bg-primary-light p-4 rounded-lg border-l-4 border-primary">
           <div className="flex items-center space-x-3 mb-2">
-            <FaCat className="text-2xl text-primary" />
-            <h4 className="font-medium text-primary">Notre chatterie</h4>
+            <FaCat className="text-2xl text-primary-dark" />
+            <h4 className="font-medium text-primary-dark">Notre chatterie</h4>
           </div>
-          <p className="text-secondary/70 leading-relaxed">
-            L'association possède une chatterie permettant d'accueillir{" "}
-            <span className="font-semibold text-primary">33 chats</span> qui y
+          <p className="text-primary-dark/70 leading-relaxed">
+            L&apos;association possède une chatterie permettant d&apos;accueillir{" "}
+            <span className="font-semibold text-primary-dark">33 chats</span> qui y
             vivent en totale liberté.
           </p>
         </div>
 
-        <div className="bg-primary-light/50 p-4 rounded-lg border-l-4 border-primary">
+        <div className="bg-primary-light p-4 rounded-lg border-l-4 border-primary">
           <div className="flex items-center space-x-3 mb-3">
             <div className="flex -space-x-2">
-              <FaDog className="text-2xl text-primary" />
-              <FaCat className="text-2xl text-primary" />
+              <FaDog className="text-2xl text-primary-dark" />
+              <FaCat className="text-2xl text-primary-dark" />
             </div>
-            <h4 className="font-medium text-primary">Nos familles d'accueil</h4>
+            <h4 className="font-medium text-primary-dark">Nos familles d&apos;accueil</h4>
           </div>
-          <p className="text-secondary/70 leading-relaxed">
+          <p className="text-primary-dark/70 leading-relaxed">
             Pour ce qui est de nos chiens, chatons et certains chats,
-            l'association fonctionne avec une{" "}
-            <span className="font-semibold text-primary">
-              cinquantaine de familles d'accueil
+            l&apos;association fonctionne avec une{" "}
+            <span className="font-semibold text-primary-dark">
+              cinquantaine de familles d&apos;accueil
             </span>{" "}
             quotidiennement.
           </p>
           <div className="mt-3 pl-3 border-l-2 border-primary/30">
-            <p className="text-secondary/70 italic">
-              Cela permet aux animaux d'avoir un temps nécessaire pour des
+            <p className="text-primary-dark/70 italic">
+              Cela permet aux animaux d&apos;avoir un temps nécessaire pour des
               soins, de la sociabilisation et/ou une réadaptation à une vie de
-              famille afin de leur redonner une nouvelle chance qu'ils méritent
+              famille afin de leur redonner une nouvelle chance qu&apos;ils méritent
               !
             </p>
           </div>
@@ -119,46 +119,46 @@ const questions = [
       "Des personnes actives et passionnées qui s'engagent pour l'association",
     answer: (
       <div className="space-y-6">
-        <div className="flex items-center justify-center gap-6 p-6 bg-primary-light/50 rounded-lg">
+        <div className="flex items-center justify-center gap-6 p-6 bg-primary-light rounded-lg">
           <div className="text-center px-4 py-2 bg-white rounded-lg shadow-sm">
-            <p className="text-4xl font-bold text-primary mb-1">1</p>
-            <p className="text-sm text-secondary/70">Salariée</p>
+            <p className="text-4xl font-bold text-primary-dark mb-1">1</p>
+            <p className="text-sm text-primary-dark/70">Salariée</p>
           </div>
           <div className="text-center px-4 py-2 bg-white rounded-lg shadow-sm">
-            <p className="text-4xl font-bold text-primary mb-1">15</p>
-            <p className="text-sm text-secondary/70">Bénévoles actifs</p>
+            <p className="text-4xl font-bold text-primary-dark mb-1">15</p>
+            <p className="text-sm text-primary-dark/70">Bénévoles actifs</p>
           </div>
         </div>
 
-        <div className="bg-primary-light/30 p-5 rounded-lg">
-          <h4 className="text-lg font-medium text-primary mb-4">
-            Comment fonctionne l'association ?
+        <div className="bg-primary-light p-5 rounded-lg">
+          <h4 className="text-lg font-medium text-primary-dark mb-4">
+            Comment fonctionne l&apos;association ?
           </h4>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-secondary/70">Frais d'adoption</p>
+              <p className="text-primary-dark/70">Frais d&apos;adoption</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-secondary/70">
+              <p className="text-primary-dark/70">
                 Dons financiers et/ou matériels
-                <span className="text-secondary/50 text-sm italic block ml-2">
+                <span className="text-primary-dark/50 text-sm italic block ml-2">
                   (croquettes, litières, laisses...)
                 </span>
               </p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-secondary/70">
+              <p className="text-primary-dark/70">
                 Subventions des communes avoisinantes
               </p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-secondary/70">
-                Aide de 30 millions d'amis
-                <span className="text-secondary/50 text-sm italic block ml-2">
+              <p className="text-primary-dark/70">
+                Aide de 30 millions d&apos;amis
+                <span className="text-primary-dark/50 text-sm italic block ml-2">
                   (nourriture et frais vétérinaires)
                 </span>
               </p>
@@ -181,11 +181,10 @@ function AccordionItem({ question, answer, isOpen, onClick }) {
         className="w-full py-6 flex items-center justify-between text-left"
         onClick={onClick}
       >
-        <h3 className="text-xl font-semibold text-primary">{question}</h3>
+        <h3 className="text-xl font-semibold text-primary-dark">{question}</h3>
         <span
-          className={`text-2xl transform transition-transform duration-300 ${
-            isOpen ? "rotate-45" : ""
-          }`}
+          className={`text-2xl transform transition-transform duration-300 ${isOpen ? "rotate-45" : ""
+            }`}
         >
           +
         </span>
@@ -199,7 +198,7 @@ function AccordionItem({ question, answer, isOpen, onClick }) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <p className="pb-6 text-secondary/70 leading-relaxed">{answer}</p>
+            <p className="pb-6 text-primary-dark/70 leading-relaxed">{answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -240,6 +239,18 @@ function Counter({ from = 0, to, duration = 2, className }) {
 function About() {
   const [openId, setOpenId] = useState(null);
 
+  useEffect(() => {
+    if (openId) {
+      document.body.classList.add('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
+    } else {
+      document.body.classList.remove('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
+    }
+
+    return () => {
+      document.body.classList.remove('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
+    };
+  }, [openId]);
+
   return (
     <>
       <div className="fixed right-8 top-1/2 -translate-y-1/2 space-y-12 z-50">
@@ -247,35 +258,35 @@ function About() {
           <div className="text-center">
             <Counter
               to={890}
-              className="text-3xl font-bold text-primary block"
+              className="text-3xl font-bold text-primary-dark block"
             />
-            <FaCat className="text-6xl text-primary mx-auto mt-3" />
-            <p className="text-secondary/70 text-sm mt-2">Chats adoptés</p>
+            <FaCat className="text-6xl text-primary-dark mx-auto mt-3" />
+            <p className="text-primary-dark/70 text-sm mt-2">Chats adoptés</p>
           </div>
         </div>
         <div className="bg-primary-light p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
           <div className="text-center">
             <Counter
               to={130}
-              className="text-3xl font-bold text-primary block"
+              className="text-3xl font-bold text-primary-dark block"
             />
-            <FaDog className="text-6xl text-primary mx-auto mt-3" />
-            <p className="text-secondary/70 text-sm mt-2">Chiens adoptés</p>
+            <FaDog className="text-6xl text-primary-dark mx-auto mt-3" />
+            <p className="text-primary-dark/70 text-sm mt-2">Chiens adoptés</p>
           </div>
         </div>
       </div>
 
-      <div className="min-h-screen pt-20 px-4">
+      <div className="min-h-screen pt-36 px-4">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl font-bold text-primary mb-4">
+            <h1 className="text-4xl font-bold text-primary-dark mb-4">
               Qui sommes-nous ?
             </h1>
-            <div className="h-1 w-20 bg-primary mx-auto"></div>
+            <div className="h-1 w-20 bg-primary-dark mx-auto"></div>
           </motion.div>
 
           <motion.div
@@ -283,10 +294,10 @@ function About() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h2 className="text-2xl text-primary mb-4">
+            <h2 className="text-2xl text-primary-dark mb-4">
               Une association à but non lucratif
             </h2>
-            <p className="text-secondary/70 leading-relaxed">
+            <p className="text-primary-dark/70 leading-relaxed">
               L'association Les Mistoufles est une association de protection
               animale type Loi 1901 à but non lucratif.
             </p>

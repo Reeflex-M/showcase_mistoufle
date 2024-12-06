@@ -19,7 +19,7 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto"
           >
-            Chaque année, nous sauvons des centaines d'animaux et leur offrons
+            Chaque année, nous sauvons des centaines d&apos;animaux et leur offrons
             une nouvelle vie
           </motion.p>
           <motion.div
@@ -28,10 +28,10 @@ function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex gap-4 justify-center"
           >
-            <button className="bg-primary hover:bg-primary-dark hover:text-primary-lightest px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+            <button className="bg-primary-dark hover:bg-primary-darkest hover:text-primary-light px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
               Adoptez un animal
             </button>
-            <button className="bg-white text-primary hover:bg-primary-dark hover:text-primary-lightest hover:bg-primary-darkest px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+            <button className="bg-white text-primary-darkest hover:bg-primary-dark hover:text-primary-lightest hover:bg-primary-darkest px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
               Faire un don
             </button>
           </motion.div>

@@ -62,7 +62,7 @@ function ContactForm({ formData, handleChange, handleSubmit }) {
 
         <button
           type="submit"
-          className="w-full md:w-auto bg-primary text-white px-8 py-3 rounded-md hover:bg-primary-dark transition-colors font-medium"
+          className="w-full md:w-auto bg-primary text-white px-8 py-3 rounded-md bg-primary-dark hover:bg-primary-darkest transition-colors font-medium"
         >
           Envoyer le message
         </button>
