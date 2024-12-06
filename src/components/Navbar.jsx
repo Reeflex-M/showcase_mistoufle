@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 
@@ -10,105 +10,99 @@ const navItems = [
   { path: "/contact", label: "Contact" },
 ];
 
-const NavItems = () => {
-  return (
-    <ul className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 text-base">
-      {navItems.map((item, index) => (
-        <li key={index}>
-          <NavLink
-            to={item.path}
-            className={({ isActive }) =>
-              `block px-3 py-2 font-medium rounded-lg transition-all duration-200 ${isActive
-                ? "text-primary-dark bg-primary-lightest"
-                : "text-gray-700 hover:text-primary-dark hover:bg-primary-lightest/50"
-              }`
-            }
-          >
-            {item.label}
-          </NavLink>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const direction = latest > lastScrollY ? "down" : "up";
-    if (direction === "down" && latest > 50) {
-      setHidden(true);
-    } else if (direction === "up") {
+    const previous = scrollY.getPrevious();
+    if (latest < previous || latest < 50) {
       setHidden(false);
+    } else if (latest > previous && latest > 50) {
+      setHidden(true);
     }
-    setLastScrollY(latest);
   });
+
+  const handleNavClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsOpen(false);
+  };
 
   return (
     <motion.header
-      className="bg-white shadow-md fixed w-full top-0 z-50"
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
+      className="backdrop-blur-md bg-white/90 shadow-lg fixed w-full top-0 z-50"
+      variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
     >
-      <nav className="container mx-auto flex items-center justify-between py-3 px-6">
-        <div className="w-48">
-          <motion.div
+      <motion.div
+        className="h-0.5 bg-primary origin-left"
+        style={{ scaleX: scrollY.get() / (document.documentElement.scrollHeight - window.innerHeight) }}
+      />
+      <nav className="container mx-auto flex items-center justify-between h-16 px-4">
+        <Link to="/" className="flex-shrink-0 w-32 lg:w-40">
+          <motion.img
+            src="/logo.png"
+            alt="Les Mistoufles"
+            className="h-10"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400 }}
-          >
-            <Link to="/">
-              <img src="/logo.png" alt="Les Mistoufles" className="h-12" />
-            </Link>
-          </motion.div>
+          />
+        </Link>
+
+        <div className="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm lg:text-base flex-1 justify-center px-4">
+          {navItems.map(({ path, label }) => (
+            <NavLink
+              key={path}
+              to={path}
+              onClick={handleNavClick}
+              className={({ isActive }) =>
+                `px-3 py-2 font-medium rounded-lg transition-all duration-300 relative ${
+                  isActive ? "text-primary-dark bg-primary-lightest" : "text-gray-700 hover:text-primary-dark"
+                }`
+              }
+            >
+              {label}
+              <motion.div
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-dark"
+                initial={false}
+                animate={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+              />
+            </NavLink>
+          ))}
         </div>
 
-        {/* Menu Desktop */}
-        <div className="hidden md:flex justify-center flex-1">
-          <NavItems />
-        </div>
-
-        <div className="w-48 flex justify-end">
+        <div className="flex items-center">
           <motion.button
-            whileHover={{ scale: 1.03 }}
+            whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.98 }}
-            className="hidden md:block bg-primary text-white px-5 py-2 rounded-full hover:bg-primary-dark shadow-md hover:shadow-lg transition-all duration-200 font-medium"
+            className="hidden md:block bg-primary-dark text-white px-5 py-2 rounded-full font-medium shadow-md hover:bg-primary-dark transition-all duration-200"
           >
             Faire un don
           </motion.button>
 
-          {/* Menu Mobile */}
-          <div className="md:hidden">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 md:hidden rounded-lg hover:bg-gray-100"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                />
-              </svg>
-            </motion.button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              />
+            </svg>
+          </button>
         </div>
 
-        {/* Menu Mobile Overlay */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -118,11 +112,10 @@ function Navbar() {
               transition={{ type: "tween", duration: 0.3 }}
               className="fixed inset-0 bg-white z-50 md:hidden"
             >
-              <div className="p-6">
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
+              <div className="flex flex-col h-full p-6">
+                <button
                   onClick={() => setIsOpen(false)}
-                  className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="self-end p-2 rounded-lg hover:bg-gray-100"
                 >
                   <svg
                     className="w-6 h-6"
@@ -137,13 +130,25 @@ function Navbar() {
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                </motion.button>
-                <div className="mt-20 space-y-6">
-                  <NavItems />
+                </button>
+                <div className="flex flex-col space-y-4 mt-16">
+                  {navItems.map(({ path, label }) => (
+                    <NavLink
+                      key={path}
+                      to={path}
+                      onClick={handleNavClick}
+                      className={({ isActive }) =>
+                        `px-4 py-3 font-medium rounded-lg transition-colors ${
+                          isActive ? "text-primary-dark bg-primary-lightest" : "text-gray-700"
+                        }`
+                      }
+                    >
+                      {label}
+                    </NavLink>
+                  ))}
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-primary text-white px-6 py-3 rounded-full shadow-md hover:shadow-lg hover:bg-primary-dark transition-all duration-200 font-medium"
+                    className="mt-4 w-full bg-primary text-white px-6 py-3 rounded-full font-medium shadow-md"
                   >
                     Faire un don
                   </motion.button>

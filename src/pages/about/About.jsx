@@ -10,7 +10,7 @@ const questions = [
       <div className="space-y-6">
         <div className="bg-primary-light p-4 rounded-lg">
           <p className="font-medium text-primary-dark">
-            L&apos;association accueille principalement les animaux sortants de
+            L'association accueille principalement les animaux sortants de
             fourrière des territoires suivants :
           </p>
           <ul className="mt-3 space-y-2 ml-4">
@@ -35,7 +35,7 @@ const questions = [
             <li className="flex items-center space-x-2">
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
-                Côtes d&apos;Armor, Morbihan et Ille-et-Vilaine{" "}
+                Côtes d'Armor, Morbihan et Ille-et-Vilaine{" "}
                 <span className="text-primary-dark/60">
                   (selon disponibilités)
                 </span>
@@ -49,7 +49,7 @@ const questions = [
             Autres prises en charge :
           </p>
           <p className="text-primary-dark/70 leading-relaxed">
-            L&apos;association accueille également des animaux par des prises en
+            L'association accueille également des animaux par des prises en
             charge directes pour divers motifs :
           </p>
           <ul className="mt-2 grid grid-cols-2 gap-2">
@@ -61,7 +61,7 @@ const questions = [
             <li className="text-primary-dark/70">• Imprévus de la vie</li>
           </ul>
           <p className="mt-4 text-primary-dark/70 leading-relaxed">
-            Un travail est assuré avec les services sociaux et d&apos;autres
+            Un travail est assuré avec les services sociaux et d'autres
             structures en ce sens.
           </p>
         </div>
@@ -79,7 +79,7 @@ const questions = [
             <h4 className="font-medium text-primary-dark">Notre chatterie</h4>
           </div>
           <p className="text-primary-dark/70 leading-relaxed">
-            L&apos;association possède une chatterie permettant d&apos;accueillir{" "}
+            L'association possède une chatterie permettant d'accueillir{" "}
             <span className="font-semibold text-primary-dark">33 chats</span> qui y
             vivent en totale liberté.
           </p>
@@ -91,22 +91,21 @@ const questions = [
               <FaDog className="text-2xl text-primary-dark" />
               <FaCat className="text-2xl text-primary-dark" />
             </div>
-            <h4 className="font-medium text-primary-dark">Nos familles d&apos;accueil</h4>
+            <h4 className="font-medium text-primary-dark">Nos familles d'accueil</h4>
           </div>
           <p className="text-primary-dark/70 leading-relaxed">
             Pour ce qui est de nos chiens, chatons et certains chats,
-            l&apos;association fonctionne avec une{" "}
+            l'association fonctionne avec une{" "}
             <span className="font-semibold text-primary-dark">
-              cinquantaine de familles d&apos;accueil
+              cinquantaine de familles d'accueil
             </span>{" "}
             quotidiennement.
           </p>
           <div className="mt-3 pl-3 border-l-2 border-primary/30">
             <p className="text-primary-dark/70 italic">
-              Cela permet aux animaux d&apos;avoir un temps nécessaire pour des
+              Cela permet aux animaux d'avoir un temps nécessaire pour des
               soins, de la sociabilisation et/ou une réadaptation à une vie de
-              famille afin de leur redonner une nouvelle chance qu&apos;ils méritent
-              !
+              famille afin de leur redonner une nouvelle chance qu'ils méritent !
             </p>
           </div>
         </div>
@@ -132,12 +131,12 @@ const questions = [
 
         <div className="bg-primary-light p-5 rounded-lg">
           <h4 className="text-lg font-medium text-primary-dark mb-4">
-            Comment fonctionne l&apos;association ?
+            Comment fonctionne l'association ?
           </h4>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark/70">Frais d&apos;adoption</p>
+              <p className="text-primary-dark/70">Frais d'adoption</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
@@ -157,7 +156,7 @@ const questions = [
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
               <p className="text-primary-dark/70">
-                Aide de 30 millions d&apos;amis
+                Aide de 30 millions d'amis
                 <span className="text-primary-dark/50 text-sm italic block ml-2">
                   (nourriture et frais vétérinaires)
                 </span>
@@ -238,89 +237,131 @@ function Counter({ from = 0, to, duration = 2, className }) {
 
 function About() {
   const [openId, setOpenId] = useState(null);
-
-  useEffect(() => {
-    if (openId) {
-      document.body.classList.add('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
-    } else {
-      document.body.classList.remove('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
-    }
-
-    return () => {
-      document.body.classList.remove('pr-[17px]', 'transition-spacing', 'duration-300', 'ease-in-out');
-    };
-  }, [openId]);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
 
   return (
-    <>
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 space-y-12 z-50">
-        <div className="bg-primary-light p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-          <div className="text-center">
-            <Counter
-              to={890}
-              className="text-3xl font-bold text-primary-dark block"
-            />
-            <FaCat className="text-6xl text-primary-dark mx-auto mt-3" />
-            <p className="text-primary-dark/70 text-sm mt-2">Chats adoptés</p>
-          </div>
-        </div>
-        <div className="bg-primary-light p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-          <div className="text-center">
-            <Counter
-              to={130}
-              className="text-3xl font-bold text-primary-dark block"
-            />
-            <FaDog className="text-6xl text-primary-dark mx-auto mt-3" />
-            <p className="text-primary-dark/70 text-sm mt-2">Chiens adoptés</p>
-          </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-gradient-to-b from-white to-primary-light/20"
+    >
+      {/* Hero Section */}
+      <div className="relative py-20 px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-4xl mx-auto">
+          <motion.h1
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold text-primary-dark mb-6"
+          >
+            À Propos des Mistoufles
+          </motion.h1>
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-primary-dark/70 max-w-2xl mx-auto"
+          >
+            Une association dédiée au bien-être et au sauvetage des animaux, avec passion et engagement.
+          </motion.p>
         </div>
       </div>
 
-      <div className="min-h-screen pt-36 px-4">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
-          >
-            <h1 className="text-4xl font-bold text-primary-dark mb-4">
-              Qui sommes-nous ?
-            </h1>
-            <div className="h-1 w-20 bg-primary-dark mx-auto"></div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-2xl text-primary-dark mb-4">
-              Une association à but non lucratif
-            </h2>
-            <p className="text-primary-dark/70 leading-relaxed">
-              L'association Les Mistoufles est une association de protection
-              animale type Loi 1901 à but non lucratif.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-lg p-8"
-          >
-            {questions.map((q) => (
-              <AccordionItem
-                key={q.id}
-                question={q.question}
-                answer={q.answer}
-                isOpen={openId === q.id}
+      {/* Questions Section */}
+      <div ref={ref} className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="space-y-4">
+          {questions.map((q, index) => (
+            <motion.div
+              key={q.id}
+              initial={{ y: 50, opacity: 0 }}
+              animate={isInView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <button
                 onClick={() => setOpenId(openId === q.id ? null : q.id)}
-              />
-            ))}
-          </motion.div>
+                className="w-full text-left px-6 py-4 flex justify-between items-center"
+              >
+                <h3 className="text-lg font-medium text-primary-dark">{q.question}</h3>
+                <motion.span
+                  animate={{ rotate: openId === q.id ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-primary-dark"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {openId === q.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-4">
+                      <div className="prose prose-primary max-w-none">
+                        {q.answer}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
         </div>
       </div>
-    </>
+
+      {/* Stats Section */}
+      <div className="bg-primary-dark text-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="p-6 rounded-lg bg-primary-dark/50 backdrop-blur-sm"
+            >
+              <Counter from={0} to={33} className="text-4xl font-bold" />
+              <p className="mt-2 text-primary-light">Chats en chatterie</p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="p-6 rounded-lg bg-primary-dark/50 backdrop-blur-sm"
+            >
+              <Counter from={0} to={50} className="text-4xl font-bold" />
+              <p className="mt-2 text-primary-light">Familles d'accueil</p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="p-6 rounded-lg bg-primary-dark/50 backdrop-blur-sm"
+            >
+              <Counter from={0} to={100} className="text-4xl font-bold" />
+              <p className="mt-2 text-primary-light">Animaux sauvés par an</p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 

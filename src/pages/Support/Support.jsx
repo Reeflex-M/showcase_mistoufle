@@ -31,178 +31,248 @@ function Support() {
   const [showArrow, setShowArrow] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const checkScroll = () => {
       const donationSection = document.getElementById("donation-section");
-      if (donationSection) {
-        const rect = donationSection.getBoundingClientRect();
-        setShowArrow(rect.top > window.innerHeight);
+      if (!donationSection) {
+        setShowArrow(true);
+        return;
       }
+
+      const rect = donationSection.getBoundingClientRect();
+      const threshold = window.innerHeight * 0.8; // 80% de la hauteur de l'écran
+
+      // Afficher la flèche si la section donation n'est pas encore visible
+      setShowArrow(rect.top > threshold);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Vérification initiale
+    checkScroll();
+
+    // Ajouter l'écouteur d'événement
+    window.addEventListener("scroll", checkScroll);
+
+    // Nettoyage
+    return () => window.removeEventListener("scroll", checkScroll);
   }, []);
 
   const scrollToBottom = () => {
-    scroll.scrollToBottom({
-      duration: 800,
-      smooth: "easeInOutQuart",
-    });
+    const donationSection = document.getElementById("donation-section");
+    if (donationSection) {
+      donationSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
-    <div className="min-h-screen pt-28 sm:pt-32 px-4 sm:px-6 bg-gradient-to-br from-white via-gray-50 to-primary/5 relative">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-20"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="relative pt-28 pb-8 flex flex-col items-center justify-center"
         >
-          <h1 className="text-4xl md:text-6xl font-sans text-primary-dark mb-8 font-bold">
+          <motion.h1
+            initial={{ y: -30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-dark/90 via-secondary to-primary-dark/90 mb-4 tracking-tight text-center"
+          >
             Soutenez les Mistoufles
-          </h1>
-          <div className="h-2 w-32 bg-primary/80 mx-auto rounded-full"></div>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-gray-700 text-lg mb-4 max-w-2xl text-center font-normal"
+          >
+            Ensemble, donnons une seconde chance à nos amis à quatre pattes
+          </motion.p>
         </motion.div>
 
-        <div className="flex flex-col gap-32">
-          {/* Section Bénévolat */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row items-center gap-20 transition-all duration-500"
-          >
-            <div className="md:w-1/2 space-y-8 p-8 bg-white/50 backdrop-blur-sm rounded-3xl shadow-lg">
-              <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6">
-                Devenez bénévole ou famille d'accueil
+        {/* Section Bénévolat */}
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row items-center gap-12 py-4"
+        >
+          <motion.div variants={itemVariants} className="md:w-1/2 space-y-6">
+            <div className="space-y-4">
+              <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
+                Devenez Bénévole
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                Rejoignez notre communauté <br />
+                <span className="text-primary-dark">
+                  de bénévoles passionnés
+                </span>
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Rendez-vous sur notre page contact pour devenir bénévole et/ou
-                famille d'accueil pour le refuge des Mistoufles.
+              <p className="text-gray-700 leading-relaxed text-lg">
+                Votre temps et votre engagement sont précieux. En devenant
+                bénévole ou famille d'accueil, vous contribuez directement au
+                bien-être de nos protégés.
               </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.03, backgroundColor: "#primary" }}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-secondary hover:bg-primary text-white px-10 py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl font-semibold text-lg"
+                  className="w-full sm:w-auto bg-primary-dark hover:bg-primary/90 text-white px-8 py-4 rounded-xl 
+                            shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
+                            transition-all duration-300 font-semibold text-lg"
                 >
-                  Rejoignez-nous
+                  Devenir bénévole
+                </motion.button>
+              </Link>
+              <Link to="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full sm:w-auto bg-white hover:bg-gray-50 text-primary-dark px-8 py-4 rounded-xl 
+                            shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.25)]
+                            transition-all duration-300 font-semibold text-lg border-2 border-primary/10"
+                >
+                  Famille d'accueil
                 </motion.button>
               </Link>
             </div>
-            <motion.div
-              whileHover={{ scale: 1.02, rotate: 1 }}
-              className="md:w-1/2 overflow-hidden rounded-3xl shadow-2xl"
-            >
-              <img
+          </motion.div>
+          <motion.div variants={itemVariants} className="md:w-1/2">
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-[2rem] blur-2xl opacity-80" />
+              <motion.img
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
                 src="/public/Support/benevole.jpg"
                 alt="Bénévole avec un chat"
-                className="rounded-3xl shadow-xl w-full object-cover h-[500px]"
+                className="relative rounded-2xl w-full h-[350px] object-cover shadow-2xl"
               />
-            </motion.div>
-          </motion.section>
-
-          {/* Section Don */}
-          <motion.section
-            id="donation-section"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row-reverse items-start gap-20"
-          >
-            <div className="md:w-1/2 space-y-8 p-8 bg-white/50 backdrop-blur-sm rounded-3xl shadow-lg">
-              <h2 className="text-3xl font-bold text-secondary mb-6">
-                Faites un don
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Chaque don compte et permet d'améliorer le quotidien de nos
-                protégés. Pour un don monétaire, vous pouvez donner directement
-                auprès de l'Association les Mistoufles par chèque.
-              </p>
-              <motion.div className="bg-white/80 backdrop-blur p-10 rounded-3xl border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-500">
-                <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-8">
-                  Dons matériels acceptés
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
-                  {donationItems.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.05 }}
-                      className="flex flex-col items-center"
-                    >
-                      <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full">
-                        <img
-                          src={item.src}
-                          alt={item.alt}
-                          className="w-full h-32 object-contain"
-                        />
-                        <p className="text-center text-base text-gray-700 mt-3 font-medium">
-                          {item.name}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary hover:bg-secondary text-white px-8 py-4 rounded-xl transition duration-300 shadow-lg hover:shadow-xl w-full md:w-auto"
-              >
-                Faire un don
-              </motion.button>
             </div>
-            <motion.div whileHover={{ rotate: -1 }} className="md:w-1/2">
-              <img
-                src="/public/Support/don_animaux.png"
-                alt="Don pour les animaux"
-                className="rounded-3xl shadow-xl w-full object-cover h-[500px]"
-              />
-            </motion.div>
-          </motion.section>
-        </div>
-
-        {showArrow && (
-          <motion.div
-            onClick={scrollToBottom}
-            className="fixed left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center cursor-pointer group"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <span className="text-gray-400 text-sm mb-2 opacity-60 group-hover:opacity-100 transition-opacity">
-              Donations
-            </span>
-            <motion.svg
-              className="w-5 h-5 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              initial={{ y: 0 }}
-              animate={{ y: [0, 5, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M19 13l-7 7-7-7"
-              />
-            </motion.svg>
           </motion.div>
-        )}
+        </motion.section>
+
+        {/* Section Dons */}
+        <motion.section
+          id="donation-section"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="py-32"
+        >
+          <motion.div
+            variants={itemVariants}
+            className="text-center space-y-6 mb-16"
+          >
+            <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
+              Faire un don
+            </span>
+            <h2 className="text-4xl font-bold text-gray-900">
+              Nos besoins en dons
+            </h2>
+            <p className="text-gray-700 max-w-2xl mx-auto text-lg">
+              Vos dons nous permettent de prendre soin de nos protégés et de
+              leur offrir une meilleure qualité de vie au quotidien.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+          >
+            {donationItems.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.12)] 
+                          hover:shadow-[0_4px_25px_rgba(0,0,0,0.2)] transition-all duration-300"
+              >
+                <div className="aspect-square overflow-hidden rounded-xl mb-4 bg-gray-100">
+                  <motion.img
+                    src={item.src}
+                    alt={item.alt}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </div>
+                <h3 className="text-center font-semibold text-gray-800">
+                  {item.name}
+                </h3>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
       </div>
+
+      {showArrow && (
+        <motion.button
+          onClick={scrollToBottom}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: [0, 8, 0] }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{
+            y: { repeat: Infinity, duration: 1.8, ease: "easeInOut" },
+            opacity: { duration: 0.2 },
+          }}
+          className="fixed left-1/2 -translate-x-1/2 bottom-8 flex flex-col items-center gap-2 
+                    transition-all duration-300 group cursor-pointer z-50"
+        >
+          <span className="text-gray-400 text-sm group-hover:text-gray-600 transition-colors">
+            donation
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 13l-7 7-7-7"
+            />
+          </svg>
+        </motion.button>
+      )}
     </div>
   );
 }
