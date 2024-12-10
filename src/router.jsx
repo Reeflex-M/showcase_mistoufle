@@ -7,6 +7,8 @@ import Support from "./pages/Support/Support";
 import Contact from "./pages/Contact/Contact";
 import Adoptions from "./pages/Adoptions/Adoptions";
 import About from "./pages/About/About";
+import LegalNotice from "./pages/LegalNotice/LegalNotice";
+import Privacy from "./pages/Privacy/Privacy";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/legal",
+        element: <LegalNotice />,
+      },
+      {
+        path: "/privacy",
+        element: <Privacy />,
       },
     ],
   },
