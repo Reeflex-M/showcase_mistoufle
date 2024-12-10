@@ -19,7 +19,7 @@ const footerLinks = {
 
 function Footer() {
   return (
-    <footer className="bg-gray-100 mt-8">
+    <footer className="bg-gray-100 relative z-20">
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(footerLinks).map(([title, links]) => (

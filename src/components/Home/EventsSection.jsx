@@ -29,25 +29,29 @@ function EventsSection() {
   ];
 
   return (
-    <section className="relative bg-white min-h-screen">
-      <div className="container mx-auto px-4 py-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl font-heading text-center mb-12"
-        >
-          Événements à venir
-        </motion.h2>
+    <div className="relative bg-white">
+      <section className="relative min-h-screen pb-0">
+        <div className="container mx-auto px-4 py-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-heading text-center mb-12"
+          >
+            Événements à venir
+          </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event, index) => (
-            <EventCard key={index} {...event} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {events.map((event, index) => (
+              <EventCard key={index} {...event} />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {/* Ajout d'un élément pour combler l'espace */}
+      <div className="h-32 bg-white"></div>
+    </div>
   );
 }
 
