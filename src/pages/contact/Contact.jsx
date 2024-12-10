@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import HeroSection from "./HeroSection";
 import ContactInfoCards from "./ContactInfoCards";
 import ContactForm from "./ContactForm";
@@ -34,34 +33,19 @@ function Contact() {
   return (
     <div className="min-h-screen bg-gray-50">
       <HeroSection />
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-7xl mx-auto px-4 -mt-10"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <ContactInfoCards />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col md:flex-row gap-8 bg-white p-8 rounded-xl shadow-md"
-        >
-          <ContactForm
-            formData={formData}
-            handleChange={handleChange}
+      
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <ContactInfoCards />
+        
+        <div className="mt-16 flex flex-col md:flex-row gap-12">
+          <ContactForm 
+            formData={formData} 
+            handleChange={handleChange} 
             handleSubmit={handleSubmit}
           />
           <ContactMap />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

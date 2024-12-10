@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
 
 const navItems = [
   { path: "/support", label: "Soutenez les Mistoufles" },
@@ -25,20 +30,25 @@ function Navbar() {
   });
 
   const handleNavClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setIsOpen(false);
   };
 
   return (
     <motion.header
       className="backdrop-blur-md bg-white shadow-lg fixed w-full top-0 z-50"
+      style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
       variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
     >
       <motion.div
         className="h-0.5 bg-primary origin-left"
-        style={{ scaleX: scrollY.get() / (document.documentElement.scrollHeight - window.innerHeight) }}
+        style={{
+          scaleX:
+            scrollY.get() /
+            (document.documentElement.scrollHeight - window.innerHeight),
+        }}
       />
       <nav className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex-shrink-0 w-32 lg:w-40">
@@ -59,7 +69,9 @@ function Navbar() {
               onClick={handleNavClick}
               className={({ isActive }) =>
                 `px-3 py-2 font-medium rounded-lg transition-all duration-300 relative ${
-                  isActive ? "text-primary-dark bg-primary-lightest" : "text-gray-700 hover:text-primary-dark"
+                  isActive
+                    ? "text-primary-dark bg-primary-lightest"
+                    : "text-gray-700 hover:text-primary-dark"
                 }`
               }
             >
@@ -75,13 +87,16 @@ function Navbar() {
         </div>
 
         <div className="flex items-center">
-          <motion.button
+          <motion.a
+            href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.98 }}
             className="hidden md:block bg-primary-dark text-white px-5 py-2 rounded-full font-medium shadow-md hover:bg-primary-dark transition-all duration-200"
           >
             Faire un don
-          </motion.button>
+          </motion.a>
 
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -139,19 +154,24 @@ function Navbar() {
                       onClick={handleNavClick}
                       className={({ isActive }) =>
                         `px-4 py-3 font-medium rounded-lg transition-colors ${
-                          isActive ? "text-primary-dark bg-primary-lightest" : "text-gray-700"
+                          isActive
+                            ? "text-primary-dark bg-primary-lightest"
+                            : "text-gray-700"
                         }`
                       }
                     >
                       {label}
                     </NavLink>
                   ))}
-                  <motion.button
+                  <motion.a
+                    href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileTap={{ scale: 0.98 }}
-                    className="mt-4 w-full bg-primary text-white px-6 py-3 rounded-full font-medium shadow-md"
+                    className="mt-4 w-full bg-primary text-white px-6 py-3 rounded-full font-medium shadow-md text-center"
                   >
                     Faire un don
-                  </motion.button>
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

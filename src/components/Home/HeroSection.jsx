@@ -14,10 +14,7 @@ function HeroSection() {
   return (
     <section ref={ref} className="relative h-screen overflow-hidden">
       {/* Background avec effet parallaxe */}
-      <motion.div 
-        style={{ y }}
-        className="absolute inset-0"
-      >
+      <motion.div style={{ y }} className="absolute inset-0">
         <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center bg-no-repeat" />
       </motion.div>
 
@@ -25,7 +22,7 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30" />
 
       {/* Contenu principal */}
-      <motion.div 
+      <motion.div
         style={{ opacity }}
         className="relative z-10 h-full flex items-center justify-center"
       >
@@ -33,10 +30,10 @@ function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
+            transition={{
               duration: 1,
               type: "spring",
-              stiffness: 50
+              stiffness: 50,
             }}
             className="max-w-5xl mx-auto"
           >
@@ -56,8 +53,8 @@ function HeroSection() {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-xl md:text-2xl mb-12 max-w-2xl mx-auto font-light"
           >
-            Chaque année, nous sauvons des centaines d&apos;animaux et leur offrons
-            une nouvelle vie
+            Chaque année, nous sauvons des centaines d&apos;animaux et leur
+            offrons une nouvelle vie
           </motion.p>
 
           <motion.div
@@ -72,26 +69,31 @@ function HeroSection() {
                 Adoptez un animal
               </span>
             </button>
-            <button className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-transparent border-2 border-white text-white shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <a
+              href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-transparent border-2 border-white text-white shadow-2xl transition-all duration-300 hover:-translate-y-1"
+            >
               <div className="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full" />
               <span className="relative text-lg font-semibold group-hover:text-primary-darkest">
                 Faire un don
               </span>
-            </button>
+            </a>
           </motion.div>
         </div>
       </motion.div>
 
       {/* Flèche de défilement améliorée */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ 
+        transition={{
           duration: 1,
           delay: 1.2,
           repeat: Infinity,
           repeatType: "reverse",
-          repeatDelay: 0.5
+          repeatDelay: 0.5,
         }}
         className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
       >
