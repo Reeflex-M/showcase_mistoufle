@@ -174,30 +174,36 @@ const questions = [
 
 function AccordionItem({ question, answer, isOpen, onClick }) {
   return (
-    <div className="border-b border-primary/20">
-      <button
-        className="w-full py-6 flex items-center justify-between text-left"
-        onClick={onClick}
-      >
-        <h3 className="text-xl font-semibold text-primary-dark">{question}</h3>
-        <span
-          className={`text-2xl transform transition-transform duration-300 ${
-            isOpen ? "rotate-45" : ""
-          }`}
-        >
-          +
-        </span>
+    <motion.section
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+    >
+      <button onClick={onClick} className="w-full" aria-expanded={isOpen}>
+        <div className="flex items-center gap-3 mb-4">
+          <h3 className="text-xl font-semibold text-primary-darkest">
+            {question}
+          </h3>
+        </div>
       </button>
-      <AnimatePresence>
-        {isOpen && (
-          <div className="overflow-hidden">
-            <p className="pb-6 text-primary-dark/70 leading-relaxed">
-              {answer}
-            </p>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? "auto" : 0,
+          opacity: isOpen ? 1 : 0.5,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 40,
+          opacity: { duration: 0.2 },
+        }}
+        className="overflow-hidden"
+      >
+        {answer}
+      </motion.div>
+    </motion.section>
   );
 }
 
@@ -238,58 +244,50 @@ function About() {
     <div className="min-h-screen bg-white pt-24">
       {/* Header */}
       <div className="py-8 px-4 flex justify-center">
-        <h1 className="text-4xl font-bold text-primary-dark border-b-2 border-primary pb-2">
+        <h1 className="text-4xl font-bold text-primary-dark border-b-2 border-primary pb-2 mb-12">
           Les Mistoufles
         </h1>
       </div>
 
       {/* Questions Section */}
       <div className="max-w-3xl mx-auto px-4 mb-20">
-        <div className="space-y-4">
+        <div className="grid gap-6">
           {questions.map((q, index) => (
-            <motion.div
+            <motion.section
               key={q.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="bg-white rounded-lg border border-gray-200"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
             >
               <button
                 onClick={() => setOpenId(openId === q.id ? null : q.id)}
-                className="w-full px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
+                className="w-full"
+                aria-expanded={openId === q.id}
               >
-                <span className="text-lg font-medium text-gray-900">
-                  {q.question}
-                </span>
-                <motion.span
-                  animate={{ rotate: openId === q.id ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-gray-500"
-                >
-                  ▼
-                </motion.span>
+                <div className="flex items-center gap-3 mb-4">
+                  <h3 className="text-xl font-semibold text-primary-darkest">
+                    {q.question}
+                  </h3>
+                </div>
               </button>
-              <AnimatePresence>
-                {openId === q.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                  >
-                    <motion.div
-                      initial={{ y: -10 }}
-                      animate={{ y: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-6 pb-4"
-                    >
-                      <div className="prose max-w-none">{q.answer}</div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              <motion.div
+                initial={false}
+                animate={{
+                  height: openId === q.id ? "auto" : 0,
+                  opacity: openId === q.id ? 1 : 0.5,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 40,
+                  opacity: { duration: 0.2 },
+                }}
+                className="overflow-hidden"
+              >
+                {q.answer}
+              </motion.div>
+            </motion.section>
           ))}
         </div>
       </div>

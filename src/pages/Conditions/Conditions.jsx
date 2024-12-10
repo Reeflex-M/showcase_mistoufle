@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaDog, FaCat, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
-import { MdPersonOutline, MdHome, MdAttachMoney, MdTimeline, MdHelp } from "react-icons/md";
-import { Tooltip } from 'react-tooltip';
+import {
+  MdPersonOutline,
+  MdHome,
+  MdAttachMoney,
+  MdTimeline,
+  MdHelp,
+} from "react-icons/md";
+import { Tooltip } from "react-tooltip";
 
 function Conditions() {
   const [activeTab, setActiveTab] = useState("chiens");
@@ -10,14 +16,15 @@ function Conditions() {
 
   const TabButton = ({ id, icon: Icon, label, className }) => (
     <motion.button
-      whileHover={{ scale: 1.015, backgroundColor: activeTab === id ? undefined : "rgb(243 244 246)" }}
+      whileHover={{
+        scale: 1.015,
+        backgroundColor: activeTab === id ? undefined : "rgb(243 244 246)",
+      }}
       whileTap={{ scale: 0.995 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
       onClick={() => setActiveTab(id)}
       className={`flex items-center gap-3 w-full md:w-64 p-4 rounded-xl transition-colors duration-200 ${
-        activeTab === id
-          ? "bg-primary text-white shadow-md"
-          : "bg-white"
+        activeTab === id ? "bg-primary text-white shadow-md" : "bg-white"
       } ${className}`}
       aria-label={`Voir les conditions pour ${label}`}
       aria-current={activeTab === id ? "page" : undefined}
@@ -42,20 +49,22 @@ function Conditions() {
       >
         <div className="flex items-center gap-3 mb-4">
           <Icon size={24} className="text-primary" />
-          <h3 className="text-xl font-semibold text-primary-darkest">{title}</h3>
+          <h3 className="text-xl font-semibold text-primary-darkest">
+            {title}
+          </h3>
         </div>
       </button>
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           height: expandedSection === id ? "auto" : 0,
-          opacity: expandedSection === id ? 1 : 0.5
+          opacity: expandedSection === id ? 1 : 0.5,
         }}
-        transition={{ 
+        transition={{
           type: "spring",
           stiffness: 400,
           damping: 40,
-          opacity: { duration: 0.2 }
+          opacity: { duration: 0.2 },
         }}
         className="overflow-hidden"
       >
@@ -83,8 +92,8 @@ function Conditions() {
         <span>{text}</span>
         {tooltipContent && (
           <>
-            <FaInfoCircle 
-              className="flex-shrink-0 mt-1 text-gray-400 cursor-help" 
+            <FaInfoCircle
+              className="flex-shrink-0 mt-1 text-gray-400 cursor-help"
               data-tooltip-id={tooltipId}
             />
             <Tooltip id={tooltipId} place="right">
@@ -106,17 +115,20 @@ function Conditions() {
       >
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-2">
-            Adopter un <span className="text-primary-dark">
-              chien
-            </span>
+            Adopter un <span className="text-primary-dark">chien</span>
           </h2>
           <p className="text-gray-600 text-lg">
-            Découvrez les étapes et conditions pour accueillir votre futur compagnon à quatre pattes
+            Découvrez les étapes et conditions pour accueillir votre futur
+            compagnon à quatre pattes
           </p>
           <div className="w-20 h-1 bg-primary mt-4 rounded-full"></div>
         </div>
         <div className="grid gap-6">
-          <ContentSection icon={MdPersonOutline} title="Critères de base" id="chiens-criteres">
+          <ContentSection
+            icon={MdPersonOutline}
+            title="Critères de base"
+            id="chiens-criteres"
+          >
             <ul className="list-none space-y-3">
               <InfoPoint text="Être majeur et présenter une pièce d'identité valide" />
               <InfoPoint text="Avoir un logement adapté à l'animal" />
@@ -124,29 +136,59 @@ function Conditions() {
             </ul>
           </ContentSection>
 
-          <ContentSection icon={MdTimeline} title="Processus d'adoption" id="chiens-processus">
+          <ContentSection
+            icon={MdTimeline}
+            title="Processus d'adoption"
+            id="chiens-processus"
+          >
             <div className="grid gap-4">
-              <ProcessStep number="1" title="Rencontre initiale avec le chien" description="Nous organisons une rencontre entre vous et le chien pour voir si c'est une bonne affinité." />
-              <ProcessStep number="2" title="Entretien avec nos équipes" description="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chien." />
-              <ProcessStep number="3" title="Période d'adaptation de 2 semaines" description="Nous vous laissons le chien pour une période d'essai de 2 semaines pour voir si c'est une bonne affinité." />
+              <ProcessStep
+                number="1"
+                title="Rencontre initiale avec le chien"
+                description="Nous organisons une rencontre entre vous et le chien pour voir si c'est une bonne affinité."
+              />
+              <ProcessStep
+                number="2"
+                title="Entretien avec nos équipes"
+                description="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chien."
+              />
+              <ProcessStep
+                number="3"
+                title="Période d'adaptation de 2 semaines"
+                description="Nous vous laissons le chien pour une période d'essai de 2 semaines pour voir si c'est une bonne affinité."
+              />
             </div>
           </ContentSection>
 
-          <ContentSection icon={MdAttachMoney} title="Tarifs d'adoption" id="chiens-tarifs">
+          <ContentSection
+            icon={MdAttachMoney}
+            title="Tarifs d'adoption"
+            id="chiens-tarifs"
+          >
             <div className="grid gap-4">
               <ul className="list-none space-y-3">
                 <li>
-                  <strong>Chiot de moins de 6 mois :</strong> 250€, ce montant comprend l’identification, la primo-vaccination (CCHPL), le déparasitage. La stérilisation est obligatoire et à la charge de l’adoptant. (Un chèque de caution sera demandé au moment de l’adoption).
+                  <strong>Chiot de moins de 6 mois :</strong> 250€, ce montant
+                  comprend l’identification, la primo-vaccination (CCHPL), le
+                  déparasitage. La stérilisation est obligatoire et à la charge
+                  de l’adoptant. (Un chèque de caution sera demandé au moment de
+                  l’adoption).
                 </li>
                 <li>
-                  <strong>Chien de plus de 6 mois :</strong> 250€, ce montant comprend l’identification, la primo-vaccination (CCHPL), le déparasitage et la stérilisation.
+                  <strong>Chien de plus de 6 mois :</strong> 250€, ce montant
+                  comprend l’identification, la primo-vaccination (CCHPL), le
+                  déparasitage et la stérilisation.
                 </li>
                 <li>
-                  <strong>Chien de plus de 10 ans :</strong> Don libre, ce montant comprend l’identification, la primo-vaccination (CCHPL), le déparasitage. La stérilisation sera effectuée suivant l’état de santé de l’animal.
+                  <strong>Chien de plus de 10 ans :</strong> Don libre, ce
+                  montant comprend l’identification, la primo-vaccination
+                  (CCHPL), le déparasitage. La stérilisation sera effectuée
+                  suivant l’état de santé de l’animal.
                 </li>
               </ul>
               <p className="mt-1">
-                Nos tarifs peuvent varier suivant la race ou les difficultés de certains de nos protégés.
+                Nos tarifs peuvent varier suivant la race ou les difficultés de
+                certains de nos protégés.
               </p>
             </div>
           </ContentSection>
@@ -162,9 +204,7 @@ function Conditions() {
       >
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-2">
-            Adopter un <span className="text-primary-dark">
-              chat
-            </span>
+            Adopter un <span className="text-primary-dark">chat</span>
           </h2>
           <p className="text-gray-600 text-lg">
             Apprenez tout ce qu'il faut savoir pour adopter votre nouveau félin
@@ -172,39 +212,75 @@ function Conditions() {
           <div className="w-20 h-1 bg-primary mt-4 rounded-full"></div>
         </div>
         <div className="grid gap-6">
-          <ContentSection icon={MdPersonOutline} title="Critères de base" id="chats-criteres">
+          <ContentSection
+            icon={MdPersonOutline}
+            title="Critères de base"
+            id="chats-criteres"
+          >
             <ul className="list-none space-y-3">
               <InfoPoint text="Être majeur et présenter une pièce d'identité valide" />
               <InfoPoint text="S'engager à la stérilisation" />
             </ul>
           </ContentSection>
 
-          <ContentSection icon={MdTimeline} title="Processus d'adoption" id="chats-processus">
+          <ContentSection
+            icon={MdTimeline}
+            title="Processus d'adoption"
+            id="chats-processus"
+          >
             <div className="grid gap-4">
-              <ProcessStep number="1" title="Visite et rencontre avec le chat" description="Nous organisons une visite pour que vous puissiez rencontrer le chat et voir si c'est une bonne affinité." />
-              <ProcessStep number="2" title="Validation du dossier d'adoption" description="Nous validons votre dossier d'adoption pour nous assurer que vous êtes prêt à prendre soin d'un chat." />
-              <ProcessStep number="3" title="Suivi post-adoption" description="Nous suivons votre adoption pour nous assurer que tout se passe bien et que vous avez besoin de rien." />
+              <ProcessStep
+                number="1"
+                title="Visite et rencontre avec le chat"
+                description="Nous organisons une visite pour que vous puissiez rencontrer le chat et voir si c'est une bonne affinité."
+              />
+              <ProcessStep
+                number="2"
+                title="Validation du dossier d'adoption"
+                description="Nous validons votre dossier d'adoption pour nous assurer que vous êtes prêt à prendre soin d'un chat."
+              />
+              <ProcessStep
+                number="3"
+                title="Suivi post-adoption"
+                description="Nous suivons votre adoption pour nous assurer que tout se passe bien et que vous avez besoin de rien."
+              />
             </div>
           </ContentSection>
 
-          <ContentSection icon={MdAttachMoney} title="Tarifs d'adoption" id="chats-tarifs">
+          <ContentSection
+            icon={MdAttachMoney}
+            title="Tarifs d'adoption"
+            id="chats-tarifs"
+          >
             <div className="grid gap-4">
               <ul className="list-none space-y-3">
                 <li>
-                  <strong>Chaton de moins de 6 mois :</strong> 130€, ce montant comprend l’identification, la primo-vaccination (typhus, coryza), le déparasitage. La stérilisation est obligatoire et à la charge de l’adoptant (un chèque de caution sera demandé au moment de l’adoption).
+                  <strong>Chaton de moins de 6 mois :</strong> 130€, ce montant
+                  comprend l’identification, la primo-vaccination (typhus,
+                  coryza), le déparasitage. La stérilisation est obligatoire et
+                  à la charge de l’adoptant (un chèque de caution sera demandé
+                  au moment de l’adoption).
                 </li>
                 <li>
-                  <strong>Chat mâle de plus de 6 mois :</strong> 150€, comprend l’identification, la primo-vaccination (typhus, coryza), le déparasitage et la castration.
+                  <strong>Chat mâle de plus de 6 mois :</strong> 150€, comprend
+                  l’identification, la primo-vaccination (typhus, coryza), le
+                  déparasitage et la castration.
                 </li>
                 <li>
-                  <strong>Chat femelle de plus de 6 mois :</strong> 170€, ce montant comprend l’identification, la primo-vaccination (typhus, coryza), le déparasitage et la stérilisation.
+                  <strong>Chat femelle de plus de 6 mois :</strong> 170€, ce
+                  montant comprend l’identification, la primo-vaccination
+                  (typhus, coryza), le déparasitage et la stérilisation.
                 </li>
                 <li>
-                  <strong>Chat de plus de 10 ans :</strong> Don libre, ce montant comprend l’identification, la primo-vaccination (typhus, coryza), le déparasitage. La stérilisation sera effectuée suivant l’état de santé de l’animal.
+                  <strong>Chat de plus de 10 ans :</strong> Don libre, ce
+                  montant comprend l’identification, la primo-vaccination
+                  (typhus, coryza), le déparasitage. La stérilisation sera
+                  effectuée suivant l’état de santé de l’animal.
                 </li>
               </ul>
               <p className="mt-1">
-                Nos tarifs peuvent varier suivant la race ou les difficultés de certains de nos protégés.
+                Nos tarifs peuvent varier suivant la race ou les difficultés de
+                certains de nos protégés.
               </p>
             </div>
           </ContentSection>
@@ -219,8 +295,18 @@ function Conditions() {
         <div className="flex flex-col md:flex-row gap-6 md:items-start md:pt-12">
           {/* Navigation Tabs - Centered */}
           <div className="w-full md:w-64 h-[120px] md:h-auto flex md:flex-col gap-4 md:sticky md:top-32 items-center md:items-start shrink-0">
-            <TabButton id="chiens" icon={FaDog} label="Adoption Chiens" className="bg-primary-dark" />
-            <TabButton id="chats" icon={FaCat} label="Adoption Chats" className="bg-primary-dark" />
+            <TabButton
+              id="chiens"
+              icon={FaDog}
+              label="Adoption Chiens"
+              className="bg-primary-dark"
+            />
+            <TabButton
+              id="chats"
+              icon={FaCat}
+              label="Adoption Chats"
+              className="bg-primary-dark"
+            />
           </div>
 
           {/* Content Area */}
