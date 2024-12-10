@@ -31,7 +31,7 @@ function Navbar() {
 
   return (
     <motion.header
-      className="backdrop-blur-md bg-white/90 shadow-lg fixed w-full top-0 z-50"
+      className="backdrop-blur-md bg-white shadow-lg fixed w-full top-0 z-50"
       variants={{ visible: { y: 0 }, hidden: { y: "-100%" } }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
