@@ -15,7 +15,7 @@ function HeroSection() {
     <section ref={ref} className="relative h-screen overflow-hidden">
       {/* Background avec effet parallaxe */}
       <motion.div style={{ y }} className="absolute inset-0">
-        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center bg-no-repeat" />
+        <div className="absolute inset-0 bg-[url('/images/hero-bg.jpg')] bg-cover bg-top bg-no-repeat" />
       </motion.div>
 
       {/* Overlay gradient */}
@@ -63,8 +63,8 @@ function HeroSection() {
             transition={{ duration: 1, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <button className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-white text-primary-darkest shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="absolute inset-0 w-0 bg-primary-dark transition-all duration-[250ms] ease-out group-hover:w-full" />
+            <button className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-primary-dark text-white shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="absolute inset-0 w-0 bg-primary-darkest transition-all duration-[250ms] ease-out group-hover:w-full" />
               <span className="relative text-lg font-semibold group-hover:text-white">
                 Adoptez un animal
               </span>
