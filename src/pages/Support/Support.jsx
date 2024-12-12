@@ -70,6 +70,61 @@ function Support() {
         },
       ],
     },
+    {
+      category: "Patee",
+      items: [
+        {
+          src: "/Support/patee/patte_mousse_babycat.png",
+          alt: "Bac à litière",
+        },
+        {
+          src: "/Support/patee/patte_purina.png",
+          alt: "Griffoir pour chat",
+        },
+      ],
+    },
+    {
+      category: "Matériel Animaux",
+      items: [
+        {
+          src: "/Support/materiel/collier_laisse.png",
+          alt: "Laisse pour chien",
+        },
+        {
+          src: "/Support/materiel/bac_a_litiere.png",
+          alt: "Bac à litière",
+        },
+      ],
+    },
+    {
+      category: "Matériel de ménage",
+      items: [
+        {
+          src: "/Support/materiel/eponge_verte.png",
+          alt: "Eponge verte",
+        },
+        {
+          src: "/Support/materiel/eponge_rouge.png",
+          alt: "Eponge rouge",
+        },
+        {
+          src: "/Support/materiel/liquide_vaisselle.png",
+          alt: "Liquide vaisselle",
+        },
+        {
+          src: "/Support/materiel/sac_congelation.png",
+          alt: "Sac congelation",
+        },
+        {
+          src: "/Support/materiel/sac_poubelle.png",
+          alt: "Sacs poubelle",
+        },
+        {
+          src: "/Support/materiel/sopalin.png",
+          alt: "Sopalin",
+        },
+      ],
+    },
   ];
 
   const [showArrow, setShowArrow] = useState(true);
@@ -288,23 +343,19 @@ function Support() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="py-24" // Réduit de 32 à 24
+          className="py-24"
         >
           <motion.div
             variants={itemVariants}
-            className="text-center space-y-6 mb-16" // Réduit de 20 à 16
+            className="text-center space-y-6 mb-16"
           >
             <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
               Faire un don
             </span>
             <h2 className="text-4xl font-bold text-gray-900">
-              {" "}
-              {/* Retour à 4xl */}
-              Nos besoins en dons
+              Nos besoins
             </h2>
             <p className="text-gray-700 max-w-2xl mx-auto text-lg">
-              {" "}
-              {/* Retour aux dimensions originales */}
               Vos dons nous permettent de prendre soin de nos protégés et de
               leur offrir une meilleure qualité de vie au quotidien.
             </p>
@@ -312,7 +363,7 @@ function Support() {
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8" // Retour à xl et gap-8
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {donationItems.map((category, index) => (
               <motion.div
@@ -325,31 +376,29 @@ function Support() {
                   delay: index * 0.1,
                   ease: "easeOut",
                 }}
-                className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.12)] 
-                          hover:shadow-[0_4px_25px_rgba(0,0,0,0.2)] transition-all duration-300
-                          flex flex-col min-h-[400px]" // Réduit à 400px
+                className="bg-white rounded-xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.15)] 
+                          hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300
+                          flex flex-col min-h-[320px]"
               >
-                <h3 className="text-center font-semibold text-gray-800 mb-6 text-xl">
-                  {" "}
-                  {/* Réduit à text-xl */}
+                <h3 className="text-center font-semibold text-gray-800 mb-3 text-base">
                   {category.category}
                 </h3>
-                <div className="grid grid-cols-2 gap-6 flex-grow">
-                  {" "}
-                  {/* Retour à 2 colonnes, gap-6 */}
+                <div className={`grid ${category.items.length > 2 ? 'grid-cols-2' : 'grid-cols-1'} gap-3 flex-grow place-content-center`}>
                   {category.items.map((item, itemIndex) => (
                     <div
                       key={itemIndex}
-                      className="aspect-square relative overflow-hidden rounded-xl bg-gray-50
-                               hover:bg-gray-100 transition-colors duration-300"
+                      className="aspect-[4/3] relative overflow-hidden rounded-lg bg-white
+                               border border-gray-100 hover:border-secondary/30 transition-all duration-300
+                               shadow-sm hover:shadow-md group h-[140px]"
                     >
                       <motion.img
                         src={item.src}
                         alt={item.alt}
-                        className="w-full h-full object-contain p-3" // Réduit à p-3
-                        whileHover={{ scale: 1.05 }} // Réduit l'effet hover
+                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                        whileHover={{ scale: 1.0 }}
                         transition={{ duration: 0.3 }}
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                   ))}
                 </div>
@@ -386,6 +435,7 @@ function Support() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth={2}
               d="M19 13l-7 7-7-7"
             />
           </svg>
