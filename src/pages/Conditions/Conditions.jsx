@@ -292,6 +292,18 @@ function Conditions() {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 px-4 pb-6">
       <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+            Conditions <span className="text-primary-dark">d'adoptions</span>
+          </h1>
+          <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
+        </motion.div>
+
         <div className="flex flex-col md:flex-row gap-6 md:items-start md:pt-12">
           {/* Navigation Tabs - Centered */}
           <div className="w-full md:w-64 h-[120px] md:h-auto flex md:flex-col gap-4 md:sticky md:top-32 items-center md:items-start shrink-0">

@@ -5,7 +5,12 @@ function ContactInfoCards() {
     {
       icon: <FaPhone />,
       title: "Téléphone",
-      content: "+33 (0)2 98 XX XX XX",
+      content: (
+        <>
+          <div>02 98 62 84 85</div>
+          <div className="underline">Mardi et Jeudi de 15h à 18h</div>
+        </>
+      ),
     },
     {
       icon: <FaEnvelope />,
@@ -16,7 +21,7 @@ function ContactInfoCards() {
       icon: <FaMapMarkerAlt />,
       title: "Adresse",
       content: "Saint-Martin-des-Champs, France",
-    }
+    },
   ];
 
   return (
@@ -31,8 +36,10 @@ function ContactInfoCards() {
               <span className="text-xl">{card.icon}</span>
             </div>
             <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-2">{card.title}</h3>
-              <p className="text-gray-600">{card.content}</p>
+              <h3 className="font-bold text-lg text-gray-900 mb-2">
+                {card.title}
+              </h3>
+              <div className="text-gray-600">{card.content}</div>
             </div>
           </div>
         </div>

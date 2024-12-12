@@ -5,30 +5,83 @@ import { animateScroll as scroll } from "react-scroll";
 
 function Support() {
   const donationItems = [
-    { src: "/Support/catsan.png", alt: "Litière Catsan", name: "Litière" },
     {
-      src: "/Support/croquette_purina_chaton.png",
-      alt: "Croquettes",
-      name: "Croquettes chaton",
+      category: "Litière",
+      items: [
+        {
+          src: "/Support/litiere/catsan.png",
+          alt: "Litière Catsan",
+        },
+        {
+          src: "/Support/litiere/Litiere_eco.png",
+          alt: "Litière Alternative",
+        },
+      ],
     },
     {
-      src: "/Support/croquette_ultima.webp",
-      alt: "Croquettes chat",
-      name: "Croquettes chat",
+      category: "Croquettes chaton",
+      items: [
+        {
+          src: "/Support/chaton/croquette_purina_chaton.png",
+          alt: "Croquettes Purina Chaton",
+        },
+        {
+          src: "/Support/chaton/royal_canin_mother_chaton.png",
+          alt: "Croquettes Chaton Alternative",
+        },
+      ],
     },
     {
-      src: "/Support/croquette_puppy.png",
-      alt: "Croquettes Chiots",
-      name: "Croquettes Chiots",
+      category: "Croquettes chat",
+      items: [
+        {
+          src: "/Support/chat/croquette_ultima.webp",
+          alt: "Croquettes Ultima Chat",
+        },
+        {
+          src: "/Support/chat/purina_one_chat.png",
+          alt: "Croquettes Chat Alternative",
+        },
+      ],
     },
     {
-      src: "/Support/royal_canin.png",
-      alt: "Croquettes chien",
-      name: "Croquettes chien",
+      category: "Croquettes Chiots",
+      items: [
+        {
+          src: "/Support/chiot/croquette_puppy.png",
+          alt: "Croquettes Puppy",
+        },
+        {
+          src: "/Support/chiot/croquette_medium_chiot.png",
+          alt: "Croquettes Chiot Alternative",
+        },
+      ],
+    },
+    {
+      category: "Croquettes chien",
+      items: [
+        {
+          src: "/Support/chien/royal_canin.png",
+          alt: "Croquettes Royal Canin",
+        },
+        {
+          src: "/Support/chien/croquette_pedigree.png",
+          alt: "Croquettes Chien Alternative",
+        },
+      ],
     },
   ];
 
   const [showArrow, setShowArrow] = useState(true);
+  const [showTasks, setShowTasks] = useState(false);
+
+  const tasks = [
+    "Événement de collecte",
+    "Empaquetage cadeau",
+    "Devenir famille d'accueille",
+    "Aide au nettoyage des chattes",
+    "Lavage du linge",
+  ];
 
   useEffect(() => {
     const checkScroll = () => {
@@ -145,24 +198,73 @@ function Support() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full sm:w-auto bg-primary-dark hover:bg-primary/90 text-white px-8 py-4 rounded-xl 
+                  className="w-full sm:w-auto bg-primary-dark text-white px-8 py-4 rounded-xl 
                             shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
                             transition-all duration-300 font-semibold text-lg"
                 >
                   Devenir bénévole
                 </motion.button>
               </Link>
-              <Link to="/contact">
+              <motion.div className="relative">
                 <motion.button
+                  onClick={() => setShowTasks(!showTasks)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full sm:w-auto bg-white hover:bg-gray-50 text-primary-dark px-8 py-4 rounded-xl 
-                            shadow-[0_4px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.25)]
-                            transition-all duration-300 font-semibold text-lg border-2 border-primary/10"
+                  className="w-full sm:w-auto bg-secondary text-white px-8 py-4 rounded-xl 
+                            shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
+                            transition-all duration-300 font-semibold text-lg flex items-center gap-2"
                 >
-                  Famille d'accueil
+                  Les tâches à effectuer
+                  <motion.svg
+                    animate={{ rotate: showTasks ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </motion.svg>
                 </motion.button>
-              </Link>
+                <motion.div
+                  initial={false}
+                  animate={{
+                    opacity: showTasks ? 1 : 0,
+                    y: showTasks ? 10 : -20,
+                    scale: showTasks ? 1 : 0.95,
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className={`absolute right-0 z-20 mt-2 min-w-[300px] transform ${
+                    showTasks ? "block" : "hidden"
+                  }`}
+                >
+                  <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">
+                      Tâches
+                    </h3>
+                    <ul className="space-y-3">
+                      {tasks.map((task, index) => (
+                        <motion.li
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center gap-3 text-gray-600 hover:text-primary-dark transition-colors duration-200 group cursor-pointer"
+                        >
+                          <span className="h-2 w-2 rounded-full bg-secondary group-hover:bg-primary-dark transition-colors" />
+                          {task}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
           <motion.div variants={itemVariants} className="md:w-1/2">
@@ -186,19 +288,23 @@ function Support() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="py-32"
+          className="py-24" // Réduit de 32 à 24
         >
           <motion.div
             variants={itemVariants}
-            className="text-center space-y-6 mb-16"
+            className="text-center space-y-6 mb-16" // Réduit de 20 à 16
           >
             <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
               Faire un don
             </span>
             <h2 className="text-4xl font-bold text-gray-900">
+              {" "}
+              {/* Retour à 4xl */}
               Nos besoins en dons
             </h2>
             <p className="text-gray-700 max-w-2xl mx-auto text-lg">
+              {" "}
+              {/* Retour aux dimensions originales */}
               Vos dons nous permettent de prendre soin de nos protégés et de
               leur offrir une meilleure qualité de vie au quotidien.
             </p>
@@ -206,9 +312,9 @@ function Support() {
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8" // Retour à xl et gap-8
           >
-            {donationItems.map((item, index) => (
+            {donationItems.map((category, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
@@ -219,22 +325,34 @@ function Support() {
                   delay: index * 0.1,
                   ease: "easeOut",
                 }}
-                whileHover={{ y: -8, scale: 1.02 }}
                 className="bg-white rounded-2xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.12)] 
-                          hover:shadow-[0_4px_25px_rgba(0,0,0,0.2)] transition-all duration-300"
+                          hover:shadow-[0_4px_25px_rgba(0,0,0,0.2)] transition-all duration-300
+                          flex flex-col min-h-[400px]" // Réduit à 400px
               >
-                <div className="aspect-square overflow-hidden rounded-xl mb-4 bg-gray-100">
-                  <motion.img
-                    src={item.src}
-                    alt={item.alt}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-                <h3 className="text-center font-semibold text-gray-800">
-                  {item.name}
+                <h3 className="text-center font-semibold text-gray-800 mb-6 text-xl">
+                  {" "}
+                  {/* Réduit à text-xl */}
+                  {category.category}
                 </h3>
+                <div className="grid grid-cols-2 gap-6 flex-grow">
+                  {" "}
+                  {/* Retour à 2 colonnes, gap-6 */}
+                  {category.items.map((item, itemIndex) => (
+                    <div
+                      key={itemIndex}
+                      className="aspect-square relative overflow-hidden rounded-xl bg-gray-50
+                               hover:bg-gray-100 transition-colors duration-300"
+                    >
+                      <motion.img
+                        src={item.src}
+                        alt={item.alt}
+                        className="w-full h-full object-contain p-3" // Réduit à p-3
+                        whileHover={{ scale: 1.05 }} // Réduit l'effet hover
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </motion.div>

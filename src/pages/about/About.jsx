@@ -9,7 +9,7 @@ const questions = [
     answer: (
       <div className="space-y-6">
         <div className="bg-primary-light p-4 rounded-lg">
-          <p className="font-medium text-primary-dark">
+          <p className="font-medium text-primary-darkest">
             L'association accueille principalement les animaux sortants de
             fourrière des territoires suivants :
           </p>
@@ -18,7 +18,7 @@ const questions = [
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
                 Morlaix Communauté{" "}
-                <span className="text-primary-dark/60">
+                <span className="text-primary-dark">
                   (via la fourrière SACPA Chenil service de Plérin)
                 </span>
               </span>
@@ -27,7 +27,7 @@ const questions = [
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
                 Communauté de Communes du Pays Léonard{" "}
-                <span className="text-primary-dark/60">
+                <span className="text-primary-dark">
                   (via la fourrière de Taulé, Chenil St Roch)
                 </span>
               </span>
@@ -36,7 +36,7 @@ const questions = [
               <span className="w-2 h-2 bg-primary rounded-full"></span>
               <span>
                 Côtes d'Armor, Morbihan et Ille-et-Vilaine{" "}
-                <span className="text-primary-dark/60">
+                <span className="text-primary-dark">
                   (selon disponibilités)
                 </span>
               </span>
@@ -45,22 +45,22 @@ const questions = [
         </div>
 
         <div className="bg-primary-light p-4 rounded-lg">
-          <p className="font-medium text-primary-dark mb-3">
+          <p className="font-medium text-primary-darkest mb-3">
             Autres prises en charge :
           </p>
-          <p className="text-primary-dark/70 leading-relaxed">
+          <p className=" leading-relaxed">
             L'association accueille également des animaux par des prises en
             charge directes pour divers motifs :
           </p>
           <ul className="mt-2 grid grid-cols-2 gap-2">
-            <li className="text-primary-dark/70">• Hospitalisation</li>
-            <li className="text-primary-dark/70">
+            <li className="text-primary-dark">• Hospitalisation</li>
+            <li className="text-primary-dark">
               • Départ en maison de retraite
             </li>
-            <li className="text-primary-dark/70">• Abandon</li>
-            <li className="text-primary-dark/70">• Imprévus de la vie</li>
+            <li className="text-primary-dark">• Abandon</li>
+            <li className="text-primary-dark">• Imprévus de la vie</li>
           </ul>
-          <p className="mt-4 text-primary-dark/70 leading-relaxed">
+          <p className="mt-4 leading-relaxed">
             Un travail est assuré avec les services sociaux et d'autres
             structures en ce sens.
           </p>
@@ -76,11 +76,13 @@ const questions = [
         <div className="bg-primary-light p-4 rounded-lg border-l-4 border-primary">
           <div className="flex items-center space-x-3 mb-2">
             <FaCat className="text-2xl text-primary-dark" />
-            <h4 className="font-medium text-primary-dark">Notre chatterie</h4>
+            <h4 className="font-medium text-primary-darkest">
+              Notre chatterie
+            </h4>
           </div>
-          <p className="text-primary-dark/70 leading-relaxed">
+          <p className=" leading-relaxed">
             L'association possède une chatterie permettant d'accueillir{" "}
-            <span className="font-semibold text-primary-dark">33 chats</span>{" "}
+            <span className="font-semibold text-primary-darkest">33 chats</span>{" "}
             qui y vivent en totale liberté.
           </p>
         </div>
@@ -91,11 +93,11 @@ const questions = [
               <FaDog className="text-2xl text-primary-dark" />
               <FaCat className="text-2xl text-primary-dark" />
             </div>
-            <h4 className="font-medium text-primary-dark">
+            <h4 className="font-medium text-primary-darkest">
               Nos familles d'accueil
             </h4>
           </div>
-          <p className="text-primary-dark/70 leading-relaxed">
+          <p className="leading-relaxed">
             Pour ce qui est de nos chiens, chatons et certains chats,
             l'association fonctionne avec une{" "}
             <span className="font-semibold text-primary-dark">
@@ -123,44 +125,44 @@ const questions = [
       <div className="space-y-6">
         <div className="flex items-center justify-center gap-6 p-6 bg-primary-light rounded-lg">
           <div className="text-center px-4 py-2 bg-white rounded-lg shadow-sm">
-            <p className="text-4xl font-bold text-primary-dark mb-1">1</p>
-            <p className="text-sm text-primary-dark/70">Salariée</p>
+            <p className="text-4xl font-bold text-primary-darkest mb-1">1</p>
+            <p className="text-sm text-primary-dark">Salariée</p>
           </div>
           <div className="text-center px-4 py-2 bg-white rounded-lg shadow-sm">
-            <p className="text-4xl font-bold text-primary-dark mb-1">15</p>
-            <p className="text-sm text-primary-dark/70">Bénévoles actifs</p>
+            <p className="text-4xl font-bold text-primary-darkest mb-1">15</p>
+            <p className="text-sm text-primary-dark">Bénévoles actifs</p>
           </div>
         </div>
 
         <div className="bg-primary-light p-5 rounded-lg">
-          <h4 className="text-lg font-medium text-primary-dark mb-4">
+          <h4 className="text-lg font-medium text-primary-darkest mb-4">
             Comment fonctionne l'association ?
           </h4>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark/70">Frais d'adoption</p>
+              <p className="text-primary-dark">Frais d'adoption</p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark/70">
+              <p className="text-primary-dark">
                 Dons financiers et/ou matériels
-                <span className="text-primary-dark/50 text-sm italic block ml-2">
+                <span className="text-primary-dark text-sm italic block ml-2">
                   (croquettes, litières, laisses...)
                 </span>
               </p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark/70">
+              <p className="text-primary-dark">
                 Subventions des communes avoisinantes
               </p>
             </div>
             <div className="flex items-start gap-3">
               <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark/70">
+              <p className="text-primary-dark">
                 Aide de 30 millions d'amis
-                <span className="text-primary-dark/50 text-sm italic block ml-2">
+                <span className="text-primary-dark text-sm italic block ml-2">
                   (nourriture et frais vétérinaires)
                 </span>
               </p>
@@ -243,11 +245,17 @@ function About() {
   return (
     <div className="min-h-screen bg-white pt-24">
       {/* Header */}
-      <div className="py-8 px-4 flex justify-center">
-        <h1 className="text-4xl font-bold text-primary-dark border-b-2 border-primary pb-2 mb-12">
-          Les Mistoufles
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-12"
+      >
+        <h1 className="text-5xl font-bold text-gray-800 mb-4">
+          Les <span className="text-primary-dark">Mistoufles</span>
         </h1>
-      </div>
+        <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
+      </motion.div>
 
       {/* Questions Section */}
       <div className="max-w-3xl mx-auto px-4 mb-20">

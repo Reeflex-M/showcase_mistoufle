@@ -42,14 +42,6 @@ function Navbar() {
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
     >
-      <motion.div
-        className="h-0.5 bg-primary origin-left"
-        style={{
-          scaleX:
-            scrollY.get() /
-            (document.documentElement.scrollHeight - window.innerHeight),
-        }}
-      />
       <nav className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex-shrink-0 w-32 lg:w-40">
           <motion.img
@@ -70,18 +62,12 @@ function Navbar() {
               className={({ isActive }) =>
                 `px-3 py-2 font-medium rounded-lg transition-all duration-300 relative ${
                   isActive
-                    ? "text-primary-dark bg-primary-lightest"
-                    : "text-gray-700 hover:text-primary-dark"
+                    ? "text-primary-dark after:content-[''] after:absolute after:bottom-1 after:left-3 after:right-3 after:h-[2px] after:bg-primary-dark"
+                    : "text-gray-700 hover:text-primary-dark hover:after:right-3 after:content-[''] after:absolute after:bottom-1 after:left-3 after:right-full after:h-[2px] after:bg-primary-dark after:transition-all after:duration-300"
                 }`
               }
             >
               {label}
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-dark"
-                initial={false}
-                animate={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-              />
             </NavLink>
           ))}
         </div>
@@ -153,10 +139,10 @@ function Navbar() {
                       to={path}
                       onClick={handleNavClick}
                       className={({ isActive }) =>
-                        `px-4 py-3 font-medium rounded-lg transition-colors ${
+                        `px-4 py-3 font-medium rounded-lg transition-colors relative ${
                           isActive
-                            ? "text-primary-dark bg-primary-lightest"
-                            : "text-gray-700"
+                            ? "text-primary-dark after:content-[''] after:absolute after:bottom-1 after:left-4 after:right-4 after:h-[2px] after:bg-primary-dark"
+                            : "text-gray-700 hover:text-primary-dark hover:after:right-4 after:content-[''] after:absolute after:bottom-1 after:left-4 after:right-full after:h-[2px] after:bg-primary-dark after:transition-all after:duration-300"
                         }`
                       }
                     >
