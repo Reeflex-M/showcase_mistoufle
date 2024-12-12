@@ -126,7 +126,7 @@ function Conditions() {
         <div className="grid gap-6">
           <ContentSection
             icon={MdPersonOutline}
-            title="Critères de base"
+            title="Modalités de base"
             id="chiens-criteres"
           >
             <ul className="list-none space-y-3">
@@ -142,21 +142,7 @@ function Conditions() {
             id="chiens-processus"
           >
             <div className="grid gap-4">
-              <ProcessStep
-                number="1"
-                title="Rencontre initiale avec le chien"
-                description="Nous organisons une rencontre entre vous et le chien pour voir si c'est une bonne affinité."
-              />
-              <ProcessStep
-                number="2"
-                title="Entretien avec nos équipes"
-                description="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chien."
-              />
-              <ProcessStep
-                number="3"
-                title="Période d'adaptation de 2 semaines"
-                description="Nous vous laissons le chien pour une période d'essai de 2 semaines pour voir si c'est une bonne affinité."
-              />
+              <InfoPoint text="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chien." />
             </div>
           </ContentSection>
 
@@ -166,6 +152,11 @@ function Conditions() {
             id="chiens-tarifs"
           >
             <div className="grid gap-4">
+              <p className="text-gray-600 mb-4">
+                La participation versée lors de l'adoption sert à payer la
+                nourriture, la stérilisation, l'identification et les soins
+                nécessaires aux animaux.
+              </p>
               <ul className="list-none space-y-3">
                 <li>
                   <strong>Chiot de moins de 6 mois :</strong> 250€, ce montant
@@ -214,11 +205,13 @@ function Conditions() {
         <div className="grid gap-6">
           <ContentSection
             icon={MdPersonOutline}
-            title="Critères de base"
+            title="Modalité de base"
             id="chats-criteres"
           >
             <ul className="list-none space-y-3">
               <InfoPoint text="Être majeur et présenter une pièce d'identité valide" />
+              <InfoPoint text="Avoir un logement adapté à l'animal" />
+              <InfoPoint text="Disposer de ressources financières suffisantes" />
               <InfoPoint text="S'engager à la stérilisation" />
             </ul>
           </ContentSection>
@@ -228,23 +221,7 @@ function Conditions() {
             title="Processus d'adoption"
             id="chats-processus"
           >
-            <div className="grid gap-4">
-              <ProcessStep
-                number="1"
-                title="Visite et rencontre avec le chat"
-                description="Nous organisons une visite pour que vous puissiez rencontrer le chat et voir si c'est une bonne affinité."
-              />
-              <ProcessStep
-                number="2"
-                title="Validation du dossier d'adoption"
-                description="Nous validons votre dossier d'adoption pour nous assurer que vous êtes prêt à prendre soin d'un chat."
-              />
-              <ProcessStep
-                number="3"
-                title="Suivi post-adoption"
-                description="Nous suivons votre adoption pour nous assurer que tout se passe bien et que vous avez besoin de rien."
-              />
-            </div>
+            <InfoPoint text="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chat." />
           </ContentSection>
 
           <ContentSection
@@ -253,6 +230,11 @@ function Conditions() {
             id="chats-tarifs"
           >
             <div className="grid gap-4">
+              <p className="text-gray-600 mb-4">
+                La participation versée lors de l'adoption sert à payer la
+                nourriture, la stérilisation, l'identification et les soins
+                nécessaires aux animaux.
+              </p>
               <ul className="list-none space-y-3">
                 <li>
                   <strong>Chaton de moins de 6 mois :</strong> 130€, ce montant
