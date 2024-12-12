@@ -352,8 +352,10 @@ function Support() {
             <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
               Faire un don
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">Nos besoins</h2>
-            <p className="text-gray-700 max-w-2xl mx-auto text-lg">
+            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-dark via-secondary to-primary-dark mb-4">
+              Nos besoins
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg font-light">
               Vos dons nous permettent de prendre soin de nos protégés et de
               leur offrir une meilleure qualité de vie au quotidien.
             </p>
@@ -361,7 +363,7 @@ function Support() {
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min" // Augmenté le gap
           >
             {[...donationItems]
               .sort((a, b) => {
@@ -382,17 +384,17 @@ function Support() {
                     ease: "easeOut",
                   }}
                   style={{
-                    // Ajuster la hauteur du conteneur en fonction du nombre d'items
                     gridRow:
                       category.category === "Matériel de ménage"
                         ? "span 2"
                         : `span ${Math.ceil(category.items.length / 2)}`,
                   }}
-                  className="bg-white rounded-xl p-3 shadow-[0_4px_20px_rgba(0,0,0,0.15)] 
-                          hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300
-                          flex flex-col"
+                  className="bg-white rounded-2xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.08)] 
+                          hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-500
+                          flex flex-col border border-gray-100/50 backdrop-blur-sm
+                          hover:border-secondary/20 group"
                 >
-                  <h3 className="text-center font-semibold text-gray-800 mb-2 text-base">
+                  <h3 className="text-center font-semibold text-gray-800 mb-3 text-lg group-hover:text-primary-dark transition-colors duration-300">
                     {category.category}
                   </h3>
                   <div
@@ -402,8 +404,7 @@ function Support() {
                       category.category === "Matériel de ménage"
                         ? "100px"
                         : "120px"
-                    }] gap-2 flex-1 ${
-                      // Ajouter le centrage pour le conteneur "Matériel de ménage"
+                    }] gap-3 flex-1 ${
                       category.category === "Matériel de ménage"
                         ? "justify-items-center place-content-center place-items-center"
                         : ""
@@ -412,9 +413,9 @@ function Support() {
                     {category.items.map((item, itemIndex) => (
                       <div
                         key={itemIndex}
-                        className={`relative overflow-hidden rounded-lg bg-white
+                        className={`relative overflow-hidden rounded-xl bg-gray-50/80
                                border border-gray-100 hover:border-secondary/30 transition-all duration-300
-                               shadow-sm hover:shadow-md group flex items-center justify-center p-1 ${
+                               shadow-sm hover:shadow group/item flex items-center justify-center ${
                                  category.category === "Matériel de ménage"
                                    ? "w-[90%]"
                                    : "w-full"
@@ -423,11 +424,11 @@ function Support() {
                         <motion.img
                           src={item.src}
                           alt={item.alt}
-                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain p-2 group-hover/item:scale-110 transition-all duration-500"
                           whileHover={{ scale: 1.0 }}
                           transition={{ duration: 0.3 }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500" />
                       </div>
                     ))}
                   </div>
