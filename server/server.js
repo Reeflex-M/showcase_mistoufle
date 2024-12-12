@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
@@ -11,75 +10,114 @@ app.use(cors());
 const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID; 
 const FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN; 
 
-app.get("/api/facebook-posts", async (req, res) => {
-  try {
-    console.log("Attempting to fetch Facebook posts...");
-    console.log("Using Page ID:", FACEBOOK_PAGE_ID);
-    
-    // Construire l'URL complète pour vérification
-    const url = `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts`;
-    const params = {
-      access_token: FACEBOOK_ACCESS_TOKEN,
-      fields: "message,created_time,full_picture,permalink_url,attachments{media,media_type,subattachments},reactions.summary(true),comments.summary(true),shares",
-      limit: 10,
-    };
+// Cache par catégorie
+const cache = {
+  chien: { data: null, lastFetch: null },
+  chat: { data: null, lastFetch: null },
+  chaton: { data: null, lastFetch: null }
+};
 
-    console.log("Request URL:", url);
-    console.log("Request params:", {
-      ...params,
-      access_token: `${FACEBOOK_ACCESS_TOKEN.substring(0, 10)}...`, // Ne montrer que le début du token pour la sécurité
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const POSTS_PER_PAGE = 10;
+
+async function fetchFacebookPosts(category) {
+  const url = `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/posts`;
+  const params = {
+    access_token: FACEBOOK_ACCESS_TOKEN,
+    fields: "message,created_time,full_picture,attachments{media,media_type,subattachments}",
+    limit: 100
+  };
+
+  const response = await axios.get(url, { params });
+  
+  // Filtrer les posts par catégorie et transformer les données
+  const filteredPosts = response.data.data
+    .filter(post => post.message && post.message.toLowerCase().includes(`#${category.toLowerCase()}`))
+    .map(post => {
+      let images = [];
+      
+      if (post.attachments?.data) {
+        const attachment = post.attachments.data[0];
+        if (attachment.media_type === 'album' && attachment.subattachments) {
+          images = attachment.subattachments.data.map(
+            sub => sub.media.image.src
+          );
+        } else if (attachment.media?.image) {
+          images = [attachment.media.image.src];
+        }
+      } else if (post.full_picture) {
+        images = [post.full_picture];
+      }
+
+      return {
+        id: post.id,
+        text: post.message,
+        images,
+        date: new Date(post.created_time).toLocaleDateString("fr-FR", {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      };
     });
 
-    // Faire la requête
-    const response = await axios.get(url, { params });
+  return filteredPosts;
+}
 
-    // Si on arrive ici, la requête a réussi
-    console.log("Response status:", response.status);
-    console.log("Response data:", JSON.stringify(response.data, null, 2));
+app.get("/api/facebook-posts", async (req, res) => {
+  try {
+    const { category = 'chien', page = 1 } = req.query;
+    const pageNum = parseInt(page);
+    const now = Date.now();
+    
+    // Vérifier le cache pour cette catégorie
+    if (cache[category]?.data && (now - cache[category].lastFetch < CACHE_DURATION)) {
+      console.log(`Returning cached posts for ${category}`);
+      const start = (pageNum - 1) * POSTS_PER_PAGE;
+      const end = start + POSTS_PER_PAGE;
+      return res.json({
+        posts: cache[category].data.slice(start, end),
+        hasMore: end < cache[category].data.length,
+        total: cache[category].data.length
+      });
+    }
 
-    const posts = await Promise.all(
-      response.data.data.map(async (post) => {
-        let images = [];
-        
-        if (post.attachments && post.attachments.data) {
-          const attachment = post.attachments.data[0];
-          
-          if (attachment.media_type === 'album' && attachment.subattachments) {
-            images = attachment.subattachments.data.map(
-              (subattachment) => subattachment.media.image.src
-            );
-          } else if (attachment.media && attachment.media.image) {
-            images = [attachment.media.image.src];
-          }
-        } else if (post.full_picture) {
-          images = [post.full_picture];
-        }
+    console.log(`Fetching new posts for ${category}`);
+    const posts = await fetchFacebookPosts(category);
+    cache[category] = {
+      data: posts,
+      lastFetch: now
+    };
 
-        return {
-          id: post.id,
-          text: post.message || "",
-          images: images,
-          date: new Date(post.created_time).toLocaleDateString("fr-FR", {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          }),
-          link: post.permalink_url,
-          reactions: post.reactions?.summary?.total_count || 0,
-          comments: post.comments?.summary?.total_count || 0,
-          shares: post.shares?.count || 0
-        };
-      })
-    );
+    const start = (pageNum - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
 
-    res.json(posts);
+    res.json({
+      posts: posts.slice(start, end),
+      hasMore: end < posts.length,
+      total: posts.length
+    });
+
   } catch (error) {
-    console.error("Error fetching Facebook posts:", error.response?.data || error.message);
+    console.error("Error:", error.message);
+    
+    // En cas d'erreur, utiliser le cache même expiré
+    const { category = 'chien', page = 1 } = req.query;
+    const pageNum = parseInt(page);
+    if (cache[category]?.data) {
+      const start = (pageNum - 1) * POSTS_PER_PAGE;
+      const end = start + POSTS_PER_PAGE;
+      return res.json({
+        posts: cache[category].data.slice(start, end),
+        hasMore: end < cache[category].data.length,
+        total: cache[category].data.length,
+        fromCache: true
+      });
+    }
+
     res.status(500).json({
-      error: "Failed to fetch Facebook posts",
-      details: error.response?.data?.error?.message || error.message,
+      error: "Failed to fetch posts",
+      details: error.message
     });
   }
 });
