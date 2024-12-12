@@ -352,9 +352,7 @@ function Support() {
             <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
               Faire un don
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">
-              Nos besoins
-            </h2>
+            <h2 className="text-4xl font-bold text-gray-900">Nos besoins</h2>
             <p className="text-gray-700 max-w-2xl mx-auto text-lg">
               Vos dons nous permettent de prendre soin de nos protégés et de
               leur offrir une meilleure qualité de vie au quotidien.
@@ -383,7 +381,11 @@ function Support() {
                 <h3 className="text-center font-semibold text-gray-800 mb-3 text-base">
                   {category.category}
                 </h3>
-                <div className={`grid ${category.items.length > 2 ? 'grid-cols-2' : 'grid-cols-1'} gap-3 flex-grow place-content-center`}>
+                <div
+                  className={`grid ${
+                    category.items.length > 2 ? "grid-cols-2" : "grid-cols-1"
+                  } gap-3 flex-grow place-content-center`}
+                >
                   {category.items.map((item, itemIndex) => (
                     <div
                       key={itemIndex}
