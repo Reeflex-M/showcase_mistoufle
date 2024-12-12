@@ -398,16 +398,10 @@ function Support() {
                     {category.category}
                   </h3>
                   <div
-                    className={`grid ${
-                      category.items.length > 4 ? "grid-cols-3" : "grid-cols-2"
-                    } auto-rows-[${
+                    className={`grid gap-2 flex-1 ${
                       category.category === "Matériel de ménage"
-                        ? "100px"
-                        : "120px"
-                    }] gap-3 flex-1 ${
-                      category.category === "Matériel de ménage"
-                        ? "justify-items-center place-content-center place-items-center"
-                        : ""
+                        ? "grid-cols-3 h-full place-items-center"
+                        : "grid-cols-2"
                     }`}
                   >
                     {category.items.map((item, itemIndex) => (
@@ -415,7 +409,8 @@ function Support() {
                         key={itemIndex}
                         className={`relative overflow-hidden rounded-xl bg-gray-50/80
                                border border-gray-100 hover:border-secondary/30 transition-all duration-300
-                               shadow-sm hover:shadow group/item flex items-center justify-center ${
+                               shadow-sm hover:shadow group/item flex items-center justify-center
+                               aspect-square ${
                                  category.category === "Matériel de ménage"
                                    ? "w-[90%]"
                                    : "w-full"
@@ -424,7 +419,11 @@ function Support() {
                         <motion.img
                           src={item.src}
                           alt={item.alt}
-                          className="w-full h-full object-contain p-2 group-hover/item:scale-110 transition-all duration-500"
+                          className={`w-[85%] h-[85%] object-contain group-hover/item:scale-110 transition-all duration-500 ${
+                            category.category === "Matériel de ménage"
+                              ? "p-1.5"
+                              : "p-2"
+                          }`}
                           whileHover={{ scale: 1.0 }}
                           transition={{ duration: 0.3 }}
                         />
