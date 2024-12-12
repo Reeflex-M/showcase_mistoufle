@@ -18,48 +18,75 @@ const PageHeader = () => (
 );
 
 function Adoptions() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [postsCache, setPostsCache] = useState({
+    chien: { posts: [], loading: true, error: null },
+    chat: { posts: [], loading: true, error: null },
+    chaton: { posts: [], loading: true, error: null }
+  });
   const [activeTab, setActiveTab] = useState("chien");
 
-  useEffect(() => {
-    console.log("Active tab changed to:", activeTab);
-    const fetchPosts = async () => {
-      setLoading(true);
-      setPosts([]);
-      try {
-        console.log("Fetching posts for category:", activeTab);
-        const response = await fetch(
-          `http://localhost:3002/api/facebook-posts?category=${activeTab}`
-        );
+  // Fonction pour charger les posts d'une catégorie
+  const fetchPostsForCategory = async (category) => {
+    if (!postsCache[category].loading && postsCache[category].posts.length > 0) {
+      return; // Si déjà chargé et avec des données, ne pas recharger
+    }
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch posts");
-        }
+    try {
+      console.log("Fetching posts for category:", category);
+      const response = await fetch(
+        `http://localhost:3002/api/facebook-posts?category=${category}`
+      );
 
-        const data = await response.json();
-        console.log("Received posts:", data);
-        setPosts(data.posts || []);
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
       }
+
+      const data = await response.json();
+      console.log("Received posts for", category, ":", data);
+      
+      setPostsCache(prev => ({
+        ...prev,
+        [category]: {
+          posts: data.posts || [],
+          loading: false,
+          error: null
+        }
+      }));
+    } catch (err) {
+      console.error("Error fetching posts for", category, ":", err);
+      setPostsCache(prev => ({
+        ...prev,
+        [category]: {
+          ...prev[category],
+          loading: false,
+          error: err.message
+        }
+      }));
+    }
+  };
+
+  // Charger toutes les catégories au montage du composant
+  useEffect(() => {
+    const loadAllCategories = async () => {
+      const categories = ["chien", "chat", "chaton"];
+      categories.forEach(category => {
+        fetchPostsForCategory(category);
+      });
     };
 
-    fetchPosts();
-  }, [activeTab]); // Recharger quand activeTab change
+    loadAllCategories();
+  }, []); // Ne s'exécute qu'au montage
+
+  const currentTabData = postsCache[activeTab];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <PageHeader />
 
       <div className="max-w-6xl mx-auto px-4 pb-16">
-        {error && (
+        {currentTabData.error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8 shadow-sm">
-            <p>Erreur: {error}</p>
+            <p>Erreur: {currentTabData.error}</p>
           </div>
         )}
 
@@ -67,10 +94,7 @@ function Adoptions() {
           {["chien", "chat", "chaton"].map((tab) => (
             <button
               key={tab}
-              onClick={() => {
-                console.log("Changing tab to:", tab);
-                setActiveTab(tab);
-              }}
+              onClick={() => setActiveTab(tab)}
               className={`px-8 py-3 rounded-full transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === tab
                   ? "bg-primary-dark text-white shadow-lg"
@@ -87,14 +111,14 @@ function Adoptions() {
           ))}
         </div>
 
-        {loading ? (
+        {currentTabData.loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
               <p className="text-gray-600">Chargement des posts...</p>
             </div>
           </div>
-        ) : posts.length === 0 ? (
+        ) : currentTabData.posts.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl shadow-sm">
             <p className="text-gray-600 text-xl">
               Aucune publication d&apos;adoption disponible pour cette
@@ -103,7 +127,7 @@ function Adoptions() {
           </div>
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
+            {currentTabData.posts.map((post) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 20 }}
