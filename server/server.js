@@ -130,6 +130,64 @@ app.get("/api/facebook-test", async (req, res) => {
   }
 });
 
+// Route pour renouveler le token Facebook
+app.get("/api/refresh-facebook-token", async (req, res) => {
+  try {
+    // Vérifier d'abord si le token actuel est proche de l'expiration
+    const debugTokenResponse = await axios.get(
+      `https://graph.facebook.com/v21.0/debug_token`,
+      {
+        params: {
+          input_token: FACEBOOK_ACCESS_TOKEN,
+          access_token: FACEBOOK_ACCESS_TOKEN
+        }
+      }
+    );
+
+    const tokenData = debugTokenResponse.data.data;
+    const expirationDate = new Date(tokenData.expires_at * 1000);
+    const now = new Date();
+    const daysUntilExpiration = Math.floor((expirationDate - now) / (1000 * 60 * 60 * 24));
+
+    // Si le token expire dans moins de 7 jours, essayer de le renouveler
+    if (daysUntilExpiration < 7) {
+      // Obtenir un nouveau long-lived token
+      const longLivedTokenResponse = await axios.get(
+        'https://graph.facebook.com/v21.0/oauth/access_token',
+        {
+          params: {
+            grant_type: 'fb_exchange_token',
+            client_id: process.env.FACEBOOK_APP_ID,
+            client_secret: process.env.FACEBOOK_APP_SECRET,
+            fb_exchange_token: FACEBOOK_ACCESS_TOKEN
+          }
+        }
+      );
+
+      res.json({
+        status: 'Token renewed',
+        newToken: `${longLivedTokenResponse.data.access_token.substring(0, 10)}...`,
+        expiresIn: longLivedTokenResponse.data.expires_in
+      });
+    } else {
+      res.json({
+        status: 'Token still valid',
+        daysUntilExpiration,
+        tokenInfo: {
+          ...tokenData,
+          access_token: `${FACEBOOK_ACCESS_TOKEN.substring(0, 10)}...`
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error refreshing token:', error.response?.data || error.message);
+    res.status(500).json({
+      error: 'Failed to refresh token',
+      details: error.response?.data?.error?.message || error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3002; 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
