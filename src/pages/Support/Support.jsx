@@ -361,51 +361,78 @@ function Support() {
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min"
           >
-            {donationItems.map((category, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
-                className="bg-white rounded-xl p-4 shadow-[0_4px_20px_rgba(0,0,0,0.15)] 
+            {[...donationItems]
+              .sort((a, b) => {
+                if (b.items.length !== a.items.length) {
+                  return b.items.length - a.items.length;
+                }
+                return a.category.localeCompare(b.category);
+              })
+              .map((category, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.5,
+                    delay: Math.floor(index / 3) * 0.1,
+                    ease: "easeOut",
+                  }}
+                  style={{
+                    // Ajuster la hauteur du conteneur en fonction du nombre d'items
+                    gridRow:
+                      category.category === "Matériel de ménage"
+                        ? "span 2"
+                        : `span ${Math.ceil(category.items.length / 2)}`,
+                  }}
+                  className="bg-white rounded-xl p-3 shadow-[0_4px_20px_rgba(0,0,0,0.15)] 
                           hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)] transition-all duration-300
-                          flex flex-col min-h-[320px]"
-              >
-                <h3 className="text-center font-semibold text-gray-800 mb-3 text-base">
-                  {category.category}
-                </h3>
-                <div
-                  className={`grid ${
-                    category.items.length > 2 ? "grid-cols-2" : "grid-cols-1"
-                  } gap-3 flex-grow place-content-center`}
+                          flex flex-col"
                 >
-                  {category.items.map((item, itemIndex) => (
-                    <div
-                      key={itemIndex}
-                      className="aspect-[4/3] relative overflow-hidden rounded-lg bg-white
+                  <h3 className="text-center font-semibold text-gray-800 mb-2 text-base">
+                    {category.category}
+                  </h3>
+                  <div
+                    className={`grid ${
+                      category.items.length > 4 ? "grid-cols-3" : "grid-cols-2"
+                    } auto-rows-[${
+                      category.category === "Matériel de ménage"
+                        ? "100px"
+                        : "120px"
+                    }] gap-2 flex-1 ${
+                      // Ajouter le centrage pour le conteneur "Matériel de ménage"
+                      category.category === "Matériel de ménage"
+                        ? "justify-items-center place-content-center place-items-center"
+                        : ""
+                    }`}
+                  >
+                    {category.items.map((item, itemIndex) => (
+                      <div
+                        key={itemIndex}
+                        className={`relative overflow-hidden rounded-lg bg-white
                                border border-gray-100 hover:border-secondary/30 transition-all duration-300
-                               shadow-sm hover:shadow-md group h-[140px]"
-                    >
-                      <motion.img
-                        src={item.src}
-                        alt={item.alt}
-                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                        whileHover={{ scale: 1.0 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                               shadow-sm hover:shadow-md group flex items-center justify-center p-1 ${
+                                 category.category === "Matériel de ménage"
+                                   ? "w-[90%]"
+                                   : "w-full"
+                               }`}
+                      >
+                        <motion.img
+                          src={item.src}
+                          alt={item.alt}
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                          whileHover={{ scale: 1.0 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
           </motion.div>
         </motion.section>
       </div>
