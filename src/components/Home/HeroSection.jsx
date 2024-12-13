@@ -98,7 +98,7 @@ function HeroSection() {
         className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
       >
         <div className="flex flex-col items-center gap-2">
-          <span className="text-white/80 text-sm font-light">Découvrir</span>
+          <span className="text-white/80 text-sm font-light">Nos événements </span>
           <svg
             className="w-6 h-6 text-white/80"
             fill="none"

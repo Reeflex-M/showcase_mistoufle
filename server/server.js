@@ -32,7 +32,13 @@ async function fetchFacebookPosts(category) {
   
   // Filtrer les posts par catégorie et transformer les données
   const filteredPosts = response.data.data
-    .filter(post => post.message && post.message.toLowerCase().includes(`#${category.toLowerCase()}`))
+    .filter(post => {
+      if (!post.message) return false;
+      const message = post.message.toLowerCase();
+      const hashtag = `#${category.toLowerCase()}`;
+      // Vérifier si le hashtag est présent comme un mot entier
+      return message.split(/\s+/).includes(hashtag);
+    })
     .map(post => {
       let images = [];
       

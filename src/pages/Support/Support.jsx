@@ -196,14 +196,14 @@ function Support() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 safe-area-inset-top safe-area-inset-bottom">
+      <div className="max-w-7xl mx-auto px-4 safe-area-inset-horizontal">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="relative pt-28 pb-8 flex flex-col items-center justify-center"
+          className="relative pt-28 pb-8 flex flex-col items-center justify-center safe-area-inset-top"
         >
           <motion.h1
             initial={{ y: -30, opacity: 0 }}
@@ -244,7 +244,7 @@ function Support() {
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
                 Votre temps et votre engagement sont précieux. En devenant
-                bénévole ou famille d'accueil, vous contribuez directement au
+                bénévole ou famille d&apos;accueil, vous contribuez directement au
                 bien-être de nos protégés.
               </p>
             </div>
@@ -255,7 +255,7 @@ function Support() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full sm:w-auto bg-primary-dark text-white px-8 py-4 rounded-xl 
                             shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
-                            transition-all duration-300 font-semibold text-lg"
+                            transition-all duration-300 font-semibold text-lg touch-manipulation active:bg-primary-dark/90"
                 >
                   Devenir bénévole
                 </motion.button>
@@ -267,7 +267,7 @@ function Support() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full sm:w-auto bg-secondary text-white px-8 py-4 rounded-xl 
                             shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
-                            transition-all duration-300 font-semibold text-lg flex items-center gap-2"
+                            transition-all duration-300 font-semibold text-lg flex items-center gap-2 touch-manipulation active:bg-secondary/90"
                 >
                   Les tâches à effectuer
                   <motion.svg
@@ -297,7 +297,7 @@ function Support() {
                   transition={{ duration: 0.2 }}
                   className={`absolute right-0 z-20 mt-2 min-w-[300px] transform ${
                     showTasks ? "block" : "hidden"
-                  }`}
+                  } touch-manipulation`}
                 >
                   <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">

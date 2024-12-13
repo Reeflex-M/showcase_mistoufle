@@ -107,58 +107,38 @@ function Navbar() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, x: "100%" }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: "100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-0 bg-white z-50 md:hidden"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-16 left-0 right-0 bg-white shadow-lg border-t md:hidden"
             >
-              <div className="flex flex-col h-full p-6">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="self-end p-2 rounded-lg hover:bg-gray-100"
+              <div className="flex flex-col py-4 px-4 space-y-2">
+                {navItems.map(({ path, label }) => (
+                  <NavLink
+                    key={path}
+                    to={path}
+                    onClick={handleNavClick}
+                    className={({ isActive }) =>
+                      `px-3 py-2 font-medium rounded-lg transition-all duration-300 ${
+                        isActive
+                          ? "text-primary-dark bg-gray-100"
+                          : "text-gray-700 hover:text-primary-dark hover:bg-gray-50"
+                      }`
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                ))}
+                <motion.a
+                  href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-primary-dark text-white px-5 py-2 rounded-full font-medium text-center shadow-md hover:bg-primary-dark transition-all duration-200"
                 >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-                <div className="flex flex-col space-y-4 mt-16">
-                  {navItems.map(({ path, label }) => (
-                    <NavLink
-                      key={path}
-                      to={path}
-                      onClick={handleNavClick}
-                      className={({ isActive }) =>
-                        `px-4 py-3 font-medium rounded-lg transition-colors relative ${
-                          isActive
-                            ? "text-primary-dark after:content-[''] after:absolute after:bottom-1 after:left-4 after:right-4 after:h-[2px] after:bg-primary-dark"
-                            : "text-gray-700 hover:text-primary-dark hover:after:right-4 after:content-[''] after:absolute after:bottom-1 after:left-4 after:right-full after:h-[2px] after:bg-primary-dark after:transition-all after:duration-300"
-                        }`
-                      }
-                    >
-                      {label}
-                    </NavLink>
-                  ))}
-                  <motion.a
-                    href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileTap={{ scale: 0.98 }}
-                    className="mt-4 w-full bg-primary text-white px-6 py-3 rounded-full font-medium shadow-md text-center"
-                  >
-                    Faire un don
-                  </motion.a>
-                </div>
+                  Faire un don
+                </motion.a>
               </div>
             </motion.div>
           )}

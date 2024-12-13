@@ -64,8 +64,17 @@ function Adoptions() {
         // Mettre à jour le state avec tous les résultats
         const newCache = {};
         categories.forEach((category, index) => {
+          // Filtrer les posts pour s'assurer que 'chat' n'inclut pas les posts 'chaton'
+          let posts = results[index];
+          if (category === 'chat') {
+            posts = posts.filter(post => {
+              const words = post.text.toLowerCase().split(/\s+/);
+              return words.includes('#chat') && !words.includes('#chaton');
+            });
+          }
+          
           newCache[category] = {
-            posts: results[index],
+            posts: posts,
             loading: false,
             error: null
           };
@@ -109,12 +118,12 @@ function Adoptions() {
     senior: {
       name: "Seniors",
       icon: <HeartIcon className="w-5 h-5" />,
-      color: "amber"
+      color: "rose"
     },
     sauvetage: {
       name: "Sauvetages",
       icon: <HeartIcon className="w-5 h-5" />,
-      color: "amber"
+      color: "rose"
     }
   };
 
@@ -122,29 +131,39 @@ function Adoptions() {
     <div className="min-h-screen bg-gray-50">
       <PageHeader />
 
-      <div className="max-w-6xl mx-auto px-4 pb-16">
+      <div className="max-w-6xl mx-auto px-4 pb-16 safe-area-inset-bottom">
         <Tab.Group onChange={setActiveTab} defaultIndex={2}>
-          <Tab.List className="flex justify-center space-x-2 p-1 mb-8 bg-white rounded-xl shadow-md max-w-2xl mx-auto">
+          <Tab.List className="flex flex-wrap justify-center gap-3 p-4 mb-8 bg-white rounded-xl shadow-lg max-w-3xl mx-auto safe-area-inset-horizontal">
             {Object.entries(categories).map(([key, category]) => (
               <Tab
                 key={key}
                 className={({ selected }) =>
                   `${
                     selected
-                      ? category.color === "amber"
-                        ? "bg-amber-500 text-white shadow-amber-200"
-                        : "bg-primary text-white shadow-primary/20"
-                      : "text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+                      ? category.color === "rose"
+                        ? "bg-[#FF1E88] text-white shadow-[#FF1E88]/20"
+                        : "bg-primary-dark text-white shadow-primary/20"
+                      : category.color === "rose"
+                        ? "bg-[#FF1E88]/10 text-[#FF1E88] hover:bg-[#FF1E88]/20"
+                        : "text-gray-600 hover:bg-gray-100"
                   }
-                  relative px-6 py-2.5 rounded-lg transition-all duration-200
+                  relative px-6 py-3 rounded-lg transition-all duration-300
                   font-medium focus:outline-none focus:ring-2 focus:ring-offset-2
-                  ${category.color === "amber" ? "focus:ring-amber-400" : "focus:ring-primary"}
-                  ${selected ? "shadow-lg scale-105" : "hover:scale-102"}
-                  flex items-center space-x-2`
+                  ${category.color === "rose" 
+                    ? "focus:ring-[#FF1E88] text-lg" 
+                    : "focus:ring-primary"}
+                  ${selected ? "shadow-lg transform scale-105" : ""}
+                  ${category.color === "rose" ? "border-2 border-[#FF1E88]/20" : ""}
+                  flex items-center space-x-2 touch-manipulation`
                 }
               >
-                <span>{category.name}</span>
                 {category.icon}
+                <span className="select-none">{category.name}</span>
+                {(key === 'senior' || key === 'sauvetage') && (
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FF1E88]"></span>
+                  </span>
+                )}
               </Tab>
             ))}
           </Tab.List>
@@ -184,11 +203,11 @@ function Adoptions() {
                         className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group"
                       >
                         {post.images && post.images.length > 0 && (
-                          <div className="relative h-64 overflow-hidden">
+                          <div className="relative h-64 overflow-hidden bg-gray-100">
                             <img
                               src={post.images[0]}
                               alt="Animal à l'adoption"
-                              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
