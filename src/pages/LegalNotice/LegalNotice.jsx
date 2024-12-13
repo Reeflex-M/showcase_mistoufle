@@ -39,7 +39,7 @@ const LegalNotice = () => {
                 Responsable de publication
               </h2>
             </div>
-            <p className="text-gray-600">Camille FLOCH, bénévole</p>
+            <p className="text-gray-600">Camille FLOCH, Bénévole</p>
           </section>
 
           <section className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
@@ -50,7 +50,7 @@ const LegalNotice = () => {
               </h2>
             </div>
             <p className="text-gray-600">
-              Camille FLOCH, bénévole et Perrine CADIET, à titre bénévole
+              Mathis Floch
             </p>
           </section>
 
@@ -62,23 +62,7 @@ const LegalNotice = () => {
               </h2>
             </div>
             <div className="text-gray-600 space-y-2">
-              <p>GANDI SAS</p>
-              <p>
-                Société par Actions Simplifiée au capital de 37.000€ ayant son
-                siège social au 15 place de la Nation à Paris (75011) FRANCE
-              </p>
-              <p>Immatriculée sous le numéro 423 093 459 RCS PARIS</p>
-              <p>N° TVA FR81423093459</p>
-              <p>Téléphone : +33.(1) 70.37.76.61</p>
-              <p>
-                Site web :{" "}
-                <a
-                  href="https://www.gandi.net"
-                  className="text-indigo-600 hover:text-indigo-800"
-                >
-                  https://www.gandi.net
-                </a>
-              </p>
+              <p>LWS</p>
             </div>
           </section>
 
@@ -88,7 +72,7 @@ const LegalNotice = () => {
               <h2 className="text-2xl font-semibold text-gray-800">Crédits</h2>
             </div>
             <p className="text-gray-600">
-              Pour les photos du site : Association les Mistoufles ou Canva Pro
+              Pour les photos du site : Association les Mistoufles, pixabay
             </p>
           </section>
 

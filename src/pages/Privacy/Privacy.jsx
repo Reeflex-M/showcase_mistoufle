@@ -33,11 +33,7 @@ function Privacy() {
               </li>
               <li className="flex items-center">
                 <span className="h-2 w-2 bg-indigo-600 rounded-full mr-3"></span>
-                Soumettez une demande d'adoption
-              </li>
-              <li className="flex items-center">
-                <span className="h-2 w-2 bg-indigo-600 rounded-full mr-3"></span>
-                Vous inscrivez à notre newsletter
+                Soumettez une demande d&apos;adoption
               </li>
             </ul>
           </section>
@@ -55,7 +51,7 @@ function Privacy() {
             <ul className="list-none space-y-2 text-gray-600">
               <li className="flex items-center">
                 <span className="h-2 w-2 bg-indigo-600 rounded-full mr-3"></span>
-                Traiter vos demandes d'adoption
+                Traiter vos demandes d&apos;adoption
               </li>
               <li className="flex items-center">
                 <span className="h-2 w-2 bg-indigo-600 rounded-full mr-3"></span>
@@ -91,7 +87,7 @@ function Privacy() {
               </h2>
             </div>
             <p className="mb-4 text-gray-600">
-              Conformément au RGPD, vous disposez d'un droit d'accès, de
+              Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de
               rectification, de suppression et de portabilité de vos données
               personnelles. Pour exercer ces droits, contactez-nous via notre
               formulaire de contact.
