@@ -52,15 +52,15 @@ function Adoptions() {
   // Charger toutes les catégories au montage du composant
   useEffect(() => {
     const categories = ["senior", "sauvetage", "chien", "chat", "chaton"];
-    
+
     const loadAllCategories = async () => {
       try {
         // Créer un tableau de promesses pour charger toutes les catégories en parallèle
         const promises = categories.map(category => fetchPostsForCategory(category));
-        
+
         // Attendre que toutes les promesses soient résolues
         const results = await Promise.all(promises);
-        
+
         // Mettre à jour le state avec tous les résultats
         const newCache = {};
         categories.forEach((category, index) => {
@@ -72,14 +72,14 @@ function Adoptions() {
               return words.includes('#chat') && !words.includes('#chaton');
             });
           }
-          
+
           newCache[category] = {
             posts: posts,
             loading: false,
             error: null
           };
         });
-        
+
         setPostsCache(newCache);
       } catch (error) {
         console.error("Error loading categories:", error);
@@ -117,13 +117,13 @@ function Adoptions() {
     },
     senior: {
       name: "Seniors",
-      icon: <HeartIcon className="w-5 h-5" />,
-      color: "rose"
+      icon: <HeartIcon className="w-5 h-5 text-amber-500" />,
+      color: "urgent"
     },
     sauvetage: {
       name: "Sauvetages",
-      icon: <HeartIcon className="w-5 h-5" />,
-      color: "rose"
+      icon: <HeartIcon className="w-5 h-5 text-red-500" />,
+      color: "urgent"
     }
   };
 
@@ -133,27 +133,25 @@ function Adoptions() {
 
       <div className="max-w-6xl mx-auto px-4 pb-16 safe-area-inset-bottom">
         <Tab.Group onChange={setActiveTab} defaultIndex={2}>
-          <Tab.List className="flex flex-wrap justify-center gap-3 p-4 mb-8 bg-white rounded-xl shadow-lg max-w-3xl mx-auto safe-area-inset-horizontal">
+          <Tab.List className="flex flex-wrap justify-center gap-3 p-4 mb-8 bg-white rounded-xl shadow-lg max-w-3xl mx-auto">
             {Object.entries(categories).map(([key, category]) => (
               <Tab
                 key={key}
                 className={({ selected }) =>
-                  `${
-                    selected
-                      ? category.color === "rose"
-                        ? "bg-[#FF1E88] text-white shadow-[#FF1E88]/20"
-                        : "bg-primary-dark text-white shadow-primary/20"
-                      : category.color === "rose"
-                        ? "bg-[#FF1E88]/10 text-[#FF1E88] hover:bg-[#FF1E88]/20"
-                        : "text-gray-600 hover:bg-gray-100"
+                  `${selected
+                    ? category.color === "urgent"
+                      ? "bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-red-500/30"
+                      : "bg-primary-dark text-white shadow-primary/20"
+                    : category.color === "urgent"
+                      ? "bg-gradient-to-r from-red-50 to-orange-50 text-red-500 hover:from-red-100 hover:to-orange-100"
+                      : "text-gray-600 hover:bg-gray-100"
                   }
                   relative px-6 py-3 rounded-lg transition-all duration-300
-                  font-medium focus:outline-none focus:ring-2 focus:ring-offset-2
-                  ${category.color === "rose" 
-                    ? "focus:ring-[#FF1E88] text-lg" 
-                    : "focus:ring-primary"}
-                  ${selected ? "shadow-lg transform scale-105" : ""}
-                  ${category.color === "rose" ? "border-2 border-[#FF1E88]/20" : ""}
+                  font-medium focus:outline-none 
+                  ${category.color === "urgent"
+                    ? "text-lg border-2 border-red-100 shadow-lg"
+                    : ""}
+                  ${selected ? "transform scale-105" : ""}
                   flex items-center space-x-2 touch-manipulation`
                 }
               >
@@ -161,7 +159,8 @@ function Adoptions() {
                 <span className="select-none">{category.name}</span>
                 {(key === 'senior' || key === 'sauvetage') && (
                   <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FF1E88]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                   </span>
                 )}
               </Tab>

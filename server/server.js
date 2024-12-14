@@ -7,14 +7,15 @@ const app = express();
 app.use(cors());
 
 // Configuration Facebook
-const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID; 
-const FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN; 
+const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID;
+const FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN;
 
 // Cache par catégorie
 const cache = {
   chien: { data: null, lastFetch: null },
   chat: { data: null, lastFetch: null },
-  chaton: { data: null, lastFetch: null }
+  chaton: { data: null, lastFetch: null },
+  evenement: { data: null, lastFetch: null }
 };
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
@@ -25,11 +26,11 @@ async function fetchFacebookPosts(category) {
   const params = {
     access_token: FACEBOOK_ACCESS_TOKEN,
     fields: "message,created_time,full_picture,attachments{media,media_type,subattachments}",
-    limit: 100
+    limit: 50  // Réduit à 20 au lieu de 100 pour les événements
   };
 
   const response = await axios.get(url, { params });
-  
+
   // Filtrer les posts par catégorie et transformer les données
   const filteredPosts = response.data.data
     .filter(post => {
@@ -41,7 +42,7 @@ async function fetchFacebookPosts(category) {
     })
     .map(post => {
       let images = [];
-      
+
       if (post.attachments?.data) {
         const attachment = post.attachments.data[0];
         if (attachment.media_type === 'album' && attachment.subattachments) {
@@ -75,7 +76,7 @@ app.get("/api/facebook-posts", async (req, res) => {
     const { category = 'chien', page = 1 } = req.query;
     const pageNum = parseInt(page);
     const now = Date.now();
-    
+
     // Vérifier le cache pour cette catégorie
     if (cache[category]?.data && (now - cache[category].lastFetch < CACHE_DURATION)) {
       console.log(`Returning cached posts for ${category}`);
@@ -106,7 +107,7 @@ app.get("/api/facebook-posts", async (req, res) => {
 
   } catch (error) {
     console.error("Error:", error.message);
-    
+
     // En cas d'erreur, utiliser le cache même expiré
     const { category = 'chien', page = 1 } = req.query;
     const pageNum = parseInt(page);
@@ -132,7 +133,7 @@ app.get("/api/facebook-posts", async (req, res) => {
 app.get("/api/facebook-test", async (req, res) => {
   try {
     console.log("Testing Facebook token...");
-    
+
     // 1. D'abord, vérifions le token lui-même
     const debugTokenResponse = await axios.get(
       `https://graph.facebook.com/v21.0/debug_token`,
@@ -143,7 +144,7 @@ app.get("/api/facebook-test", async (req, res) => {
         }
       }
     );
-    
+
     console.log("Token debug info:", debugTokenResponse.data);
 
     // 2. Ensuite, essayons d'obtenir les informations de la page
@@ -156,7 +157,7 @@ app.get("/api/facebook-test", async (req, res) => {
         }
       }
     );
-    
+
     console.log("Page info:", pageResponse.data);
 
     res.json({
@@ -232,7 +233,7 @@ app.get("/api/refresh-facebook-token", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3002; 
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

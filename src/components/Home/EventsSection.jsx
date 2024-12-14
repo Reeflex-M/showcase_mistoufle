@@ -9,25 +9,37 @@ function EventsSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    let timeoutId;
+    const controller = new AbortController();
+
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3002/api/facebook-posts?category=evenement"
+          "http://localhost:3002/api/facebook-posts?category=evenement",
+          { signal: controller.signal }
         );
         if (!response.ok) {
           throw new Error("Failed to fetch events");
         }
         const data = await response.json();
         setPosts(data.posts || []);
-        setLoading(false);
       } catch (err) {
-        console.error("Error fetching events:", err);
-        setError("Erreur lors du chargement des événements");
-        setLoading(false);
+        if (err.name !== 'AbortError') {
+          console.error("Error fetching events:", err);
+          setError("Erreur lors du chargement des événements");
+        }
+      } finally {
+        // Force un minimum de temps de chargement de 500ms pour éviter un flash
+        timeoutId = setTimeout(() => setLoading(false), 500);
       }
     };
 
     fetchPosts();
+
+    return () => {
+      controller.abort();
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   const nextSlide = () => {
@@ -139,11 +151,10 @@ function EventsSection() {
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      currentSlide === index
-                        ? "bg-primary scale-110"
-                        : "bg-gray-300 hover:bg-gray-400"
-                    }`}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${currentSlide === index
+                      ? "bg-primary scale-110"
+                      : "bg-gray-300 hover:bg-gray-400"
+                      }`}
                   />
                 ))}
               </div>
