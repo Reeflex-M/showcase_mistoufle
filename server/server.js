@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
+const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
@@ -8,7 +8,58 @@ app.use(cors());
 
 // Configuration Facebook
 const FACEBOOK_PAGE_ID = process.env.FACEBOOK_PAGE_ID;
-const FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN;
+let FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN;
+const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+
+// Fonction pour renouveler automatiquement le token
+async function refreshLongLivedToken() {
+  try {
+    console.log("Checking Facebook token status...");
+    const debugResponse = await axios.get(
+      `https://graph.facebook.com/v21.0/debug_token`,
+      {
+        params: {
+          input_token: FACEBOOK_ACCESS_TOKEN,
+          access_token: FACEBOOK_ACCESS_TOKEN
+        }
+      }
+    );
+
+    const expiresAt = debugResponse.data.data.expires_at;
+    const now = Math.floor(Date.now() / 1000);
+    const daysUntilExpiration = Math.floor((expiresAt - now) / (60 * 60 * 24));
+
+    // Si le token expire dans moins de 7 jours, on le renouvelle
+    if (daysUntilExpiration < 7) {
+      console.log("Token expires soon, refreshing...");
+      const response = await axios.get(
+        'https://graph.facebook.com/v21.0/oauth/access_token',
+        {
+          params: {
+            grant_type: 'fb_exchange_token',
+            client_id: FACEBOOK_APP_ID,
+            client_secret: FACEBOOK_APP_SECRET,
+            fb_exchange_token: FACEBOOK_ACCESS_TOKEN
+          }
+        }
+      );
+
+      FACEBOOK_ACCESS_TOKEN = response.data.access_token;
+      console.log("Token refreshed successfully");
+
+      // Ici, vous pourriez sauvegarder le nouveau token dans une base de données
+      // ou un fichier de configuration
+    }
+  } catch (error) {
+    console.error("Error refreshing Facebook token:", error);
+  }
+}
+
+// Vérifier le token toutes les 24 heures
+setInterval(refreshLongLivedToken, 24 * 60 * 60 * 1000);
+// Vérifier le token au démarrage du serveur
+refreshLongLivedToken();
 
 // Cache par catégorie
 const cache = {

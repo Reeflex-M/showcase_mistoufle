@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { HeartIcon } from "@heroicons/react/24/outline";
+import { 
+  HeartIcon, 
+  ShieldExclamationIcon,
+  SparklesIcon,
+  StarIcon,
+  FireIcon
+} from "@heroicons/react/24/solid";
 import { Tab } from "@headlessui/react";
 
 // Déplacer PageHeader en dehors du composant principal
@@ -102,28 +108,30 @@ function Adoptions() {
   const categories = {
     chien: {
       name: "Chiens",
-      icon: <HeartIcon className="w-5 h-5" />,
+      icon: <SparklesIcon className="w-6 h-6" />,
       color: "primary"
     },
     chat: {
       name: "Chats",
-      icon: <HeartIcon className="w-5 h-5" />,
+      icon: <StarIcon className="w-6 h-6" />,
       color: "primary"
     },
     chaton: {
       name: "Chatons",
-      icon: <HeartIcon className="w-5 h-5" />,
+      icon: <HeartIcon className="w-6 h-6" />,
       color: "primary"
     },
     senior: {
       name: "Seniors",
-      icon: <HeartIcon className="w-5 h-5 text-amber-500" />,
-      color: "urgent"
+      icon: <ShieldExclamationIcon className="w-6 h-6 text-white animate-pulse" />,
+      color: "urgent",
+      urgentColor: "from-amber-500 to-orange-600"
     },
     sauvetage: {
       name: "Sauvetages",
-      icon: <HeartIcon className="w-5 h-5 text-red-500" />,
-      color: "urgent"
+      icon: <FireIcon className="w-6 h-6 text-white animate-bounce" />,
+      color: "urgent",
+      urgentColor: "from-red-600 to-rose-600"
     }
   };
 
@@ -140,28 +148,36 @@ function Adoptions() {
                 className={({ selected }) =>
                   `${selected
                     ? category.color === "urgent"
-                      ? "bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-red-500/30"
+                      ? `bg-gradient-to-r ${category.urgentColor} text-white shadow-xl shadow-${category.urgentColor.split('-')[1]}-500/40`
                       : "bg-primary-dark text-white shadow-primary/20"
                     : category.color === "urgent"
-                      ? "bg-gradient-to-r from-red-50 to-orange-50 text-red-500 hover:from-red-100 hover:to-orange-100"
+                      ? `bg-gradient-to-br ${category.urgentColor} text-white hover:shadow-lg`
                       : "text-gray-600 hover:bg-gray-100"
                   }
                   relative px-6 py-3 rounded-lg transition-all duration-300
                   font-medium focus:outline-none 
                   ${category.color === "urgent"
-                    ? "text-lg border-2 border-red-100 shadow-lg"
+                    ? "text-lg transform hover:scale-105 hover:-translate-y-1 ring-2 ring-white/50 ring-offset-2 ring-offset-gray-50"
                     : ""}
                   ${selected ? "transform scale-105" : ""}
                   flex items-center space-x-2 touch-manipulation`
                 }
               >
                 {category.icon}
-                <span className="select-none">{category.name}</span>
+                <span className="select-none font-semibold">{category.name}</span>
                 {(key === 'senior' || key === 'sauvetage') && (
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                  </span>
+                  <>
+                    <span className="absolute -top-2 -right-2 flex h-5 w-5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-5 w-5 bg-white"></span>
+                    </span>
+                    <motion.div
+                      initial={{ scale: 1, opacity: 0.5 }}
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="absolute -right-4 -left-4 -bottom-2 h-1.5 bg-white/50 rounded-full blur-sm"
+                    />
+                  </>
                 )}
               </Tab>
             ))}
