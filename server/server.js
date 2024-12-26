@@ -329,6 +329,42 @@ app.get("/api/refresh-facebook-token", async (req, res) => {
   }
 });
 
+// Fonction pour récupérer les albums Facebook avec pagination
+async function fetchFacebookAlbums() {
+  try {
+    let allAlbums = [];
+    let nextPage = `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/albums?access_token=${FACEBOOK_ACCESS_TOKEN}&fields=name,cover_photo{source},count,created_time,description&limit=100`;
+
+    while (nextPage) {
+      const response = await axios.get(nextPage);
+      const { data } = response.data;
+      allAlbums = [...allAlbums, ...data];
+      
+      // Vérifier s'il y a une page suivante
+      nextPage = response.data.paging?.next || null;
+    }
+
+    return allAlbums;
+  } catch (error) {
+    console.error("Error fetching Facebook albums:", error);
+    throw error;
+  }
+}
+
+// Endpoint pour récupérer les albums
+app.get("/api/facebook-albums", async (req, res) => {
+  try {
+    const albums = await fetchFacebookAlbums();
+    res.json({ albums });
+  } catch (error) {
+    console.error("Error in /api/facebook-albums:", error);
+    res.status(500).json({ 
+      error: "Erreur lors de la récupération des albums",
+      details: error.message 
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

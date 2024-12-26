@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
-  HeartIcon, 
-  ShieldExclamationIcon,
-  SparklesIcon,
-  StarIcon,
-  FireIcon
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from "@heroicons/react/24/solid";
+import { FaDog, FaCat } from 'react-icons/fa';
+import { PiCatFill } from 'react-icons/pi';
 import { Tab } from "@headlessui/react";
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
-// Déplacer PageHeader en dehors du composant principal
 const PageHeader = () => (
   <motion.div
     initial={{ opacity: 0, y: -20 }}
@@ -24,123 +24,166 @@ const PageHeader = () => (
   </motion.div>
 );
 
+const ITEMS_PER_PAGE = 6;
+
 function Adoptions() {
-  const [postsCache, setPostsCache] = useState({
-    chien: { posts: [], loading: true, error: null },
-    chat: { posts: [], loading: true, error: null },
-    chaton: { posts: [], loading: true, error: null },
-    senior: { posts: [], loading: true, error: null },
-    sauvetage: { posts: [], loading: true, error: null }
-  });
+  const [albums, setAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("chien");
-
-  // Fonction pour charger les posts d'une catégorie
-  const fetchPostsForCategory = async (category) => {
-    try {
-      console.log("Fetching posts for category:", category);
-      const response = await fetch(
-        `http://localhost:3002/api/facebook-posts?category=${category}`
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch posts");
-      }
-
-      const data = await response.json();
-      console.log("Received posts for", category, ":", data);
-      return data.posts || [];
-    } catch (err) {
-      console.error("Error fetching posts for", category, ":", err);
-      throw err;
-    }
-  };
-
-  // Charger toutes les catégories au montage du composant
-  useEffect(() => {
-    const categories = ["senior", "sauvetage", "chien", "chat", "chaton"];
-
-    const loadAllCategories = async () => {
-      try {
-        // Créer un tableau de promesses pour charger toutes les catégories en parallèle
-        const promises = categories.map(category => fetchPostsForCategory(category));
-
-        // Attendre que toutes les promesses soient résolues
-        const results = await Promise.all(promises);
-
-        // Mettre à jour le state avec tous les résultats
-        const newCache = {};
-        categories.forEach((category, index) => {
-          // Filtrer les posts pour s'assurer que 'chat' n'inclut pas les posts 'chaton'
-          let posts = results[index];
-          if (category === 'chat') {
-            posts = posts.filter(post => {
-              const words = post.text.toLowerCase().split(/\s+/);
-              return words.includes('#chat') && !words.includes('#chaton');
-            });
-          }
-
-          newCache[category] = {
-            posts: posts,
-            loading: false,
-            error: null
-          };
-        });
-
-        setPostsCache(newCache);
-      } catch (error) {
-        console.error("Error loading categories:", error);
-        // En cas d'erreur, mettre à jour le state avec l'erreur pour toutes les catégories
-        const errorCache = {};
-        categories.forEach(category => {
-          errorCache[category] = {
-            posts: [],
-            loading: false,
-            error: "Erreur lors du chargement des données"
-          };
-        });
-        setPostsCache(errorCache);
-      }
-    };
-
-    loadAllCategories();
-  }, []); // Ne s'exécute qu'au montage
+  const [currentPage, setCurrentPage] = useState(1);
 
   const categories = {
     chien: {
       name: "Chiens",
-      icon: <SparklesIcon className="w-6 h-6" />,
-      color: "primary"
-    },
-    chat: {
-      name: "Chats",
-      icon: <StarIcon className="w-6 h-6" />,
-      color: "primary"
+      icon: <FaDog className="w-6 h-6" />,
+      color: "primary",
+      hashtag: "#chien"
     },
     chaton: {
       name: "Chatons",
-      icon: <HeartIcon className="w-6 h-6" />,
-      color: "primary"
+      icon: <PiCatFill className="w-6 h-6" />,
+      color: "primary",
+      hashtag: "#chaton"
+    },
+    chat: {
+      name: "Chats",
+      icon: <FaCat className="w-6 h-6" />,
+      color: "primary",
+      hashtag: "#chat"
     },
     senior: {
       name: "Seniors",
-      icon: <ShieldExclamationIcon className="w-6 h-6 text-white animate-pulse" />,
+      icon: <FaDog className="w-6 h-6 text-white animate-pulse" />,
       color: "urgent",
-      urgentColor: "from-amber-500 to-orange-600"
+      urgentColor: "from-amber-500 to-orange-600",
+      hashtag: "#senior"
     },
     sauvetage: {
       name: "Sauvetages",
-      icon: <FireIcon className="w-6 h-6 text-white animate-bounce" />,
+      icon: <FaCat className="w-6 h-6 text-white animate-bounce" />,
       color: "urgent",
-      urgentColor: "from-red-600 to-rose-600"
+      urgentColor: "from-red-600 to-rose-600",
+      hashtag: "#sauvetage"
     }
   };
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      try {
+        const response = await fetch('http://localhost:3002/api/facebook-albums');
+        if (!response.ok) {
+          throw new Error('Failed to fetch albums');
+        }
+        const data = await response.json();
+        setAlbums(data.albums);
+      } catch (err) {
+        console.error('Error fetching albums:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAlbums();
+  }, []);
+
+  // Reset la page courante quand on change d'onglet
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
+
+  const filterAlbumsByCategory = (category) => {
+    const hashtag = categories[category].hashtag;
+    return albums.filter(album => {
+      const searchText = `${album.name} ${album.description || ''}`.toLowerCase();
+      if (category === 'chat') {
+        return searchText.includes('#chat') && !searchText.includes('#chaton');
+      }
+      return searchText.includes(hashtag);
+    });
+  };
+
+  const getPaginatedAlbums = (filteredAlbums) => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredAlbums.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    // Scroll vers le haut de la page avec une animation fluide
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPagination = (totalItems) => {
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="flex justify-center items-center mt-8 space-x-4">
+        <button
+          onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+          disabled={currentPage === 1}
+          className={`p-2 rounded-full ${
+            currentPage === 1
+              ? 'text-gray-400 cursor-not-allowed'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <ChevronLeftIcon className="w-6 h-6" />
+        </button>
+        
+        <span className="text-gray-700">
+          Page {currentPage} sur {totalPages}
+        </span>
+        
+        <button
+          onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className={`p-2 rounded-full ${
+            currentPage === totalPages
+              ? 'text-gray-400 cursor-not-allowed'
+              : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        >
+          <ChevronRightIcon className="w-6 h-6" />
+        </button>
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <PageHeader />
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <PageHeader />
+        <div className="container mx-auto px-4">
+          <div className="text-center text-red-600">
+            Une erreur est survenue lors du chargement des albums.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <PageHeader />
-
       <div className="max-w-6xl mx-auto px-4 pb-16 safe-area-inset-bottom">
-        <Tab.Group onChange={setActiveTab} defaultIndex={2}>
+        <Tab.Group onChange={setActiveTab} defaultIndex={0}>
           <Tab.List className="flex flex-wrap justify-center gap-3 p-4 mb-8 bg-white rounded-xl shadow-lg max-w-3xl mx-auto">
             {Object.entries(categories).map(([key, category]) => (
               <Tab
@@ -183,65 +226,59 @@ function Adoptions() {
             ))}
           </Tab.List>
           <Tab.Panels>
-            {Object.keys(categories).map((key) => (
-              <Tab.Panel key={key}>
-                {postsCache[key].loading ? (
-                  <div className="flex items-center justify-center py-12">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-                      <p className="text-gray-600">Chargement des posts...</p>
-                    </div>
-                  </div>
-                ) : key === 'senior' ? (
-                  <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-                    <p className="text-gray-600 text-xl">
-                      Aucune publication d&apos;adoption disponible pour cette catégorie...
-                    </p>
-                  </div>
-                ) : postsCache[key].error ? (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-8 shadow-sm">
-                    <p>Erreur: {postsCache[key].error}</p>
-                  </div>
-                ) : postsCache[key].posts.length === 0 ? (
-                  <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-                    <p className="text-gray-600 text-xl">
-                      Aucune publication d&apos;adoption disponible pour cette catégorie...
-                    </p>
-                  </div>
-                ) : (
-                  <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {postsCache[key].posts.map((post) => (
-                      <motion.article
-                        key={post.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 group"
+            {Object.keys(categories).map((category) => {
+              const filteredAlbums = filterAlbumsByCategory(category);
+              const paginatedAlbums = getPaginatedAlbums(filteredAlbums);
+              
+              return (
+                <Tab.Panel key={category}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {paginatedAlbums.map((album) => (
+                      <motion.div
+                        key={album.id}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
                       >
-                        {post.images && post.images.length > 0 && (
-                          <div className="relative h-64 overflow-hidden bg-gray-100">
+                        {album.cover_photo && (
+                          <div className="relative h-64">
                             <img
-                              src={post.images[0]}
-                              alt="Animal à l'adoption"
-                              className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
+                              src={album.cover_photo.source}
+                              alt={album.name}
+                              className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
                         )}
-                        <div className="p-6 space-y-4">
-                          <p className="text-gray-700 whitespace-pre-wrap text-base leading-relaxed">
-                            {post.text}
-                          </p>
-                          <div className="flex justify-between items-center">
-                            <time className="text-sm text-gray-500">{post.date}</time>
-                            <HeartIcon className="w-5 h-5 text-primary" />
+                        <div className="p-6">
+                          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                            {album.name}
+                          </h3>
+                          {album.description && (
+                            <p className="text-gray-600 mb-4 whitespace-pre-wrap">{album.description}</p>
+                          )}
+                          <div className="flex justify-between items-center text-sm text-gray-500">
+                            <span>{album.count} photos</span>
+                            <span>
+                              {format(new Date(album.created_time), 'dd MMMM yyyy', { locale: fr })}
+                            </span>
                           </div>
                         </div>
-                      </motion.article>
+                      </motion.div>
                     ))}
                   </div>
-                )}
-              </Tab.Panel>
-            ))}
+                  {filteredAlbums.length === 0 ? (
+                    <div className="text-center py-16 bg-white rounded-xl shadow-sm">
+                      <p className="text-gray-600 text-xl">
+                        Aucun album disponible pour cette catégorie...
+                      </p>
+                    </div>
+                  ) : (
+                    renderPagination(filteredAlbums.length)
+                  )}
+                </Tab.Panel>
+              );
+            })}
           </Tab.Panels>
         </Tab.Group>
       </div>
