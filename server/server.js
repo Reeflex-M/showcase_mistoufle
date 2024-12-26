@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const axios = require('axios');
 require('dotenv').config();
+const fs = require('fs').promises;
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -12,19 +14,44 @@ let FACEBOOK_ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN;
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
+// Fonction pour sauvegarder le token dans le fichier .env
+async function updateEnvFile(newToken) {
+  try {
+    const envPath = path.join(__dirname, '.env');
+    const envContent = await fs.readFile(envPath, 'utf-8');
+    const updatedContent = envContent.replace(
+      /FACEBOOK_ACCESS_TOKEN=.*/,
+      `FACEBOOK_ACCESS_TOKEN=${newToken}`
+    );
+    await fs.writeFile(envPath, updatedContent);
+    console.log('Token updated in .env file');
+  } catch (error) {
+    console.error('Error updating .env file:', error);
+  }
+}
+
 // Fonction pour renouveler automatiquement le token
 async function refreshLongLivedToken() {
   try {
     console.log("Checking Facebook token status...");
+    const appAccessToken = `${FACEBOOK_APP_ID}|${FACEBOOK_APP_SECRET}`;
+    
+    console.log("Debugging token with params:", {
+      input_token: `${FACEBOOK_ACCESS_TOKEN.substring(0, 10)}...`,
+      access_token: `${appAccessToken.substring(0, 10)}...`
+    });
+
     const debugResponse = await axios.get(
       `https://graph.facebook.com/v21.0/debug_token`,
       {
         params: {
           input_token: FACEBOOK_ACCESS_TOKEN,
-          access_token: FACEBOOK_ACCESS_TOKEN
+          access_token: appAccessToken
         }
       }
     );
+
+    console.log("Debug response:", debugResponse.data);
 
     const expiresAt = debugResponse.data.data.expires_at;
     const now = Math.floor(Date.now() / 1000);
@@ -33,6 +60,13 @@ async function refreshLongLivedToken() {
     // Si le token expire dans moins de 7 jours, on le renouvelle
     if (daysUntilExpiration < 7) {
       console.log("Token expires soon, refreshing...");
+      console.log("Refreshing token with params:", {
+        grant_type: 'fb_exchange_token',
+        client_id: FACEBOOK_APP_ID,
+        client_secret: `${FACEBOOK_APP_SECRET.substring(0, 5)}...`,
+        fb_exchange_token: `${FACEBOOK_ACCESS_TOKEN.substring(0, 10)}...`
+      });
+
       const response = await axios.get(
         'https://graph.facebook.com/v21.0/oauth/access_token',
         {
@@ -47,12 +81,17 @@ async function refreshLongLivedToken() {
 
       FACEBOOK_ACCESS_TOKEN = response.data.access_token;
       console.log("Token refreshed successfully");
-
-      // Ici, vous pourriez sauvegarder le nouveau token dans une base de données
-      // ou un fichier de configuration
+      
+      // Sauvegarder le nouveau token dans le fichier .env
+      await updateEnvFile(FACEBOOK_ACCESS_TOKEN);
     }
   } catch (error) {
-    console.error("Error refreshing Facebook token:", error);
+    console.error("Error refreshing Facebook token:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      error: error.response?.data?.error || error.message
+    });
   }
 }
 
@@ -186,12 +225,13 @@ app.get("/api/facebook-test", async (req, res) => {
     console.log("Testing Facebook token...");
 
     // 1. D'abord, vérifions le token lui-même
+    const appAccessToken = `${FACEBOOK_APP_ID}|${FACEBOOK_APP_SECRET}`;
     const debugTokenResponse = await axios.get(
       `https://graph.facebook.com/v21.0/debug_token`,
       {
         params: {
           input_token: FACEBOOK_ACCESS_TOKEN,
-          access_token: FACEBOOK_ACCESS_TOKEN
+          access_token: appAccessToken
         }
       }
     );
@@ -230,12 +270,13 @@ app.get("/api/facebook-test", async (req, res) => {
 app.get("/api/refresh-facebook-token", async (req, res) => {
   try {
     // Vérifier d'abord si le token actuel est proche de l'expiration
+    const appAccessToken = `${FACEBOOK_APP_ID}|${FACEBOOK_APP_SECRET}`;
     const debugTokenResponse = await axios.get(
       `https://graph.facebook.com/v21.0/debug_token`,
       {
         params: {
           input_token: FACEBOOK_ACCESS_TOKEN,
-          access_token: FACEBOOK_ACCESS_TOKEN
+          access_token: appAccessToken
         }
       }
     );
@@ -259,6 +300,10 @@ app.get("/api/refresh-facebook-token", async (req, res) => {
           }
         }
       );
+
+      // Mettre à jour le token en mémoire et dans le fichier
+      FACEBOOK_ACCESS_TOKEN = longLivedTokenResponse.data.access_token;
+      await updateEnvFile(FACEBOOK_ACCESS_TOKEN);
 
       res.json({
         status: 'Token renewed',
