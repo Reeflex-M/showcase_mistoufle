@@ -45,7 +45,7 @@ function Support() {
       ],
     },
     {
-      category: "Croquettes Chiots",
+      category: "Croquettes Chiot",
       items: [
         {
           src: "/Support/chiot/croquette_puppy.png",
@@ -71,7 +71,7 @@ function Support() {
       ],
     },
     {
-      category: "Patee",
+      category: "Pàtée",
       items: [
         {
           src: "/Support/patee/patte_mousse_babycat.png",
@@ -84,7 +84,7 @@ function Support() {
       ],
     },
     {
-      category: "Matériel Animaux",
+      category: "Matériel",
       items: [
         {
           src: "/Support/materiel/collier_laisse.png",
@@ -97,7 +97,7 @@ function Support() {
       ],
     },
     {
-      category: "Matériel de ménage",
+      category: "Produits d'entretien",
       items: [
         {
           src: "/Support/materiel/eponge_verte.png",
@@ -131,11 +131,11 @@ function Support() {
   const [showTasks, setShowTasks] = useState(false);
 
   const tasks = [
-    "Événement de collecte",
-    "Empaquetage cadeau",
-    "Devenir famille d'accueille",
-    "Aide au nettoyage des chattes",
-    "Lavage du linge",
+    "Participation aux collectes alimentaires",
+    "Emballage de cadeaux (période de noël, saint-valentin)",
+    "Devenir famille d'accueil",
+    "Entretien de la chatterie",
+    "Entretien du linge",
   ];
 
   useEffect(() => {
@@ -269,7 +269,7 @@ function Support() {
                             shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_25px_rgba(0,0,0,0.3)]
                             transition-all duration-300 font-semibold text-lg flex items-center gap-2 touch-manipulation active:bg-secondary/90"
                 >
-                  Les tâches à effectuer
+                  Les differentes missions
                   <motion.svg
                     animate={{ rotate: showTasks ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
@@ -300,9 +300,6 @@ function Support() {
                   } touch-manipulation`}
                 >
                   <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">
-                      Tâches
-                    </h3>
                     <ul className="space-y-3">
                       {tasks.map((task, index) => (
                         <motion.li
@@ -349,9 +346,6 @@ function Support() {
             variants={itemVariants}
             className="text-center space-y-6 mb-16"
           >
-            <span className="text-secondary font-semibold tracking-wider text-sm uppercase">
-              Faire un don
-            </span>
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-dark via-secondary to-primary-dark mb-4">
               Nos besoins
             </h2>
@@ -385,7 +379,7 @@ function Support() {
                   }}
                   style={{
                     gridRow:
-                      category.category === "Matériel de ménage"
+                      category.category === "Produits d'entretien"
                         ? "span 2"
                         : `span ${Math.ceil(category.items.length / 2)}`,
                   }}
@@ -399,7 +393,7 @@ function Support() {
                   </h3>
                   <div
                     className={`grid gap-2 flex-1 ${
-                      category.category === "Matériel de ménage"
+                      category.category === "Produits d'entretien"
                         ? "grid-cols-3 h-full place-items-center"
                         : "grid-cols-2"
                     }`}
@@ -411,7 +405,7 @@ function Support() {
                                border border-gray-100 hover:border-secondary/30 transition-all duration-300
                                shadow-sm hover:shadow group/item flex items-center justify-center
                                aspect-square ${
-                                 category.category === "Matériel de ménage"
+                                 category.category === "Produits d'entretien"
                                    ? "w-[90%]"
                                    : "w-full"
                                }`}
@@ -420,7 +414,7 @@ function Support() {
                           src={item.src}
                           alt={item.alt}
                           className={`w-[85%] h-[85%] object-contain group-hover/item:scale-110 transition-all duration-500 ${
-                            category.category === "Matériel de ménage"
+                            category.category === "Produits d'entretien"
                               ? "p-1.5"
                               : "p-2"
                           }`}
