@@ -9,6 +9,7 @@ import Adoptions from "./pages/Adoptions/Adoptions";
 import About from "./pages/About/About";
 import LegalNotice from "./pages/LegalNotice/LegalNotice";
 import Privacy from "./pages/Privacy/Privacy";
+import Donations from "./pages/Donations/Donations";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "/privacy",
         element: <Privacy />,
+      },
+      {
+        path: "/donations",
+        element: <Donations />,
       },
     ],
   },

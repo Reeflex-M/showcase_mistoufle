@@ -8,11 +8,11 @@ import {
 } from "framer-motion";
 
 const navItems = [
+  { path: "/about", label: "Qui sommes-nous ?" },
   { path: "/support", label: "Soutenez les Mistoufles" },
   { path: "/conditions", label: "Les conditions d'adoption" },
   { path: "/adoptions", label: "Les animaux à l'adoption" },
-  { path: "/about", label: "Qui sommes-nous ?" },
-  { path: "/contact", label: "Contact" },
+  { path: "/contact", label: "Contact" }
 ];
 
 function Navbar() {
@@ -74,9 +74,8 @@ function Navbar() {
 
         <div className="flex items-center">
           <motion.a
-            href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/donations"
+            component={Link}
             whileHover={{ scale: 1.03, y: -1 }}
             whileTap={{ scale: 0.98 }}
             className="hidden md:block bg-primary-dark text-white px-5 py-2 rounded-full font-medium shadow-md hover:bg-primary-dark transition-all duration-200"
@@ -130,9 +129,8 @@ function Navbar() {
                   </NavLink>
                 ))}
                 <motion.a
-                  href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/donations"
+                  component={Link}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   className="bg-primary-dark text-white px-5 py-2 rounded-full font-medium text-center shadow-md hover:bg-primary-dark transition-all duration-200"

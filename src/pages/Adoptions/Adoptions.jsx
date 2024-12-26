@@ -56,7 +56,7 @@ function Adoptions() {
       name: "Seniors",
       icon: <FaDog className="w-6 h-6 text-white animate-pulse" />,
       color: "urgent",
-      urgentColor: "from-amber-500 to-orange-600",
+      urgentColor: "bg-primary-dark/80",
       hashtag: "#senior"
     },
     sauvetage: {
@@ -68,10 +68,19 @@ function Adoptions() {
     }
   };
 
+  const seniorAdvantagesText = `nous vous rappelons également que tout adoption de chat senior entre dans le cadre du dispositif "Opération doyens" financée par notre partenaire 30 Millions d'amis ! 
+
+Cela veut dire qu'en cas d'adoption d'un chat dit âgé (à partir de 10 ans) au sein de notre refuge, d'abord l'adoption est en don libre (à partir de 50 euros) mais cela permet également via cette opération, de bénéficier d'un soutien financier pour les frais vétérinaires après l'adoption à hauteur de 800 euros maximum sur présentation de factures.
+`;
+
+  const sauvetageText = `Nos sauvetages sont des chats qui ont été secourus dans des conditions difficiles. Ils peuvent avoir besoin de soins particuliers ou d'une attention spéciale. 
+
+En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie d'amour. Chaque adoption de sauvetage est un acte de bienveillance qui change une vie !`;
+
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const response = await fetch('http://localhost:3002/api/facebook-albums');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/facebook-albums`);
         if (!response.ok) {
           throw new Error('Failed to fetch albums');
         }
@@ -225,13 +234,27 @@ function Adoptions() {
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels>
+          <Tab.Panels className="mt-8">
             {Object.keys(categories).map((category) => {
               const filteredAlbums = filterAlbumsByCategory(category);
               const paginatedAlbums = getPaginatedAlbums(filteredAlbums);
               
               return (
                 <Tab.Panel key={category}>
+                  {category === 'senior' && (
+                    <div className="mb-8 bg-primary/20 p-6 rounded-lg border-2 border-primary-dark">
+                      <div className="text-black whitespace-pre-wrap">
+                        {seniorAdvantagesText}
+                      </div>
+                    </div>
+                  )}
+                  {category === 'sauvetage' && (
+                    <div className="mb-8 bg-red-50 p-6 rounded-lg border-2 border-red-200">
+                      <div className="text-black whitespace-pre-wrap">
+                        {sauvetageText}
+                      </div>
+                    </div>
+                  )}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {paginatedAlbums.map((album) => (
                       <motion.div
@@ -269,9 +292,58 @@ function Adoptions() {
                   </div>
                   {filteredAlbums.length === 0 ? (
                     <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-                      <p className="text-gray-600 text-xl">
-                        Aucun album disponible pour cette catégorie...
-                      </p>
+                      <div className="space-y-4">
+                        {category === 'chien' && (
+                          <>
+                            <p className="text-gray-800 text-3xl font-semibold">
+                              Actuellement nous n'avons pas de chien à l'adoption
+                            </p>
+                            <p className="text-gray-600 text-lg">
+                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
+                            </p>
+                          </>
+                        )}
+                        {category === 'chaton' && (
+                          <>
+                            <p className="text-gray-800 text-3xl font-semibold">
+                              Actuellement nous n'avons pas de chaton à l'adoption
+                            </p>
+                            <p className="text-gray-600 text-lg">
+                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
+                            </p>
+                          </>
+                        )}
+                        {category === 'chat' && (
+                          <>
+                            <p className="text-gray-800 text-3xl font-semibold">
+                              Actuellement nous n'avons pas de chat à l'adoption
+                            </p>
+                            <p className="text-gray-600 text-lg">
+                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
+                            </p>
+                          </>
+                        )}
+                        {category === 'senior' && (
+                          <>
+                            <p className="text-gray-800 text-3xl font-semibold">
+                              Actuellement nous n'avons pas de senior à l'adoption
+                            </p>
+                            <p className="text-gray-600 text-lg">
+                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
+                            </p>
+                          </>
+                        )}
+                        {category === 'sauvetage' && (
+                          <>
+                            <p className="text-gray-800 text-3xl font-semibold">
+                              Actuellement nous n'avons pas de sauvetage à l'adoption
+                            </p>
+                            <p className="text-gray-600 text-lg">
+                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
+                            </p>
+                          </>
+                        )}
+                      </div>
                     </div>
                   ) : (
                     renderPagination(filteredAlbums.length)

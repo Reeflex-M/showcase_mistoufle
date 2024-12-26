@@ -129,7 +129,7 @@ const questions = [
             <p className="text-sm text-primary-dark">Salariée</p>
           </div>
           <div className="text-center px-4 py-2 bg-white rounded-lg shadow-sm">
-            <p className="text-4xl font-bold text-primary-darkest mb-1">15</p>
+            <p className="text-4xl font-bold text-primary-darkest mb-1">+ 100</p>
             <p className="text-sm text-primary-dark">Bénévoles actifs</p>
           </div>
         </div>
@@ -150,12 +150,6 @@ const questions = [
                 <span className="text-primary-dark text-sm italic block ml-2">
                   (croquettes, litières, laisses...)
                 </span>
-              </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-2 h-2 mt-2 bg-primary rounded-full"></div>
-              <p className="text-primary-dark">
-                Subventions des communes avoisinantes
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -257,51 +251,69 @@ function About() {
         <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
       </motion.div>
 
-      {/* Questions Section */}
-      <div className="max-w-3xl mx-auto px-4 mb-20">
-        <div className="grid gap-6">
-          {questions.map((q, index) => (
-            <motion.section
-              key={q.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
-            >
-              <button
-                onClick={() => setOpenId(openId === q.id ? null : q.id)}
-                className="w-full"
-                aria-expanded={openId === q.id}
+      {/* Présentation */}
+      <div className="container mx-auto px-4 py-12">
+        {/* Section présentation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto text-center mb-16"
+        >
+          <h2 className="text-3xl font-bold text-primary-darkest mb-4">
+            Une association à but non lucratif
+          </h2>
+          <p className="text-lg text-primary-dark leading-relaxed">
+            L'association Les Mistoufles est une association de protection animale type Loi 1901 à but non lucratif.
+          </p>
+        </motion.div>
+
+        {/* Questions Section */}
+        <div className="max-w-3xl mx-auto px-4 mb-20">
+          <div className="grid gap-6">
+            {questions.map((q, index) => (
+              <motion.section
+                key={q.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <h3 className="text-xl font-semibold text-primary-darkest">
-                    {q.question}
-                  </h3>
-                </div>
-              </button>
-              <motion.div
-                initial={false}
-                animate={{
-                  height: openId === q.id ? "auto" : 0,
-                  opacity: openId === q.id ? 1 : 0.5,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 40,
-                  opacity: { duration: 0.2 },
-                }}
-                className="overflow-hidden"
-              >
-                {q.answer}
-              </motion.div>
-            </motion.section>
-          ))}
+                <button
+                  onClick={() => setOpenId(openId === q.id ? null : q.id)}
+                  className="w-full"
+                  aria-expanded={openId === q.id}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <h3 className="text-xl font-semibold text-primary-darkest">
+                      {q.question}
+                    </h3>
+                  </div>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: openId === q.id ? "auto" : 0,
+                    opacity: openId === q.id ? 1 : 0.5,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 40,
+                    opacity: { duration: 0.2 },
+                  }}
+                  className="overflow-hidden"
+                >
+                  {q.answer}
+                </motion.div>
+              </motion.section>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Stats Section */}
-      <div className="bg-primary-dark text-white py-16">
+      <div className="bg-primary-dark text-white py-16 mt-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <motion.div
@@ -328,7 +340,7 @@ function About() {
               transition={{ duration: 0.3, delay: 0.2 }}
               className="p-6 rounded-lg bg-white/10 backdrop-blur-sm"
             >
-              <Counter from={0} to={100} className="text-4xl font-bold" />
+              <Counter from={0} to={1000} className="text-4xl font-bold" />
               <p className="mt-2 text-primary-light">Animaux sauvés par an</p>
             </motion.div>
           </div>
