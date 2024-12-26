@@ -307,10 +307,10 @@ function Support() {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="flex items-center gap-3 text-gray-600 hover:text-primary-dark transition-colors duration-200 group cursor-pointer"
+                          className="flex gap-3 text-gray-600 hover:text-primary-dark transition-colors duration-200 group cursor-pointer"
                         >
-                          <span className="h-2 w-2 rounded-full bg-secondary group-hover:bg-primary-dark transition-colors" />
-                          {task}
+                          <div className="flex-shrink-0 w-2 h-2 rounded-full bg-secondary group-hover:bg-primary-dark transition-colors mt-2" />
+                          <div className="flex-grow">{task}</div>
                         </motion.li>
                       ))}
                     </ul>

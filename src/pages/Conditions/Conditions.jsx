@@ -133,6 +133,8 @@ function Conditions() {
               <InfoPoint text="Être majeur et présenter une pièce d'identité valide" />
               <InfoPoint text="Avoir un logement adapté à l'animal" />
               <InfoPoint text="Disposer de ressources financières suffisantes" />
+              <InfoPoint text="Un moyen de paiement : chéques ou espèces" />
+              <InfoPoint text="Posséder une laisse et un collier" />
             </ul>
           </ContentSection>
 
@@ -143,6 +145,8 @@ function Conditions() {
           >
             <div className="grid gap-4">
               <InfoPoint text="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chien." />
+              <InfoPoint text="Nous ne faisons pas de réservations. Il faut se présenter au refuge le samedi entre 14h et 18h (sans RDV). " />
+              <p>Les bénévoles vous accompagnent dans votre démarche. Vous pouvez également joindre la permanence téléphoique le mardi et jeudi entre 15h et 18h</p>
             </div>
           </ContentSection>
 
@@ -212,7 +216,9 @@ function Conditions() {
               <InfoPoint text="Être majeur et présenter une pièce d'identité valide" />
               <InfoPoint text="Avoir un logement adapté à l'animal" />
               <InfoPoint text="Disposer de ressources financières suffisantes" />
+              <InfoPoint text="Un moyen de paiement : chéques ou espèces" />
               <InfoPoint text="S'engager à la stérilisation" />
+              <InfoPoint text="Posséder une caisse de transport" />
             </ul>
           </ContentSection>
 
