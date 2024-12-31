@@ -2,6 +2,51 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
+import { Tooltip, styled } from "@mui/material";
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  "& .MuiTooltip-tooltip": {
+    backgroundColor: "white",
+    color: "#333",
+    fontSize: "0.9rem",
+    padding: "16px 20px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    borderRadius: "12px",
+    maxWidth: "400px",
+    fontWeight: "400",
+    lineHeight: "1.6",
+    "& p": {
+      margin: "0.8em 0",
+      "&:first-child": {
+        marginTop: 0
+      },
+      "&:last-child": {
+        marginBottom: 0
+      }
+    },
+    "& ul, & ol": {
+      margin: "0.8em 0",
+      paddingLeft: "1.5em"
+    },
+    "& li": {
+      margin: "0.4em 0"
+    },
+    "& strong": {
+      color: "#000",
+      fontWeight: 600
+    }
+  },
+  "& .MuiTooltip-arrow": {
+    color: "white",
+    "&::before": {
+      border: "1px solid rgba(0, 0, 0, 0.1)",
+      backgroundColor: "white",
+    }
+  }
+});
 
 function Support() {
   const donationItems = [
@@ -129,6 +174,57 @@ function Support() {
 
   const [showArrow, setShowArrow] = useState(true);
   const [showTasks, setShowTasks] = useState(false);
+
+  const taskDescriptions = [
+    `<p><strong>Collectes alimentaires :</strong></p>
+    <p>Nous organisons régulièrement des collectes dans les supermarchés locaux. Votre mission :</p>
+    <ul>
+      <li>Accueillir et informer les clients</li>
+      <li>Distribuer la liste des besoins</li>
+      <li>Réceptionner et trier les dons</li>
+      <li>Participer à la logistique</li>
+    </ul>
+    <p>Durée moyenne : 2-3 heures par collecte</p>`,
+    
+    `<p><strong>Emballage de cadeaux :</strong></p>
+    <p>Durant les périodes de fêtes, nous proposons un service d'emballage de cadeaux :</p>
+    <ul>
+      <li>Installation et gestion du stand</li>
+      <li>Emballage des cadeaux des clients</li>
+      <li>Collecte des dons</li>
+    </ul>
+    <p>Les bénéfices financent nos actions pour les animaux</p>`,
+    
+    `<p><strong>Famille d'accueil :</strong></p>
+    <p>Devenez famille d'accueil temporaire pour nos protégés :</p>
+    <ul>
+      <li>Accueil à domicile d'un animal</li>
+      <li>Soins quotidiens et socialisation</li>
+      <li>Suivi vétérinaire si nécessaire</li>
+      <li>Évaluation du comportement</li>
+    </ul>
+    <p>Durée : selon vos disponibilités et les besoins de l'animal</p>`,
+    
+    `<p><strong>Entretien de la chatterie :</strong></p>
+    <p>Maintenez un environnement propre et sain pour nos pensionnaires :</p>
+    <ul>
+      <li>Nettoyage quotidien des espaces</li>
+      <li>Désinfection des équipements</li>
+      <li>Changement des litières</li>
+      <li>Distribution de nourriture et d'eau</li>
+    </ul>
+    <p>Créneaux disponibles : matin ou après-midi</p>`,
+    
+    `<p><strong>Entretien du linge :</strong></p>
+    <p>Gérez le linge utilisé par nos pensionnaires :</p>
+    <ul>
+      <li>Tri du linge sale</li>
+      <li>Lavage et séchage</li>
+      <li>Pliage et rangement</li>
+      <li>Gestion des stocks</li>
+    </ul>
+    <p>Cette mission peut être effectuée à domicile</p>`
+  ];
 
   const tasks = [
     "Participation aux collectes alimentaires",
@@ -310,7 +406,17 @@ function Support() {
                           className="flex gap-3 text-gray-600 hover:text-primary-dark transition-colors duration-200 group cursor-pointer"
                         >
                           <div className="flex-shrink-0 w-2 h-2 rounded-full bg-secondary group-hover:bg-primary-dark transition-colors mt-2" />
-                          <div className="flex-grow">{task}</div>
+                          <div className="flex-grow">
+                            <CustomTooltip 
+                              title={<div dangerouslySetInnerHTML={{ __html: taskDescriptions[index] }} />} 
+                              arrow 
+                              placement="right"
+                              enterDelay={200}
+                              leaveDelay={300}
+                            >
+                              <div className="task-item cursor-help">{task}</div>
+                            </CustomTooltip>
+                          </div>
                         </motion.li>
                       ))}
                     </ul>

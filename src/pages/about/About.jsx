@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import { FaCat, FaDog } from "react-icons/fa";
+import { FaCat, FaDog, FaChevronDown } from "react-icons/fa";
 
 const questions = [
   {
@@ -174,15 +174,23 @@ function AccordionItem({ question, answer, isOpen, onClick }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
+      onClick={onClick}
     >
-      <button onClick={onClick} className="w-full" aria-expanded={isOpen}>
-        <div className="flex items-center gap-3 mb-4">
-          <h3 className="text-xl font-semibold text-primary-darkest">
+      <div className="w-full" aria-expanded={isOpen}>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <h3 className="text-xl font-semibold text-primary-darkest hover:text-primary transition-colors duration-200">
             {question}
           </h3>
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-primary-darkest"
+          >
+            <FaChevronDown />
+          </motion.div>
         </div>
-      </button>
+      </div>
       <motion.div
         initial={false}
         animate={{
@@ -237,112 +245,85 @@ function About() {
   const [openId, setOpenId] = useState(null);
 
   return (
-    <div className="min-h-screen bg-white pt-24">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-12"
-      >
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">
-          Les <span className="text-primary-dark">Mistoufles</span>
-        </h1>
-        <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
-      </motion.div>
-
-      {/* Présentation */}
-      <div className="container mx-auto px-4 py-12">
-        {/* Section présentation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mx-auto text-center mb-16"
-        >
-          <h2 className="text-3xl font-bold text-primary-darkest mb-4">
-            Une association à but non lucratif
-          </h2>
-          <p className="text-lg text-primary-dark leading-relaxed">
-            L'association Les Mistoufles est une association de protection animale type Loi 1901 à but non lucratif.
-          </p>
-        </motion.div>
-
-        {/* Questions Section */}
-        <div className="max-w-3xl mx-auto px-4 mb-20">
-          <div className="grid gap-6">
-            {questions.map((q, index) => (
-              <motion.section
-                key={q.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
-              >
-                <button
-                  onClick={() => setOpenId(openId === q.id ? null : q.id)}
-                  className="w-full"
-                  aria-expanded={openId === q.id}
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <h3 className="text-xl font-semibold text-primary-darkest">
-                      {q.question}
-                    </h3>
-                  </div>
-                </button>
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: openId === q.id ? "auto" : 0,
-                    opacity: openId === q.id ? 1 : 0.5,
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 400,
-                    damping: 40,
-                    opacity: { duration: 0.2 },
-                  }}
-                  className="overflow-hidden"
-                >
-                  {q.answer}
-                </motion.div>
-              </motion.section>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="bg-primary-dark text-white py-16 mt-12">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <div className="min-h-screen bg-white pt-24 relative">
+      <div className="sticky top-44 float-right w-80 mr-8">
+        <div className="bg-primary-dark text-white rounded-2xl p-8 shadow-xl">
+          <div className="space-y-8">
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0, x: 50 }}
+              animate={{ scale: 1, opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
-              className="p-6 rounded-lg bg-white/10 backdrop-blur-sm"
+              className="p-6 rounded-xl bg-white/10 backdrop-blur-sm"
             >
               <Counter from={0} to={33} className="text-4xl font-bold" />
               <p className="mt-2 text-primary-light">Chats en chatterie</p>
             </motion.div>
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0, x: 50 }}
+              animate={{ scale: 1, opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
-              className="p-6 rounded-lg bg-white/10 backdrop-blur-sm"
+              className="p-6 rounded-xl bg-white/10 backdrop-blur-sm"
             >
               <Counter from={0} to={50} className="text-4xl font-bold" />
               <p className="mt-2 text-primary-light">Familles d'accueil</p>
             </motion.div>
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0, x: 50 }}
+              animate={{ scale: 1, opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
-              className="p-6 rounded-lg bg-white/10 backdrop-blur-sm"
+              className="p-6 rounded-xl bg-white/10 backdrop-blur-sm"
             >
               <Counter from={0} to={1000} className="text-4xl font-bold" />
               <p className="mt-2 text-primary-light">Animaux sauvés par an</p>
             </motion.div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pr-96">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-5xl font-bold text-gray-800 mb-4">
+            Les <span className="text-primary-dark">Mistoufles</span>
+          </h1>
+          <div className="w-32 h-1 bg-primary mx-auto rounded-full"></div>
+        </motion.div>
+
+        {/* Présentation */}
+        <div className="container mx-auto px-4 py-12">
+          {/* Section présentation */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold text-primary-darkest mb-4">
+              Une association à but non lucratif
+            </h2>
+            <p className="text-lg text-primary-dark leading-relaxed">
+              L'association Les Mistoufles est une association de protection animale type Loi 1901 à but non lucratif.
+            </p>
+          </motion.div>
+
+          {/* Questions Section */}
+          <div className="max-w-3xl mx-auto px-4 mb-20">
+            <div className="grid gap-6">
+              {questions.map((q, index) => (
+                <AccordionItem
+                  key={q.id}
+                  question={q.question}
+                  answer={q.answer}
+                  isOpen={openId === q.id}
+                  onClick={() => setOpenId(openId === q.id ? null : q.id)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
