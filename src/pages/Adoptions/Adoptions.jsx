@@ -28,6 +28,7 @@ const ITEMS_PER_PAGE = 6;
 
 function Adoptions() {
   const [albums, setAlbums] = useState([]);
+  const [chatonPhotos, setChatonPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("chien");
@@ -86,8 +87,26 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
         }
         const data = await response.json();
         setAlbums(data.albums);
+
+        // Trouver l'album des chatons par son nom exact
+        const chatonAlbum = data.albums.find(album => 
+          album.name === "Nos chatons à l'adoption !"
+        );
+        
+        console.log('Album chatons trouvé:', chatonAlbum);
+        
+        if (chatonAlbum) {
+          const photosResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/facebook-album-photos/${chatonAlbum.id}`);
+          if (photosResponse.ok) {
+            const photosData = await photosResponse.json();
+            console.log('Photos des chatons:', photosData);
+            setChatonPhotos(photosData.photos);
+          } else {
+            console.error('Erreur lors de la récupération des photos:', await photosResponse.text());
+          }
+        }
       } catch (err) {
-        console.error('Error fetching albums:', err);
+        console.error('Error fetching data:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -158,6 +177,108 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
         >
           <ChevronRightIcon className="w-6 h-6" />
         </button>
+      </div>
+    );
+  };
+
+  const renderContent = (category) => {
+    if (category === 'chaton') {
+      console.log('Rendu des chatons, nombre de photos:', chatonPhotos.length);
+      const paginatedPhotos = chatonPhotos.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+      );
+
+      if (chatonPhotos.length === 0) {
+        return (
+          <div className="text-center py-16 bg-white rounded-xl shadow-sm">
+            <div className="space-y-4">
+              <p className="text-gray-800 text-3xl font-semibold">
+                Actuellement nous n'avons pas de chaton à l'adoption
+              </p>
+              <p className="text-gray-600 text-lg">
+                N'hésitez pas à revenir consulter la page plus tard, peut-être que votre bonheur s'y trouvera !
+              </p>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginatedPhotos.map((photo) => (
+            <motion.div
+              key={photo.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+            >
+              <div className="relative h-64">
+                <img
+                  src={photo.source}
+                  alt={photo.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <div className="text-gray-600 mb-4 whitespace-pre-wrap leading-relaxed">
+                  {photo.name.split('\\n').join('\n')}
+                </div>
+                <div className="flex justify-between items-center text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
+                  <span className="flex items-center">
+                    <PiCatFill className="w-4 h-4 mr-2 text-primary-dark" />
+                    Chaton à l'adoption
+                  </span>
+                  <span>
+                    {format(new Date(photo.created_time), 'dd MMMM yyyy', { locale: fr })}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      );
+    }
+
+    const filteredAlbums = filterAlbumsByCategory(category);
+    const paginatedAlbums = getPaginatedAlbums(filteredAlbums);
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {paginatedAlbums.map((album) => (
+          <motion.div
+            key={album.id}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+          >
+            {album.cover_photo && (
+              <div className="relative h-64">
+                <img
+                  src={album.cover_photo.source}
+                  alt={album.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {album.name}
+              </h3>
+              {album.description && (
+                <p className="text-gray-600 mb-4 whitespace-pre-wrap">{album.description}</p>
+              )}
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span>{album.count} photos</span>
+                <span>
+                  {format(new Date(album.created_time), 'dd MMMM yyyy', { locale: fr })}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     );
   };
@@ -235,122 +356,30 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
             ))}
           </Tab.List>
           <Tab.Panels className="mt-8">
-            {Object.keys(categories).map((category) => {
-              const filteredAlbums = filterAlbumsByCategory(category);
-              const paginatedAlbums = getPaginatedAlbums(filteredAlbums);
-              
-              return (
-                <Tab.Panel key={category}>
-                  {category === 'senior' && (
-                    <div className="mb-8 bg-primary/20 p-6 rounded-lg border-2 border-primary-dark">
-                      <div className="text-black whitespace-pre-wrap">
-                        {seniorAdvantagesText}
-                      </div>
+            {Object.keys(categories).map((category) => (
+              <Tab.Panel key={category}>
+                {category === 'senior' && (
+                  <div className="mb-8 bg-primary/20 p-6 rounded-lg border-2 border-primary-dark">
+                    <div className="text-black whitespace-pre-wrap">
+                      {seniorAdvantagesText}
                     </div>
-                  )}
-                  {category === 'sauvetage' && (
-                    <div className="mb-8 bg-red-50 p-6 rounded-lg border-2 border-red-200">
-                      <div className="text-black whitespace-pre-wrap">
-                        {sauvetageText}
-                      </div>
-                    </div>
-                  )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {paginatedAlbums.map((album) => (
-                      <motion.div
-                        key={album.id}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                      >
-                        {album.cover_photo && (
-                          <div className="relative h-64">
-                            <img
-                              src={album.cover_photo.source}
-                              alt={album.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="p-6">
-                          <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                            {album.name}
-                          </h3>
-                          {album.description && (
-                            <p className="text-gray-600 mb-4 whitespace-pre-wrap">{album.description}</p>
-                          )}
-                          <div className="flex justify-between items-center text-sm text-gray-500">
-                            <span>{album.count} photos</span>
-                            <span>
-                              {format(new Date(album.created_time), 'dd MMMM yyyy', { locale: fr })}
-                            </span>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
                   </div>
-                  {filteredAlbums.length === 0 ? (
-                    <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-                      <div className="space-y-4">
-                        {category === 'chien' && (
-                          <>
-                            <p className="text-gray-800 text-3xl font-semibold">
-                              Actuellement nous n'avons pas de chien à l'adoption
-                            </p>
-                            <p className="text-gray-600 text-lg">
-                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
-                            </p>
-                          </>
-                        )}
-                        {category === 'chaton' && (
-                          <>
-                            <p className="text-gray-800 text-3xl font-semibold">
-                              Actuellement nous n'avons pas de chaton à l'adoption
-                            </p>
-                            <p className="text-gray-600 text-lg">
-                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
-                            </p>
-                          </>
-                        )}
-                        {category === 'chat' && (
-                          <>
-                            <p className="text-gray-800 text-3xl font-semibold">
-                              Actuellement nous n'avons pas de chat à l'adoption
-                            </p>
-                            <p className="text-gray-600 text-lg">
-                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
-                            </p>
-                          </>
-                        )}
-                        {category === 'senior' && (
-                          <>
-                            <p className="text-gray-800 text-3xl font-semibold">
-                              Actuellement nous n'avons pas de senior à l'adoption
-                            </p>
-                            <p className="text-gray-600 text-lg">
-                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
-                            </p>
-                          </>
-                        )}
-                        {category === 'sauvetage' && (
-                          <>
-                            <p className="text-gray-800 text-3xl font-semibold">
-                              Actuellement nous n'avons pas de sauvetage à l'adoption
-                            </p>
-                            <p className="text-gray-600 text-lg">
-                              N'hésitez pas à revenir consultez la page plus tard, peut-être que votre bonheur s'y trouveras !
-                            </p>
-                          </>
-                        )}
-                      </div>
+                )}
+                {category === 'sauvetage' && (
+                  <div className="mb-8 bg-red-50 p-6 rounded-lg border-2 border-red-200">
+                    <div className="text-black whitespace-pre-wrap">
+                      {sauvetageText}
                     </div>
-                  ) : (
-                    renderPagination(filteredAlbums.length)
-                  )}
-                </Tab.Panel>
-              );
-            })}
+                  </div>
+                )}
+                {renderContent(category)}
+                {renderPagination(
+                  category === 'chaton' 
+                    ? chatonPhotos.length 
+                    : filterAlbumsByCategory(category).length
+                )}
+              </Tab.Panel>
+            ))}
           </Tab.Panels>
         </Tab.Group>
       </div>

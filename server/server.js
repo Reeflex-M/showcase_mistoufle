@@ -365,6 +365,86 @@ app.get("/api/facebook-albums", async (req, res) => {
   }
 });
 
+// Endpoint pour récupérer les albums d'événements
+app.get("/api/event-albums", async (req, res) => {
+  try {
+    const albums = await fetchFacebookAlbums();
+    const eventAlbums = albums.filter(album => 
+      album.description && album.description.includes('#evenement')
+    );
+    res.json({ albums: eventAlbums });
+  } catch (error) {
+    console.error("Error in /api/event-albums:", error);
+    res.status(500).json({ 
+      error: "Erreur lors de la récupération des albums d'événements",
+      details: error.message 
+    });
+  }
+});
+
+// Endpoint pour récupérer les photos d'un album spécifique
+app.get("/api/facebook-album-photos/:albumId", async (req, res) => {
+  try {
+    const { albumId } = req.params;
+    console.log('Récupération des photos pour l\'album:', albumId);
+    
+    const url = `https://graph.facebook.com/v21.0/${albumId}/photos`;
+    const params = {
+      access_token: FACEBOOK_ACCESS_TOKEN,
+      fields: "source,name,created_time",
+      limit: 100
+    };
+
+    console.log('URL de l\'API Facebook:', url);
+    const response = await axios.get(url, { params });
+    console.log('Nombre de photos trouvées:', response.data.data.length);
+    
+    res.json({ photos: response.data.data });
+  } catch (error) {
+    console.error("Error in /api/facebook-album-photos:", error.response?.data || error.message);
+    res.status(500).json({ 
+      error: "Erreur lors de la récupération des photos",
+      details: error.response?.data || error.message 
+    });
+  }
+});
+
+// Fonction pour récupérer les événements Facebook
+async function fetchFacebookEvents(type = 'upcoming') {
+  try {
+    const response = await axios.get(
+      `https://graph.facebook.com/v21.0/${FACEBOOK_PAGE_ID}/events`,
+      {
+        params: {
+          access_token: FACEBOOK_ACCESS_TOKEN,
+          fields: 'id,name,description,start_time,end_time,place,cover',
+          limit: 10,
+          time_filter: type
+        }
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching Facebook events:', error);
+    throw error;
+  }
+}
+
+// Endpoint pour récupérer les événements
+app.get("/api/facebook-events", async (req, res) => {
+  try {
+    const { type = 'upcoming' } = req.query;
+    const events = await fetchFacebookEvents(type);
+    res.json({ events });
+  } catch (error) {
+    console.error('Error in /api/facebook-events:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch events',
+      details: error.response?.data?.error || error.message 
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);

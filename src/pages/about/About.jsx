@@ -131,6 +131,14 @@ const questions = [
             <p className="text-sm text-primary-dark">Salariée</p>
           </div>
           <div className="w-full sm:w-auto text-center px-4 py-2 bg-white rounded-lg shadow-sm">
+            <p className="text-3xl sm:text-4xl font-bold text-primary-darkest mb-1">1</p>
+            <p className="text-sm text-primary-dark">Apprenti</p>
+          </div>
+          <div className="w-full sm:w-auto text-center px-4 py-2 bg-white rounded-lg shadow-sm">
+            <p className="text-3xl sm:text-4xl font-bold text-primary-darkest mb-1">1</p>
+            <p className="text-sm text-primary-dark">Service civique</p>
+          </div>
+          <div className="w-full sm:w-auto text-center px-4 py-2 bg-white rounded-lg shadow-sm">
             <p className="text-3xl sm:text-4xl font-bold text-primary-darkest mb-1">+ 100</p>
             <p className="text-sm text-primary-dark">Bénévoles actifs</p>
           </div>
