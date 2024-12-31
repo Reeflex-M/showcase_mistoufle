@@ -43,11 +43,11 @@ function Navbar() {
       transition={{ duration: 0.35, ease: "easeInOut" }}
     >
       <nav className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="flex-shrink-0 w-32 lg:w-40">
+        <Link to="/" className="flex-shrink-0 w-40 lg:w-48 -mb-1">
           <motion.img
-            src="/logo.png"
+            src="/logo2.png"
             alt="Les Mistoufles"
-            className="h-10"
+            className="h-14 lg:h-16 object-contain"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400 }}
           />
@@ -109,7 +109,7 @@ function Navbar() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="absolute top-16 left-0 right-0 bg-white shadow-lg border-t md:hidden"
+              className="absolute top-20 left-0 right-0 bg-white shadow-lg border-t md:hidden"
             >
               <div className="flex flex-col py-4 px-4 space-y-2">
                 {navItems.map(({ path, label }) => (

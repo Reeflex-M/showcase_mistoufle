@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
-import { Tooltip, styled } from "@mui/material";
+import { Tooltip, styled, Dialog, DialogContent, DialogTitle, useMediaQuery, useTheme } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -15,7 +17,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
     border: "1px solid rgba(0, 0, 0, 0.1)",
     borderRadius: "12px",
-    maxWidth: "400px",
+    maxWidth: "min(400px, 90vw)",
     fontWeight: "400",
     lineHeight: "1.6",
     "& p": {
@@ -37,6 +39,9 @@ const CustomTooltip = styled(({ className, ...props }) => (
     "& strong": {
       color: "#000",
       fontWeight: 600
+    },
+    "@media (max-width: 600px)": {
+      display: "none"
     }
   },
   "& .MuiTooltip-arrow": {
@@ -174,7 +179,7 @@ function Support() {
 
   const [showArrow, setShowArrow] = useState(true);
   const [showTasks, setShowTasks] = useState(false);
-
+  const [selectedTask, setSelectedTask] = useState(null);
   const taskDescriptions = [
     `<p><strong>Collectes alimentaires :</strong></p>
     <p>Nous organisons régulièrement des collectes dans les supermarchés locaux. Votre mission :</p>
@@ -213,7 +218,7 @@ function Support() {
       <li>Changement des litières</li>
       <li>Distribution de nourriture et d'eau</li>
     </ul>
-    <p>Créneaux disponibles : matin ou après-midi</p>`,
+    <p>Le ménage est effectué le matin</p>`,
     
     `<p><strong>Entretien du linge :</strong></p>
     <p>Gérez le linge utilisé par nos pensionnaires :</p>
@@ -233,6 +238,9 @@ function Support() {
     "Entretien de la chatterie",
     "Entretien du linge",
   ];
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const checkScroll = () => {
@@ -391,32 +399,43 @@ function Support() {
                     scale: showTasks ? 1 : 0.95,
                   }}
                   transition={{ duration: 0.2 }}
-                  className={`absolute right-0 z-20 mt-2 min-w-[300px] transform ${
+                  className={`absolute right-0 z-20 mt-2 ${
                     showTasks ? "block" : "hidden"
                   } touch-manipulation`}
                 >
-                  <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100">
+                  <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100 min-w-[400px] sm:min-w-[500px]">
                     <ul className="space-y-3">
                       {tasks.map((task, index) => (
                         <motion.li
-                          key={index}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="flex gap-3 text-gray-600 hover:text-primary-dark transition-colors duration-200 group cursor-pointer"
+                          key={task}
+                          className="relative flex items-center gap-3"
+                          variants={itemVariants}
                         >
-                          <div className="flex-shrink-0 w-2 h-2 rounded-full bg-secondary group-hover:bg-primary-dark transition-colors mt-2" />
-                          <div className="flex-grow">
-                            <CustomTooltip 
-                              title={<div dangerouslySetInnerHTML={{ __html: taskDescriptions[index] }} />} 
-                              arrow 
-                              placement="right"
-                              enterDelay={200}
-                              leaveDelay={300}
+                          <div className="w-2 h-2 rounded-full bg-secondary flex-shrink-0" />
+                          {isMobile ? (
+                            <button
+                              onClick={() => setSelectedTask(index)}
+                              className="text-left w-full p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200"
                             >
-                              <div className="task-item cursor-help">{task}</div>
+                              {task}
+                            </button>
+                          ) : (
+                            <CustomTooltip
+                              title={
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: taskDescriptions[index],
+                                  }}
+                                />
+                              }
+                              placement="right"
+                              arrow
+                            >
+                              <button className="text-left w-full p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                                {task}
+                              </button>
                             </CustomTooltip>
-                          </div>
+                          )}
                         </motion.li>
                       ))}
                     </ul>
@@ -463,7 +482,7 @@ function Support() {
 
           <motion.div
             variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min" // Augmenté le gap
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min"
           >
             {[...donationItems]
               .sort((a, b) => {
@@ -570,6 +589,37 @@ function Support() {
           </svg>
         </motion.button>
       )}
+
+      {/* Mobile Dialog for Task Description */}
+      <Dialog
+        open={selectedTask !== null}
+        onClose={() => setSelectedTask(null)}
+        maxWidth="sm"
+        fullWidth
+        className="safe-area-inset"
+      >
+        <DialogTitle className="flex justify-between items-center">
+          {selectedTask !== null && tasks[selectedTask]}
+          <IconButton
+            edge="end"
+            color="inherit"
+            onClick={() => setSelectedTask(null)}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {selectedTask !== null && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: taskDescriptions[selectedTask],
+              }}
+              className="prose prose-sm max-w-none [&_p]:my-3 [&_ul]:my-3 [&_ul]:pl-6 [&_li]:my-2 [&_strong]:text-black [&_strong]:font-semibold"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
