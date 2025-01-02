@@ -9,6 +9,8 @@ import { PiCatFill } from 'react-icons/pi';
 import { Tab } from "@headlessui/react";
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { Dialog } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const PageHeader = () => (
   <motion.div
@@ -33,6 +35,9 @@ function Adoptions() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("chien");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAlbumPhotos, setSelectedAlbumPhotos] = useState([]);
 
   const categories = {
     chien: {
@@ -181,6 +186,21 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
     );
   };
 
+  const handleAlbumClick = async (album) => {
+    try {
+      setSelectedAnimal(album);
+      setIsModalOpen(true);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/facebook-album-photos/${album.id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch album photos');
+      }
+      const data = await response.json();
+      setSelectedAlbumPhotos(data.photos);
+    } catch (error) {
+      console.error('Error fetching album photos:', error);
+    }
+  };
+
   const renderContent = (category) => {
     if (category === 'chaton') {
       console.log('Rendu des chatons, nombre de photos:', chatonPhotos.length);
@@ -255,7 +275,10 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
           >
             {album.cover_photo && (
-              <div className="relative h-64">
+              <div 
+                className="relative h-64 cursor-pointer"
+                onClick={() => handleAlbumClick(album)}
+              >
                 <img
                   src={album.cover_photo.source}
                   alt={album.name}
@@ -383,6 +406,49 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
           </Tab.Panels>
         </Tab.Group>
       </div>
+      
+      {/* Photo Modal */}
+      <Dialog
+        open={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedAlbumPhotos([]);
+        }}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="mx-auto max-w-4xl w-full bg-white rounded-xl p-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <Dialog.Title className="text-xl font-semibold">
+                {selectedAnimal?.name || 'Photos de l\'animal'}
+              </Dialog.Title>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setSelectedAlbumPhotos([]);
+                }}
+                className="p-1 rounded-full hover:bg-gray-100"
+              >
+                <XMarkIcon className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {selectedAlbumPhotos.map((photo, index) => (
+                <div key={index} className="aspect-square">
+                  <img
+                    src={photo.source}
+                    alt={photo.name || `Photo ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
+              ))}
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
     </div>
   );
 }
