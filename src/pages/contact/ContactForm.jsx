@@ -1,10 +1,19 @@
 import { motion } from "framer-motion";
 
-function ContactForm({ formData, handleChange, handleSubmit }) {
+function ContactForm({ formData, handleChange, handleSubmit, status }) {
   return (
     <div className="md:w-1/2">
       <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Envoyez-nous un message</h2>
+        {status.message && (
+          <div className={`mb-4 p-4 rounded-lg ${
+            status.type === 'success' ? 'bg-green-100 text-green-700' :
+            status.type === 'error' ? 'bg-red-100 text-red-700' :
+            'bg-blue-100 text-blue-700'
+          }`}>
+            {status.message}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div>

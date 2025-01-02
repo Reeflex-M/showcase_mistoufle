@@ -13,7 +13,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
     <CookieConsent
-      debug={true}
       location="bottom"
       buttonText="J'accepte"
       declineButtonText="Je refuse"
