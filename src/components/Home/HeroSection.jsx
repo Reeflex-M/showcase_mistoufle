@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 function HeroSection() {
   const ref = useRef(null);
@@ -63,23 +64,24 @@ function HeroSection() {
             transition={{ duration: 1, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <button className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-primary-dark text-white shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <Link
+              to="/adoptions"
+              className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-primary-dark text-white shadow-2xl transition-all duration-300 hover:-translate-y-1"
+            >
               <div className="absolute inset-0 w-0 bg-primary-darkest transition-all duration-[250ms] ease-out group-hover:w-full" />
               <span className="relative text-lg font-semibold group-hover:text-white">
                 Adoptez un animal
               </span>
-            </button>
-            <a
-              href="https://www.helloasso.com/associations/les-mistoufles/formulaires/1"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              to="/donations"
               className="group relative px-8 py-4 w-64 overflow-hidden rounded-xl bg-transparent border-2 border-white text-white shadow-2xl transition-all duration-300 hover:-translate-y-1"
             >
               <div className="absolute inset-0 w-0 bg-white transition-all duration-[250ms] ease-out group-hover:w-full" />
               <span className="relative text-lg font-semibold group-hover:text-primary-darkest">
                 Faire un don
               </span>
-            </a>
+            </Link>
           </motion.div>
         </div>
       </motion.div>

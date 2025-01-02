@@ -1,6 +1,53 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import { FaCat, FaDog, FaChevronDown, FaPaw, FaHeart, FaHome, FaHandHoldingHeart } from "react-icons/fa";
+import { FaCat, FaDog, FaChevronDown, FaPaw, FaHeart, FaHome, FaHandHoldingHeart, FaExpand } from "react-icons/fa";
+import { useScrollPosition } from 'react-use-scroll-position';
+
+const ImageModal = ({ isOpen, onClose, imageSrc }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div className="max-h-[90vh] max-w-[90vw] relative">
+        <img 
+          src={imageSrc} 
+          alt="Image agrandie"
+          className="max-h-[90vh] max-w-[90vw] object-contain"
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
+    </div>
+  );
+};
+
+const ImageWithZoom = ({ src, alt }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <div className="relative group">
+      <img 
+        src={src} 
+        alt={alt} 
+        className="w-full max-w-full sm:max-w-[800px] h-auto object-contain mx-auto rounded-lg shadow-md"
+      />
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-white/90 hover:bg-white text-primary-dark px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-md flex items-center gap-1 sm:gap-2 transition-colors text-sm sm:text-base"
+      >
+        <FaExpand className="text-sm" />
+        <span>Agrandir l'image</span>
+      </button>
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imageSrc={src}
+      />
+    </div>
+  );
+};
 
 const questions = [
   {
@@ -176,6 +223,63 @@ const questions = [
       </div>
     ),
   },
+  {
+    id: 4,
+    question: "Vous avez trouvé un animal  sur le territoire de morlaix communautauté, que faire ?",
+    answer: (
+      <div className="space-y-4">
+        <ImageWithZoom 
+          src="/about/quefaire1.png"
+          alt="Que faire si vous trouvez un animal - étape 1"
+        />
+      </div>
+    ),
+  },
+  {
+    id: 5,
+    question: "Vous avez trouvé un animal sur un territoire que nous ne gérons pas, que faire ?",
+    answer: (
+      <div className="space-y-4">
+        <ImageWithZoom 
+          src="/about/quefaire2.png"
+          alt="Que faire si vous perdez votre animal"
+        />
+      </div>
+    ),
+  },
+  {
+    id: 8,
+    question: "Puis-je réserver un animal ?",
+    answer: (
+      <div className="space-y-2">
+        <p>
+          Non, nous ne prenons pas de réservation pour nos animaux. L'adoption se fait sur place, après une rencontre avec l'animal et un échange avec nos bénévoles pour s'assurer que l'adoption est réfléchie et adaptée à votre situation.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 9,
+    question: "Faites-vous du covoiturage ?",
+    answer: (
+      <div className="space-y-2">
+        <p>
+          Non, nous ne faisons pas de covoiturage. Vous devez vous déplacer par vos propres moyens pour venir rencontrer et adopter un animal.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: 10,
+    question: "Quel jour je peux adopter ?",
+    answer: (
+      <div className="space-y-2">
+        <p>
+          Les adoptions se font uniquement le samedi entre 14h et 18h. Merci de vous présenter pendant ces horaires pour rencontrer nos animaux.
+        </p>
+      </div>
+    ),
+  },
 ];
 
 const AccordionItem = ({ question, answer, isOpen, onClick }) => {
@@ -307,6 +411,35 @@ const StatCard = ({ icon: Icon, number, text }) => {
 const About = () => {
   const [openId, setOpenId] = useState(null);
   const ref = useRef(null);
+  const [isNearFooter, setIsNearFooter] = useState(false);
+  const infographicRef = useRef(null);
+  const [footerHeight, setFooterHeight] = useState(0);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsNearFooter(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          const footerElement = entry.target;
+          setFooterHeight(footerElement.offsetHeight);
+        }
+      },
+      {
+        rootMargin: '100px',
+      }
+    );
+
+    const footerElement = document.querySelector('footer');
+    if (footerElement) {
+      observer.observe(footerElement);
+    }
+
+    return () => {
+      if (footerElement) {
+        observer.unobserve(footerElement);
+      }
+    };
+  }, []);
 
   return (
     <motion.div
@@ -374,8 +507,58 @@ const About = () => {
         </div>
 
         {/* Fixed Infographic Column */}
-        <div className="w-full lg:w-1/4">
-          <div className="lg:fixed lg:right-12 2xl:right-[calc((100vw-80rem)/4)] h-screen flex items-center translate-y-[-15%]">
+        <div className="w-full lg:w-1/4 relative">
+          <div className="hidden lg:block"> {/* Spacer div */}
+            <div className="h-screen" />
+          </div>
+          {/* Version mobile */}
+          <div className="lg:hidden mb-8">
+            <div className="space-y-5">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <StatCard 
+                  icon={FaCat}
+                  number={33}
+                  text="Chats en chatterie"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <StatCard 
+                  icon={FaHome}
+                  number={50}
+                  text="Familles d'accueil"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <StatCard 
+                  icon={FaHandHoldingHeart}
+                  number={1000}
+                  text="Animaux sauvés par an"
+                />
+              </motion.div>
+            </div>
+          </div>
+          {/* Version desktop */}
+          <div 
+            ref={infographicRef}
+            className="hidden lg:flex items-center fixed right-12 2xl:right-[calc((100vw-80rem)/4)]"
+            style={{
+              position: 'fixed',
+              top: isNearFooter ? `calc(100vh - ${footerHeight + 350}px)` : '50%',
+              transform: isNearFooter ? 'none' : 'translateY(-50%)'
+            }}
+          >
             <div className="space-y-5">
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
