@@ -11,17 +11,19 @@ const CustomTooltip = styled(({ className, ...props }) => (
 ))({
   "& .MuiTooltip-tooltip": {
     backgroundColor: "white",
-    color: "#333",
-    fontSize: "0.9rem",
-    padding: "16px 20px",
+    color: "#374151",
+    fontSize: "0.85rem",
+    padding: "12px 16px",
     boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
     border: "1px solid rgba(0, 0, 0, 0.1)",
     borderRadius: "12px",
-    maxWidth: "min(400px, 90vw)",
+    maxWidth: "min(350px, 90vw)",
     fontWeight: "400",
-    lineHeight: "1.6",
+    lineHeight: "1.4",
+    fontFamily: "Poppins, serif",
     "& p": {
-      margin: "0.8em 0",
+      margin: "0.6em 0",
+      color: "#374151",
       "&:first-child": {
         marginTop: 0
       },
@@ -30,14 +32,16 @@ const CustomTooltip = styled(({ className, ...props }) => (
       }
     },
     "& ul, & ol": {
-      margin: "0.8em 0",
-      paddingLeft: "1.5em"
+      margin: "0.6em 0",
+      paddingLeft: "1.2em",
+      color: "#374151"
     },
     "& li": {
-      margin: "0.4em 0"
+      margin: "0.3em 0",
+      color: "#374151"
     },
     "& strong": {
-      color: "#000",
+      color: "#111827",
       fontWeight: 600
     },
     "@media (max-width: 600px)": {
@@ -403,19 +407,20 @@ function Support() {
                     showTasks ? "block" : "hidden"
                   } touch-manipulation`}
                 >
-                  <div className="bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-6 border border-gray-100 min-w-[400px] sm:min-w-[500px]">
-                    <ul className="space-y-3">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.15)] p-4 border border-gray-100 min-w-[320px] sm:min-w-[400px] relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
+                    <ul className="space-y-1.5 relative">
                       {tasks.map((task, index) => (
                         <motion.li
                           key={task}
-                          className="relative flex items-center gap-3"
+                          className="relative flex items-center gap-2"
                           variants={itemVariants}
                         >
-                          <div className="w-2 h-2 rounded-full bg-secondary flex-shrink-0" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-secondary flex-shrink-0" />
                           {isMobile ? (
                             <button
                               onClick={() => setSelectedTask(index)}
-                              className="text-left w-full p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200"
+                              className="text-left w-full py-2 px-2.5 rounded-xl hover:bg-white/80 hover:shadow-sm transition-all duration-200 text-sm font-medium text-gray-700 font-primary"
                             >
                               {task}
                             </button>
@@ -431,7 +436,7 @@ function Support() {
                               placement="right"
                               arrow
                             >
-                              <button className="text-left w-full p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                              <button className="text-left w-full py-2 px-2.5 rounded-xl hover:bg-white/80 hover:shadow-sm transition-all duration-200 text-sm font-medium text-gray-700 font-primary">
                                 {task}
                               </button>
                             </CustomTooltip>

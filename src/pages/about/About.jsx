@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import { FaCat, FaDog, FaChevronDown, FaPaw, FaHeart, FaHome, FaHandHoldingHeart, FaExpand } from "react-icons/fa";
+import { FaCat, FaDog, FaChevronDown, FaPaw, FaHeart, FaHome, FaHandHoldingHeart, FaExpand, FaDownload } from "react-icons/fa";
 import { useScrollPosition } from 'react-use-scroll-position';
 
 const ImageModal = ({ isOpen, onClose, imageSrc }) => {
@@ -26,6 +26,15 @@ const ImageModal = ({ isOpen, onClose, imageSrc }) => {
 const ImageWithZoom = ({ src, alt }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = src;
+    link.download = src.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="relative group">
       <img 
@@ -33,13 +42,22 @@ const ImageWithZoom = ({ src, alt }) => {
         alt={alt} 
         className="w-full max-w-full sm:max-w-[800px] h-auto object-contain mx-auto rounded-lg shadow-md"
       />
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-white/90 hover:bg-white text-primary-dark px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-md flex items-center gap-1 sm:gap-2 transition-colors text-sm sm:text-base"
-      >
-        <FaExpand className="text-sm" />
-        <span>Agrandir l'image</span>
-      </button>
+      <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 flex gap-2">
+        <button
+          onClick={handleDownload}
+          className="bg-white/90 hover:bg-white text-primary-dark px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-md flex items-center gap-1 sm:gap-2 transition-colors text-sm sm:text-base"
+        >
+          <FaDownload className="text-sm" />
+          <span>Télécharger</span>
+        </button>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-white/90 hover:bg-white text-primary-dark px-2 py-1 sm:px-3 sm:py-2 rounded-lg shadow-md flex items-center gap-1 sm:gap-2 transition-colors text-sm sm:text-base"
+        >
+          <FaExpand className="text-sm" />
+          <span>Agrandir</span>
+        </button>
+      </div>
       <ImageModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -158,8 +176,7 @@ const questions = [
             <p className="text-primary-dark/70 italic text-sm sm:text-base">
               Cela permet aux animaux d'avoir un temps nécessaire pour des
               soins, de la sociabilisation et/ou une réadaptation à une vie de
-              famille afin de leur redonner une nouvelle chance qu'ils méritent
-              !
+              famille afin de leur redonner une nouvelle chance qu'ils méritent !
             </p>
           </div>
         </div>
@@ -225,9 +242,9 @@ const questions = [
   },
   {
     id: 4,
-    question: "Vous avez trouvé un animal  sur le territoire de morlaix communautauté, que faire ?",
+    question: "Vous avez trouvé un animal sur le territoire de morlaix communautauté, que faire ?",
     answer: (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <ImageWithZoom 
           src="/about/quefaire1.png"
           alt="Que faire si vous trouvez un animal - étape 1"
@@ -239,7 +256,7 @@ const questions = [
     id: 5,
     question: "Vous avez trouvé un animal sur un territoire que nous ne gérons pas, que faire ?",
     answer: (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <ImageWithZoom 
           src="/about/quefaire2.png"
           alt="Que faire si vous perdez votre animal"
@@ -248,35 +265,28 @@ const questions = [
     ),
   },
   {
-    id: 8,
+    id: 6,
     question: "Puis-je réserver un animal ?",
     answer: (
-      <div className="space-y-2">
-        <p>
-          Non, nous ne prenons pas de réservation pour nos animaux. L'adoption se fait sur place, après une rencontre avec l'animal et un échange avec nos bénévoles pour s'assurer que l'adoption est réfléchie et adaptée à votre situation.
-        </p>
+      <div className="space-y-6">
+        <div className="bg-primary-light p-3 sm:p-4 rounded-lg shadow-lg border-l-4 border-primary">
+          <p className="font-medium text-primary-darkest text-sm sm:text-base">
+            Non, nous ne prenons pas de réservation pour nos animaux. L'adoption se fait sur place, après une rencontre avec l'animal et un échange avec nos bénévoles pour s'assurer que l'adoption est réfléchie et adaptée à votre situation.
+          </p>
+        </div>
       </div>
     ),
   },
   {
-    id: 9,
-    question: "Faites-vous du covoiturage ?",
-    answer: (
-      <div className="space-y-2">
-        <p>
-          Non, nous ne faisons pas de covoiturage. Vous devez vous déplacer par vos propres moyens pour venir rencontrer et adopter un animal.
-        </p>
-      </div>
-    ),
-  },
-  {
-    id: 10,
+    id: 8,
     question: "Quel jour je peux adopter ?",
     answer: (
-      <div className="space-y-2">
-        <p>
-          Les adoptions se font uniquement le samedi entre 14h et 18h. Merci de vous présenter pendant ces horaires pour rencontrer nos animaux.
-        </p>
+      <div className="space-y-6">
+        <div className="bg-primary-light p-3 sm:p-4 rounded-lg shadow-lg border-l-4 border-primary">
+          <p className="font-medium text-primary-darkest text-sm sm:text-base">
+            Les adoptions se font uniquement le samedi entre 14h et 18h. Merci de vous présenter pendant ces horaires pour rencontrer nos animaux.
+          </p>
+        </div>
       </div>
     ),
   },
@@ -292,9 +302,8 @@ const AccordionItem = ({ question, answer, isOpen, onClick }) => {
   }, [isOpen]);
 
   return (
-    <motion.div
+    <div
       className="border-b border-primary-light/30 last:border-none"
-      initial={false}
     >
       <button
         className="w-full py-4 px-2 flex justify-between items-center gap-4 text-left hover:bg-primary-light/10 transition-colors rounded-lg"
@@ -322,7 +331,7 @@ const AccordionItem = ({ question, answer, isOpen, onClick }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
@@ -377,34 +386,25 @@ const StatCard = ({ icon: Icon, number, text }) => {
   }, [number]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.05, y: -5 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+    <div
       className="flex items-center gap-5 bg-white/50 p-5 rounded-xl border border-gray-100 transition-shadow hover:shadow-lg cursor-pointer group w-[260px]"
     >
-      <motion.div
-        animate={{ rotate: isHovered ? 360 : 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="bg-primary/10 p-2.5 rounded-full"
       >
         <Icon className="text-3xl text-primary" />
-      </motion.div>
+      </div>
       <div className="flex flex-col">
-        <motion.span 
+        <span 
           className="text-3xl font-bold text-gray-900"
-          animate={{ scale: isHovered ? 1.1 : 1 }}
-          transition={{ duration: 0.2 }}
         >
           {count}
-        </motion.span>
-        <span className="text-sm text-gray-600 group-hover:text-primary transition-colors">
+        </span>
+        <span className="text-sm text-gray-600 group-hover:text-primary-darkest transition-colors">
           {text}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -442,9 +442,7 @@ const About = () => {
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className="max-w-7xl mx-auto px-4 py-8 md:py-12 relative"
     >
       <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -462,10 +460,7 @@ const About = () => {
           </div>
 
           {/* Stats Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+          <div
             className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
           >
             <div className="bg-primary-light/20 p-6 rounded-xl backdrop-blur-sm">
@@ -482,13 +477,10 @@ const About = () => {
               </div>
               <p className="text-gray-700">Un réseau de familles dévouées pour offrir un foyer temporaire à nos protégés.</p>
             </div>
-          </motion.div>
+          </div>
 
           {/* FAQ Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+          <div
             className="bg-white rounded-xl shadow-lg p-6"
           >
             <h2 className="text-2xl font-bold text-primary-darkest mb-6">Questions Fréquentes</h2>
@@ -503,7 +495,7 @@ const About = () => {
                 />
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Fixed Infographic Column */}
@@ -514,39 +506,21 @@ const About = () => {
           {/* Version mobile */}
           <div className="lg:hidden mb-8">
             <div className="space-y-5">
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <StatCard 
-                  icon={FaCat}
-                  number={33}
-                  text="Chats en chatterie"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <StatCard 
-                  icon={FaHome}
-                  number={50}
-                  text="Familles d'accueil"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <StatCard 
-                  icon={FaHandHoldingHeart}
-                  number={1000}
-                  text="Animaux sauvés par an"
-                />
-              </motion.div>
+              <StatCard 
+                icon={FaCat}
+                number={33}
+                text="Chats en chatterie"
+              />
+              <StatCard 
+                icon={FaHome}
+                number={50}
+                text="Familles d'accueil"
+              />
+              <StatCard 
+                icon={FaHandHoldingHeart}
+                number={1000}
+                text="Animaux sauvés par an"
+              />
             </div>
           </div>
           {/* Version desktop */}
@@ -556,48 +530,31 @@ const About = () => {
             style={{
               position: 'fixed',
               top: isNearFooter ? `calc(100vh - ${footerHeight + 350}px)` : '50%',
-              transform: isNearFooter ? 'none' : 'translateY(-50%)'
+              transform: isNearFooter ? 'none' : 'translateY(-50%)',
+              transition: 'all 0.5s ease-out'
             }}
           >
             <div className="space-y-5">
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <StatCard 
-                  icon={FaCat}
-                  number={33}
-                  text="Chats en chatterie"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <StatCard 
-                  icon={FaHome}
-                  number={50}
-                  text="Familles d'accueil"
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-              >
-                <StatCard 
-                  icon={FaHandHoldingHeart}
-                  number={1000}
-                  text="Animaux sauvés par an"
-                />
-              </motion.div>
+              <StatCard 
+                icon={FaCat}
+                number={33}
+                text="Chats en chatterie"
+              />
+              <StatCard 
+                icon={FaHome}
+                number={50}
+                text="Familles d'accueil"
+              />
+              <StatCard 
+                icon={FaHandHoldingHeart}
+                number={1000}
+                text="Animaux sauvés par an"
+              />
             </div>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
