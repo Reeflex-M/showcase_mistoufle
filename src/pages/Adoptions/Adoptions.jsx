@@ -133,6 +133,10 @@ De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d 
     setCurrentPage(1);
   }, [activeTab]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   const filterAlbumsByCategory = (category) => {
     const hashtag = categories[category].hashtag;
     return albums.filter(album => {
@@ -151,8 +155,6 @@ De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d 
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    // Scroll vers le haut de la page avec une animation fluide
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const renderPagination = (totalItems) => {
