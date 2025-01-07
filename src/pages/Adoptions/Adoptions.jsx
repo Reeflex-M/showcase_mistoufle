@@ -4,8 +4,9 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from "@heroicons/react/24/solid";
-import { FaDog, FaCat } from 'react-icons/fa';
+import { FaDog, FaCat, FaPaw } from 'react-icons/fa';
 import { PiCatFill } from 'react-icons/pi';
+import { GiSittingDog, GiCat } from 'react-icons/gi';
 import { Tab } from "@headlessui/react";
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -48,7 +49,7 @@ function Adoptions() {
     },
     chaton: {
       name: "Chatons",
-      icon: <PiCatFill className="w-6 h-6" />,
+      icon: <FaPaw className="w-6 h-6" />,
       color: "primary",
       hashtag: "#chaton"
     },
@@ -60,28 +61,34 @@ function Adoptions() {
     },
     senior: {
       name: "Seniors",
-      icon: <FaDog className="w-6 h-6 text-white animate-pulse" />,
+      icon: <GiCat className="w-6 h-6 text-white" />,
       color: "urgent",
       urgentColor: "bg-primary-dark/80",
       hashtag: "#senior"
     },
     sauvetage: {
       name: "Sauvetages",
-      icon: <FaCat className="w-6 h-6 text-white animate-bounce" />,
+      icon: (
+        <div className="flex items-center space-x-1">
+          <FaDog className="w-6 h-6 text-white" />
+          <span className="text-white font-bold">/</span>
+          <FaCat className="w-6 h-6 text-white" />
+        </div>
+      ),
       color: "urgent",
       urgentColor: "from-red-600 to-rose-600",
       hashtag: "#sauvetage"
     }
   };
 
-  const seniorAdvantagesText = `nous vous rappelons également que tout adoption de chat senior entre dans le cadre du dispositif "Opération doyens" financée par notre partenaire 30 Millions d'amis ! 
+  const seniorAdvantagesText = `Toute adoption de chat senior entre dans le cadre du dispositif "Opération doyens" financée par notre partenaire 30 Millions d'amis ! 
 
-Cela veut dire qu'en cas d'adoption d'un chat dit âgé (à partir de 10 ans) au sein de notre refuge, d'abord l'adoption est en don libre (à partir de 50 euros) mais cela permet également via cette opération, de bénéficier d'un soutien financier pour les frais vétérinaires après l'adoption à hauteur de 800 euros maximum sur présentation de factures.
+Cela veut dire qu'en cas d'adoption d'un chat dit âgé (à partir de 10 ans) au sein de notre refuge, l'adoption est en don libre (un minimum de 50 euros est demandé), cela permet également via cette opération, de bénéficier d'un soutien financier pour les frais vétérinaires après l'adoption à hauteur de 800 euros maximum (ce montant sera réglé en une ou plusieurs fois au vétérinaire sur sur sa(ses) facture(s) détaillée(s) et non réglée(s)).
 `;
 
-  const sauvetageText = `Nos sauvetages sont des chats qui ont été secourus dans des conditions difficiles. Ils peuvent avoir besoin de soins particuliers ou d'une attention spéciale. 
+  const sauvetageText = `Nos sauvetages sont des chats ou des chiens qui ont souvent eu un parcours de vie difficile. Venir au refuge chaque semaine pour la journée adoptions est une épreuve de plus pour eux.
 
-En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie d'amour. Chaque adoption de sauvetage est un acte de bienveillance qui change une vie !`;
+De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d adoptants. Ils ont pourtant beaucoup d amour à donner`;
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -247,7 +254,7 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
                 </div>
                 <div className="flex justify-between items-center text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
                   <span className="flex items-center">
-                    <PiCatFill className="w-4 h-4 mr-2 text-primary-dark" />
+                    <FaPaw className="w-4 h-4 mr-2 text-primary-dark" />
                     Chaton à l'adoption
                   </span>
                   <span>
@@ -263,6 +270,25 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
 
     const filteredAlbums = filterAlbumsByCategory(category);
     const paginatedAlbums = getPaginatedAlbums(filteredAlbums);
+
+    if (filteredAlbums.length === 0) {
+      const categoryInfo = categories[category];
+      return (
+        <div className="text-center py-16 bg-white rounded-xl shadow-sm">
+          <div className="space-y-4">
+            <p className="text-gray-800 text-3xl font-semibold">
+              Actuellement nous n'avons pas {category === 'chien' ? 'de chien' : 
+                category === 'chat' ? 'de chat' : 
+                category === 'senior' ? 'de senior' : 
+                'de sauvetage'} à l'adoption
+            </p>
+            <p className="text-gray-600 text-lg">
+              N'hésitez pas à revenir consulter la page plus tard, peut-être que votre bonheur s'y trouvera !
+            </p>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -354,8 +380,8 @@ En les adoptant, vous leur offrez une seconde chance et une nouvelle vie remplie
                   font-medium focus:outline-none 
                   ${category.color === "urgent"
                     ? "text-lg transform hover:scale-105 hover:-translate-y-1 ring-2 ring-white/50 ring-offset-2 ring-offset-gray-50"
-                    : ""}
-                  ${selected ? "transform scale-105" : ""}
+                    : ""} 
+                  ${selected ? "transform scale-105" : ""} 
                   flex items-center space-x-2 touch-manipulation`
                 }
               >

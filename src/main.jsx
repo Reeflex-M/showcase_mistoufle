@@ -5,10 +5,6 @@ import { router } from "./router";
 import CookieConsent from "react-cookie-consent";
 import "./index.css";
 
-// Force cookie removal and clear localStorage
-localStorage.removeItem("mistoufles-cookies");
-document.cookie = "mistoufles-cookies=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />

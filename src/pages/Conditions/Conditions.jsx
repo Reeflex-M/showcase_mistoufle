@@ -134,7 +134,6 @@ function Conditions() {
               <InfoPoint text="Avoir un logement adapté à l'animal" />
               <InfoPoint text="Disposer de ressources financières suffisantes" />
               <InfoPoint text="Un moyen de paiement : chéques ou espèces" />
-              <InfoPoint text="Posséder une laisse et un collier" />
             </ul>
           </ContentSection>
 
@@ -175,9 +174,9 @@ function Conditions() {
                   déparasitage et la stérilisation.
                 </li>
                 <li>
-                  <strong>Chien de plus de 10 ans :</strong> Don libre, ce
+                  <strong>Chien de plus de 10 ans :</strong> Don libre avec un minimum de 50€, ce
                   montant comprend l’identification, la primo-vaccination
-                  (CCHPL), le déparasitage. La stérilisation sera effectuée
+                  (CCHPL), le déparasitage. La stérilisation sera effectuée par nos soins,
                   suivant l’état de santé de l’animal.
                 </li>
               </ul>
@@ -227,7 +226,7 @@ function Conditions() {
             title="Processus d'adoption"
             id="chats-processus"
           >
-            <InfoPoint text="Nous discutons avec vous de vos attentes et de vos capacités à prendre soin d'un chat." />
+            <InfoPoint text="Adopter un animal est une responsabilité importante et nous vous conseillons de bien réfléchir avant de nous contacter et/ou de venir au refuge. Il est également important de bien réfléchir aux engagements que vous prenez, qu’ils soient logistiques, moraux et financiers. Lors de votre venue, nous échangerons avec vous afin de vous orienter au mieux vers l animal qui correspond à votre mode de vie." />
           </ContentSection>
 
           <ContentSection
@@ -260,7 +259,7 @@ function Conditions() {
                   (typhus, coryza), le déparasitage et la stérilisation.
                 </li>
                 <li>
-                  <strong>Chat de plus de 10 ans :</strong> Don libre, ce
+                  <strong>Chat de plus de 10 ans :</strong> Don libre avec un minimum de 50€, ce
                   montant comprend l’identification, la primo-vaccination
                   (typhus, coryza), le déparasitage. La stérilisation sera
                   effectuée suivant l’état de santé de l’animal.

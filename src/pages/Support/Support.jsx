@@ -204,13 +204,24 @@ function Support() {
     </ul>
     <p>Les bénéfices financent nos actions pour les animaux</p>`,
     
-    `<p><strong>Famille d'accueil :</strong></p>
-    <p>Devenez famille d'accueil temporaire pour nos protégés :</p>
+    `<p><strong>Famille d'accueil chat :</strong></p>
+    <p>Devenez famille d'accueil temporaire pour nos chats :</p>
     <ul>
-      <li>Accueil à domicile d'un animal</li>
+      <li>Accueil à domicile d'un chat</li>
       <li>Soins quotidiens et socialisation</li>
       <li>Suivi vétérinaire si nécessaire</li>
       <li>Évaluation du comportement</li>
+    </ul>
+    <p>Durée : selon vos disponibilités et les besoins de l'animal</p>`,
+
+    `<p><strong>Famille d'accueil chien :</strong></p>
+    <p>Devenez famille d'accueil temporaire pour nos chiens :</p>
+    <ul>
+      <li>Accueil à domicile d'un chien</li>
+      <li>Soins quotidiens et socialisation</li>
+      <li>Suivi vétérinaire si nécessaire</li>
+      <li>Évaluation du comportement</li>
+      <li>Promenades régulières</li>
     </ul>
     <p>Durée : selon vos disponibilités et les besoins de l'animal</p>`,
     
@@ -226,19 +237,15 @@ function Support() {
     
     `<p><strong>Entretien du linge :</strong></p>
     <p>Gérez le linge utilisé par nos pensionnaires :</p>
-    <ul>
-      <li>Tri du linge sale</li>
-      <li>Lavage et séchage</li>
-      <li>Pliage et rangement</li>
-      <li>Gestion des stocks</li>
-    </ul>
-    <p>Cette mission peut être effectuée à domicile</p>`
+  
+    <p>Cette mission est éffectuée à domicile, nous fournissons la lessive</p>`
   ];
 
   const tasks = [
     "Participation aux collectes alimentaires",
-    "Emballage de cadeaux (période de noël, saint-valentin)",
-    "Devenir famille d'accueil",
+    "Emballage de cadeaux (période de noël, saint-valentin, black friday)",
+    "Devenir famille d'accueil chat",
+    "Devenir famille d'accueil chien",
     "Entretien de la chatterie",
     "Entretien du linge",
   ];

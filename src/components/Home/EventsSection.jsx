@@ -108,10 +108,10 @@ function EventsSection() {
               {events.length > 1 && (
                 <button
                   onClick={prevSlide}
-                  className="absolute left-4 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100"
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white shadow-lg hover:bg-gray-100"
                   aria-label="Previous event"
                 >
-                  <ChevronLeftIcon className="h-6 w-6" />
+                  <ChevronLeftIcon className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
               )}
 
@@ -159,10 +159,10 @@ function EventsSection() {
               {events.length > 1 && (
                 <button
                   onClick={nextSlide}
-                  className="absolute right-4 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100"
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white shadow-lg hover:bg-gray-100"
                   aria-label="Next event"
                 >
-                  <ChevronRightIcon className="h-6 w-6" />
+                  <ChevronRightIcon className="h-4 w-4 md:h-6 md:w-6" />
                 </button>
               )}
             </div>
