@@ -205,25 +205,37 @@ function Support() {
     <p>Les bénéfices financent nos actions pour les animaux</p>`,
     
     `<p><strong>Famille d'accueil chat :</strong></p>
-    <p>Devenez famille d'accueil temporaire pour nos chats :</p>
+    <p>Devenez famille d'accueil temporaire pour nos chats dans le secteur de Morlaix :</p>
     <ul>
-      <li>Accueil à domicile d'un chat</li>
-      <li>Soins quotidiens et socialisation</li>
-      <li>Suivi vétérinaire si nécessaire</li>
-      <li>Évaluation du comportement</li>
+      <li>Habiter dans un rayon de 30/40 km du refuge (pour l'accès aux fournitures et suivis vétérinaires)</li>
+      <li>Disposer d'une pièce isolée pour l'accueil (pour le confort et l'aspect sanitaire)</li>
+      <li>Pouvoir accueillir des fratries de 2-3 chatons ou un chat adulte seul</li>
     </ul>
-    <p>Durée : selon vos disponibilités et les besoins de l'animal</p>`,
+    <p><strong>Ce que nous fournissons :</strong></p>
+    <ul>
+      <li>Tout le matériel nécessaire</li>
+      <li>La nourriture et la litière</li>
+      <li>Le suivi vétérinaire avec nos partenaires</li>
+      <li>Un accompagnement et des conseils personnalisés</li>
+    </ul>
+    <p>Les adoptions se déroulent au refuge le samedi après-midi, lorsque les animaux sont prêts !</p>`,
 
     `<p><strong>Famille d'accueil chien :</strong></p>
-    <p>Devenez famille d'accueil temporaire pour nos chiens :</p>
+    <p>Devenez famille d'accueil temporaire pour nos chiens dans le secteur de Morlaix :</p>
     <ul>
-      <li>Accueil à domicile d'un chien</li>
-      <li>Soins quotidiens et socialisation</li>
-      <li>Suivi vétérinaire si nécessaire</li>
-      <li>Évaluation du comportement</li>
-      <li>Promenades régulières</li>
+      <li>Habiter dans un rayon de 30/40 km du refuge (pour l'accès aux fournitures et suivis vétérinaires)</li>
+      <li>Avoir de la disponibilité pour s'occuper du chien</li>
+      <li>Idéalement disposer d'un terrain clos (non obligatoire)</li>
     </ul>
-    <p>Durée : selon vos disponibilités et les besoins de l'animal</p>`,
+    <p><strong>Ce que nous fournissons :</strong></p>
+    <ul>
+      <li>Tout le matériel nécessaire</li>
+      <li>La nourriture</li>
+      <li>Le suivi vétérinaire avec nos partenaires</li>
+      <li>Un accompagnement personnalisé jusqu'à l'adoption</li>
+    </ul>
+    <p>Une aventure riche en émotions pour une noble cause : offrir une seconde chance à nos protégés !</p>`,
+
     
     `<p><strong>Entretien de la chatterie :</strong></p>
     <p>Maintenez un environnement propre et sain pour nos pensionnaires :</p>

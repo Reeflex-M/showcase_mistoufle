@@ -135,7 +135,7 @@ const questions = [
   },
   {
     id: 2,
-    question: "Notre objectif : trouver des solutions pour nos protégés",
+    question: "Quelle est le fonctionnement de l'association ?",
     answer: (
       <div className="space-y-6">
         <div className="bg-primary-light p-3 sm:p-4 rounded-lg border-l-4 border-primary">
@@ -513,7 +513,7 @@ const About = () => {
               />
               <StatCard 
                 icon={FaHome}
-                number={50}
+                number={120}
                 text="Familles d'accueil"
               />
               <StatCard 
@@ -542,7 +542,7 @@ const About = () => {
               />
               <StatCard 
                 icon={FaHome}
-                number={50}
+                number={120}
                 text="Familles d'accueil"
               />
               <StatCard 
