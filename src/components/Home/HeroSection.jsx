@@ -97,24 +97,23 @@ function HeroSection() {
           repeatType: "reverse",
           repeatDelay: 0.5,
         }}
-        className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 w-full text-center"
+        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center text-white flex flex-col items-center gap-2 pb-4"
       >
-        <div className="flex flex-col items-center gap-1 md:gap-2">
-          <span className="text-white/80 text-xs md:text-sm font-light">Nos événements</span>
-          <svg
-            className="w-4 h-4 md:w-6 md:h-6 text-white/80"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
+        <span className="text-sm font-light">Nos événements</span>
+        <svg
+          className="w-6 h-6 animate-bounce"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          />
+        </svg>
       </motion.div>
     </section>
   );

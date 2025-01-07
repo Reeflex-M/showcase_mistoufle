@@ -168,7 +168,7 @@ const questions = [
             Pour ce qui est de nos chiens, chatons et certains chats,
             l'association fonctionne avec une{" "}
             <span className="font-semibold text-primary-dark text-sm sm:text-base">
-              cinquantaine de familles d'accueil
+              centaine de familles d'accueil
             </span>{" "}
             quotidiennement.
           </p>
@@ -284,7 +284,7 @@ const questions = [
       <div className="space-y-6">
         <div className="bg-primary-light p-3 sm:p-4 rounded-lg shadow-lg border-l-4 border-primary">
           <p className="font-medium text-primary-darkest text-sm sm:text-base">
-            Les adoptions se font uniquement le samedi entre 14h et 18h. Merci de vous présenter pendant ces horaires pour rencontrer nos animaux.
+            Les adoptions se font uniquement le samedi entre 14h et 18h. Merci de vous présenter pendant ces horaires pour rencontrer nos animaux, muni de votre carte d'identité.
           </p>
         </div>
       </div>
@@ -294,15 +294,27 @@ const questions = [
 
 const AccordionItem = ({ question, answer, isOpen, onClick }) => {
   const answerRef = useRef(null);
+  const questionRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen && answerRef.current) {
-      answerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (isOpen && questionRef.current) {
+      // Attendre que l'animation d'ouverture commence
+      setTimeout(() => {
+        const yOffset = -100; // Offset pour tenir compte du header fixe
+        const element = questionRef.current;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }, 100);
     }
   }, [isOpen]);
 
   return (
     <div
+      ref={questionRef}
       className="border-b border-primary-light/30 last:border-none"
     >
       <button

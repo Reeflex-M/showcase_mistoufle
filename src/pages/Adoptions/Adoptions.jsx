@@ -83,12 +83,12 @@ function Adoptions() {
 
   const seniorAdvantagesText = `Toute adoption de chat senior entre dans le cadre du dispositif "Opération doyens" financée par notre partenaire 30 Millions d'amis ! 
 
-Cela veut dire qu'en cas d'adoption d'un chat dit âgé (à partir de 10 ans) au sein de notre refuge, l'adoption est en don libre (un minimum de 50 euros est demandé), cela permet également via cette opération, de bénéficier d'un soutien financier pour les frais vétérinaires après l'adoption à hauteur de 800 euros maximum (ce montant sera réglé en une ou plusieurs fois au vétérinaire sur sur sa(ses) facture(s) détaillée(s) et non réglée(s)).
+Cela veut dire qu'en cas d'adoption d'un chat dit âgé (à partir de 10 ans) au sein de notre refuge, l'adoption est en don libre (un minimum de 50 euros est demandé), cela permet également via cette opération, de bénéficier d'un soutien financier pour les frais vétérinaires après l'adoption à hauteur de 800 euros maximum (ce montant sera réglé en une ou plusieurs fois au vétérinaire sur sa(ses) facture(s) détaillée(s) et non réglée(s)).
 `;
 
   const sauvetageText = `Nos sauvetages sont des chats ou des chiens qui ont souvent eu un parcours de vie difficile. Venir au refuge chaque semaine pour la journée adoptions est une épreuve de plus pour eux.
 
-De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d adoptants. Ils ont pourtant beaucoup d amour à donner`;
+De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d adoptants. Ils ont pourtant beaucoup d'amour à donner`;
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -302,14 +302,19 @@ De par leur pathologie, leur âge ou leur handicap ils n'intéressent que peu d 
           >
             {album.cover_photo && (
               <div 
-                className="relative h-64 cursor-pointer"
+                className="relative h-64 cursor-pointer group"
                 onClick={() => handleAlbumClick(album)}
               >
                 <img
                   src={album.cover_photo.source}
                   alt={album.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                  <div className="bg-white/90 px-4 py-2 rounded-full transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="text-gray-800 font-medium">Voir toutes les photos</span>
+                  </div>
+                </div>
               </div>
             )}
             <div className="p-6">
