@@ -7,5 +7,12 @@ export default defineConfig({
   server: {
     host: true, // Expose to all network interfaces
     port: 5173, // Port par défaut de Vite
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   }
 })

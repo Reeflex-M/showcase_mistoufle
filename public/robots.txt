@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /$
+Allow: /contact$
+Allow: /adoptions$
+Allow: /conditions-adoptions$
+Allow: /qui-sommes-nous$
+Allow: /support$
+Allow: /sitemap.xml$
+
+# Bloquer toutes les autres URLs
+Disallow: /
+
+Sitemap: https://refugelesmistoufles.fr/sitemap.xml

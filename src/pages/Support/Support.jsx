@@ -474,7 +474,7 @@ function Support() {
               <motion.img
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
-                src="/public/Support/chat.jpg"
+                src="/Support/img/Chat.jpg"
                 alt="Bénévole avec un chat"
                 className="relative rounded-2xl w-full h-[350px] object-cover shadow-2xl"
               />
