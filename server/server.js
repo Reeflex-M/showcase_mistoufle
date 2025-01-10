@@ -445,15 +445,17 @@ app.get("/api/facebook-events", async (req, res) => {
   }
 });
 
-// Serve static files
+// Servir les fichiers statiques depuis le dossier dist
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// Handle React routing, return all requests to React app
+// Cette route doit être après toutes les autres routes API
+// Elle redirige toutes les autres requêtes vers l'application React
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log('Server is accepting connections from all network interfaces');
 });
