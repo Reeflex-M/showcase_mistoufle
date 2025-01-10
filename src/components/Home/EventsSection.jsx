@@ -19,7 +19,7 @@ function EventsSection() {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3002/api/facebook-events?type=${activeTab}`,
+          `http://localhost:3000/api/facebook-events?type=${activeTab}`,
           { signal: controller.signal }
         );
         if (!response.ok) {
